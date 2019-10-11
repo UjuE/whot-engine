@@ -29,10 +29,15 @@ dependencies {
 
     // Use JUnit test framework
     testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.5.2'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.5.2'
+    testImplementation 'org.junit.vintage:junit-vintage-engine:5.5.2'
 }
 
 test {
-    useJUnitPlatform()
+    useJUnitPlatform {
+         includeEngines("junit-jupiter", "junit-vintage")
+    }
+
     testLogging {
         events "passed", "skipped", "failed"
     }

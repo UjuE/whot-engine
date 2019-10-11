@@ -5,6 +5,6 @@ package pink.digitally.games.whot;
 
 public class Library {
     public boolean someLibraryMethod() {
-        return false;
+        return true;
     }
 }
