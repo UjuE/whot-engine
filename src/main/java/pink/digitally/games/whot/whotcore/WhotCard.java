@@ -1,6 +1,6 @@
 package pink.digitally.games.whot.whotcore;
 
-class WhotCard {
+class WhotCard implements WhotCardWithNumberAndShape {
     private final WhotShape shape;
     private final WhotNumber number;
 

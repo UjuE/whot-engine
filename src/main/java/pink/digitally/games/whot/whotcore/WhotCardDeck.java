@@ -71,7 +71,7 @@ public enum WhotCardDeck {
         return whotCardDetails;
     }
 
-    public static List<WhotCard> getCards(){
+    public static List<WhotCardWithNumberAndShape> getCards(){
         return Stream.of(values())
                 .flatMap(it -> WhotCardDeck.getCardsWithNumber(it.whotNumber).stream())
                 .collect(Collectors.toList());
