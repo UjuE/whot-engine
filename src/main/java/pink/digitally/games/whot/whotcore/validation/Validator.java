@@ -8,21 +8,23 @@ import java.util.Optional;
 import java.util.function.Predicate;
 
 public class Validator<T> {
-    private List<Pair<Predicate<T>, String>> failureConditions;
+    private final T objectToValidate;
+    private final List<Pair<Predicate<T>, String>> failureConditions;
 
-    private Validator(List<Pair<Predicate<T>, String>> failureConditions){
+    private Validator(T t, List<Pair<Predicate<T>, String>> failureConditions){
+        objectToValidate = t;
         this.failureConditions = failureConditions;
     }
 
-    public boolean isValid(T t){
-        return !errorMessages(t)
+    public boolean isValid(){
+        return !errorMessages()
                 .isPresent();
     }
 
-    public Optional<String> errorMessages(T t){
+    public Optional<String> errorMessages(){
         return failureConditions
                 .stream()
-                .filter(it -> it.getKey().test(t))
+                .filter(it -> it.getKey().test(objectToValidate))
                 .map(Pair::getValue)
                 .reduce((s, s2) -> s + ",\n"+s2);
     }
@@ -35,8 +37,8 @@ public class Validator<T> {
             return this;
         }
 
-        public Validator<T> build(){
-            return new Validator<T>(failureConditionAndMessages);
+        public Validator<T> build(T objectToValidate){
+            return new Validator<>(objectToValidate, failureConditionAndMessages);
         }
     }
 }

@@ -14,25 +14,25 @@ public class GameModerator {
     }
 
     public Either<String, Void> deal(List<WhotCardWithNumberAndShape> cards, Player... player) {
-        Validator<Integer> validator = getDealValidator(cards);
+        Validator<Integer> validator = getDealValidator(player.length, cards.size());
 
-        if (validator.isValid(player.length)) {
+        if (validator.isValid()) {
             for (int i = 0; i < 6; i++) {
                 Stream.of(player)
                         .forEach(p -> p.addCard(cards.remove(0)));
             }
             return Either.right(null);
         } else {
-            return Either.left(validator.errorMessages(player.length).orElse("An Error occurred"));
+            return Either.left(validator.errorMessages().orElse("An Error occurred"));
         }
     }
 
-    private Validator<Integer> getDealValidator(List<WhotCardWithNumberAndShape> cards) {
-        int maximumNumberOfPlayers = cards.size() / 10;
+    private Validator<Integer> getDealValidator(int numberOfPlayers, int numberOfCards) {
+        int maximumNumberOfPlayers = numberOfCards / 10;
         return new Validator.ValidatorBuilder<Integer>()
                 .withFailureConditionAndMessage(number -> number < 2, "At least 2 Players is required")
                 .withFailureConditionAndMessage(number -> number > maximumNumberOfPlayers,
                         String.format("No more than %d Players is allowed", maximumNumberOfPlayers))
-                .build();
+                .build(numberOfPlayers);
     }
 }
