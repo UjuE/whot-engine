@@ -1,6 +1,6 @@
 package pink.digitally.games.whot.whotcore;
 
-import pink.digitally.games.whot.whotcore.exceptions.InvalidGameSetup;
+import io.vavr.control.Either;
 import pink.digitally.games.whot.whotcore.validation.Validator;
 
 import java.util.Collections;
@@ -13,7 +13,7 @@ public class GameModerator {
         return cards;
     }
 
-    public void deal(List<WhotCardWithNumberAndShape> cards, Player... player) {
+    public Either<String, Void> deal(List<WhotCardWithNumberAndShape> cards, Player... player) {
         Validator<Integer> validator = getDealValidator(cards);
 
         if (validator.isValid(player.length)) {
@@ -21,10 +21,10 @@ public class GameModerator {
                 Stream.of(player)
                         .forEach(p -> p.addCard(cards.remove(0)));
             }
+            return Either.right(null);
         } else {
-            throw new InvalidGameSetup(validator.errorMessages(player.length).orElse("An Error occurred"));
+            return Either.left(validator.errorMessages(player.length).orElse("An Error occurred"));
         }
-
     }
 
     private Validator<Integer> getDealValidator(List<WhotCardWithNumberAndShape> cards) {
