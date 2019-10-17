@@ -22,7 +22,7 @@ import static pink.digitally.games.whot.whotcore.WhotShape.TRIANGLE;
 class WhotDeckTest {
 
     @ParameterizedTest(name = "has 3 number {0} cards with shapes: circle, triangle and star")
-    @ValueSource(strings = {"_4", "_8"})
+    @ValueSource(strings = {"FOUR", "EIGHT"})
     void hasThreeCards(String whotCardNumber){
         WhotNumber whotNumber = WhotNumber.valueOf(whotCardNumber);
         assertAll(
@@ -35,7 +35,7 @@ class WhotDeckTest {
     }
 
     @ParameterizedTest(name = "has 5 number {0} cards with shapes: circle, triangle, cross, square and star")
-    @ValueSource(strings = {"_1", "_2", "_3", "_5", "_7"})
+    @ValueSource(strings = {"ONE", "TWO", "THREE", "FIVE", "SEVEN"})
     void hasFiveCards(String whotCardNumber){
         WhotNumber whotNumber = WhotNumber.valueOf(whotCardNumber);
         assertAll(
@@ -48,7 +48,7 @@ class WhotDeckTest {
     }
 
     @ParameterizedTest(name = "has 4 number {0} cards with shapes: circle, triangle, cross, square and star")
-    @ValueSource(strings = {"_10", "_11", "_13", "_14"})
+    @ValueSource(strings = {"TEN", "ELEVEN", "THIRTEEN", "FOURTEEN"})
     void hasFourCards(String whotCardNumber){
         WhotNumber whotNumber = WhotNumber.valueOf(whotCardNumber);
         assertAll(
@@ -64,8 +64,8 @@ class WhotDeckTest {
     @DisplayName("has 5 number 20 cards all with the same whot shape")
     void hasFiveWhotCardsWithShapeWhot(){
         assertAll(
-                () -> assertEquals(5, WhotCardDeck.getCardsWithNumber(WhotNumber._20).size()),
-                () -> assertTrue(WhotCardDeck.getCardsWithNumber(WhotNumber._20).stream()
+                () -> assertEquals(5, WhotCardDeck.getCardsWithNumber(WhotNumber.TWENTY).size()),
+                () -> assertTrue(WhotCardDeck.getCardsWithNumber(WhotNumber.TWENTY).stream()
                         .allMatch(it -> it.getShape().equals(WhotShape.WHOT)))
         );
     }
@@ -73,7 +73,7 @@ class WhotDeckTest {
     @Test
     @DisplayName("has 2 number 12 cards all with shapes: circle and triangle")
     void hasTwoNumberTweleveCards(){
-        WhotNumber whotNumber = WhotNumber._12;
+        WhotNumber whotNumber = WhotNumber.TWELVE;
         assertAll(
                 () -> assertEquals(2, WhotCardDeck.getCardsWithNumber(whotNumber).size()),
                 () -> assertTrue(Matchers.containsInAnyOrder(CIRCLE, TRIANGLE)
