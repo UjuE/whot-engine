@@ -20,9 +20,9 @@ class WhotGamePlayTest {
     public void startGame() {
         GameMediator gameMediator = mock(GameMediator.class);
         Board board = mock(Board.class);
+        Player james = mock(Player.class);
+        Player john = mock(Player.class);
 
-        Player james = new Player("james");
-        Player john = new Player("john");
         WhotGamePlay whotGamePlay = new WhotGamePlay.Builder()
                 .withPlayers(james, john)
                 .withDeckOfCards()

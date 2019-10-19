@@ -1,27 +1,18 @@
 package pink.digitally.games.whot.whotcore;
 
-import java.util.ArrayList;
+import pink.digitally.games.whot.whotcore.events.PlayerEvent;
+
 import java.util.List;
 
-public class Player {
-
-    private String playerName;
-    private List<WhotCardWithNumberAndShape> whotCards;
-
-    public Player(String playerName) {
-        this.playerName = playerName;
-        this.whotCards = new ArrayList<>();
+public interface Player {
+    List<WhotCardWithNumberAndShape> getCards();
+    void addCard(WhotCardWithNumberAndShape whotCardWithNumberAndShape);
+    String getPlayerName();
+    void registerMediator(GameMediator mediator);
+    GameMediator getMediator();
+    default void playCard(PlayerEvent playerEvent){
+        //TODO Throw exception when Mediator is not set. Not Null Pointer
+        getMediator().play(this, playerEvent);
     }
 
-    public List<WhotCardWithNumberAndShape> getCards() {
-        return whotCards;
-    }
-
-    public void addCard(WhotCardWithNumberAndShape whotCardWithNumberAndShape){
-        whotCards.add(whotCardWithNumberAndShape);
-    }
-
-    public String getPlayerName() {
-        return playerName;
-    }
 }

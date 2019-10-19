@@ -1,5 +1,7 @@
 package pink.digitally.games.whot.whotcore;
 
+import pink.digitally.games.whot.state.GameState;
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -10,6 +12,8 @@ public class WhotGamePlay {
     private final List<Player> players;
     private final GameMediator gameMediator;
     private final Board board;
+
+    private GameState gameState = GameState.NOT_STARTED;
 
     private WhotGamePlay(Builder builder) {
         this.players = builder.players;
@@ -24,6 +28,24 @@ public class WhotGamePlay {
         gameMediator.deal(cards);
         gameMediator.updatePlayPile(cards, board);
         gameMediator.updateDrawPile(cards, board);
+        updateGameState(GameState.STARTED);
+    }
+
+    public Player nextPlayer() {
+        return gameMediator.getNextPlayer();
+    }
+
+    public Board getBoard() {
+        return board;
+    }
+
+    public GameState getGameState() {
+        return gameState;
+    }
+
+
+    private void updateGameState(GameState gameState) {
+        this.gameState = gameState;
     }
 
     public static class Builder {

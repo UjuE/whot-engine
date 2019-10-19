@@ -1,12 +1,14 @@
 package pink.digitally.games.whot.whotcore;
 
 import io.vavr.control.Either;
+import pink.digitally.games.whot.whotcore.events.PlayerEvent;
 import pink.digitally.games.whot.whotcore.validation.Validator;
 
 import java.util.Collections;
 import java.util.Deque;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 
 import static java.util.Arrays.asList;
 
@@ -23,6 +25,7 @@ public class GameMediator {
 
     public void registerPlayers(List<Player> players) {
         this.players = new LinkedList<>(players);
+        this.players.forEach(it -> it.registerMediator(this));
     }
 
 
@@ -40,11 +43,12 @@ public class GameMediator {
     }
 
     public void updatePlayPile(Deque<WhotCardWithNumberAndShape> whotCards, Board board) {
-        throw new UnsupportedOperationException("Not yet implemented");
+        board.addToPlayPile(whotCards.removeFirst());
     }
 
     public void updateDrawPile(Deque<WhotCardWithNumberAndShape> whotCards, Board board) {
-        throw new UnsupportedOperationException("Not yet implemented");
+        board.setDrawPile(new LinkedList<>(whotCards));
+        whotCards.clear();
     }
 
     private Validator<Integer> getDealValidator(int numberOfPlayers, int numberOfCards) {
@@ -55,5 +59,22 @@ public class GameMediator {
                 .withFailureConditionAndMessage(number -> number > maximumNumberOfPlayers,
                         String.format("No more than %d Players is allowed", maximumNumberOfPlayers))
                 .build(numberOfPlayers);
+    }
+
+    public void play(Player player, PlayerEvent playerEvent) {
+        //Validate is correct player
+        //Validate valid card play
+        //Determine Game Next state
+        //Carry out all events based on the game and change turn
+        endPlayerTurn(player);
+    }
+
+    private void endPlayerTurn(Player player) {
+        players.remove(player);
+        players.addLast(player);
+    }
+
+    public Player getNextPlayer() {
+        return Optional.ofNullable(players).map(Deque::getFirst).orElse(null);
     }
 }
