@@ -6,7 +6,7 @@ import pink.digitally.games.whot.whotcore.GameMediator;
 import pink.digitally.games.whot.whotcore.Player;
 import pink.digitally.games.whot.whotcore.WhotCard;
 import pink.digitally.games.whot.whotcore.WhotCardWithNumberAndShape;
-import pink.digitally.games.whot.whotcore.events.PlayEventHandler;
+import pink.digitally.games.whot.whotcore.events.handler.PlayEventHandler;
 
 import java.util.ArrayList;
 import java.util.Deque;

@@ -1,8 +1,8 @@
 package pink.digitally.games.whot.whotcore;
 
 import io.vavr.control.Either;
-import pink.digitally.games.whot.whotcore.events.PlayEventHandler;
 import pink.digitally.games.whot.whotcore.events.PlayerEvent;
+import pink.digitally.games.whot.whotcore.events.handler.PlayEventHandler;
 import pink.digitally.games.whot.whotcore.validation.Validator;
 
 import java.util.Collections;

@@ -30,4 +30,9 @@ public class BoardActor implements Board {
     public void setDrawPile(Deque<WhotCardWithNumberAndShape> whotCards) {
         this.drawPile = whotCards;
     }
+
+    @Override
+    public WhotCardWithNumberAndShape takeFromDrawPile() {
+        return drawPile.removeFirst();
+    }
 }

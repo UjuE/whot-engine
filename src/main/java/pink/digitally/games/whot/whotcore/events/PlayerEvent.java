@@ -6,5 +6,5 @@ import java.util.Optional;
 
 public interface PlayerEvent {
     PlayerEventType getPlayerEventType();
-    Optional<WhotCardWithNumberAndShape> optionalCardToPlay();
+    Optional<WhotCardWithNumberAndShape> cardToPlay();
 }

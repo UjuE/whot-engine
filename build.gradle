@@ -76,7 +76,7 @@ publishing {
         mavenJava(MavenPublication) {
             groupId 'pink.digitally.games.whot'
             artifactId 'whot-engine'
-            version "$System.env.TRAVIS_BUILD_NUMBER"
+            version '13.0.'+"$System.env.TRAVIS_BUILD_NUMBER"
             from components.java
         }
     }

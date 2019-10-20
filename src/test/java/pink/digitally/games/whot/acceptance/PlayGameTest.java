@@ -1,7 +1,6 @@
 package pink.digitally.games.whot.acceptance;
 
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import pink.digitally.games.whot.acceptance.actors.BoardActor;
@@ -13,6 +12,8 @@ import pink.digitally.games.whot.whotcore.WhotGamePlay;
 import pink.digitally.games.whot.whotcore.WhotNumber;
 import pink.digitally.games.whot.whotcore.WhotShape;
 import pink.digitally.games.whot.whotcore.events.PlayCardPlayerEvent;
+import pink.digitally.games.whot.whotcore.events.TakeCardPlayerEvent;
+import pink.digitally.games.whot.whotcore.events.handler.NoRulesPlayEventHandler;
 
 import java.util.Collections;
 import java.util.List;
@@ -25,7 +26,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static pink.digitally.games.whot.acceptance.actors.PlayerActor.player;
 import static pink.digitally.games.whot.whotcore.WhotCard.whotCard;
 
-@Disabled
 @DisplayName("Playing Whot")
 class PlayGameTest {
 
@@ -36,9 +36,7 @@ class PlayGameTest {
 
     @BeforeEach
     void setUp() {
-        gameMediator = new GameMediatorActor((playerEvent, currentPlayer, allPlayers, board) -> {
-            throw new UnsupportedOperationException("Not yet implemented");
-        });
+        gameMediator = new GameMediatorActor(new NoRulesPlayEventHandler());
     }
 
     @Test
@@ -80,12 +78,30 @@ class PlayGameTest {
         thenTheTopOfThePlayPileIs(whotCard(WhotNumber.FIVE, WhotShape.SQUARE));
     }
 
+    @Test
+    void givenThatTheGameHasStartedAPlayerTakesACard() {
+        givenThereIsAWhotGame();
+        andTheGameMediatorWillDeal(Collections.singletonList(whotCard(WhotNumber.FIVE, WhotShape.SQUARE)), ngozi);
+        andTheGameMediatorWillDeal(Collections.singletonList(whotCard(WhotNumber.EIGHT, WhotShape.TRIANGLE)), emeka);
+        andTheTopOfPlayPileIs(whotCard(WhotNumber.FIVE, WhotShape.TRIANGLE));
+
+        andTheGameHasStarted();
+
+        whenPlayerTakesACard(ngozi);
+
+        thenTheTopOfThePlayPileIs(whotCard(WhotNumber.FIVE, WhotShape.TRIANGLE));
+    }
+
     private void thenTheTopOfThePlayPileIs(WhotCard whotCard) {
         assertEquals(whotCard, whotGamePlay.getBoard().getPlayPile().getFirst());
     }
 
     private void whenPlayerPlays(Player player, WhotCard whotCard) {
         player.play(new PlayCardPlayerEvent(whotCard));
+    }
+
+    private void whenPlayerTakesACard(Player player) {
+        player.play(new TakeCardPlayerEvent());
     }
 
     private void andTheTopOfPlayPileIs(WhotCard whotCard) {

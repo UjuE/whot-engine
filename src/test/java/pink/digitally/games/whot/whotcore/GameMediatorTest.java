@@ -5,8 +5,8 @@ import org.hamcrest.collection.IsIterableContainingInOrder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import pink.digitally.games.whot.whotcore.events.PlayEventHandler;
 import pink.digitally.games.whot.whotcore.events.PlayerEvent;
+import pink.digitally.games.whot.whotcore.events.handler.PlayEventHandler;
 import pink.digitally.games.whot.whotcore.teststub.StubPlayer;
 
 import java.util.LinkedList;

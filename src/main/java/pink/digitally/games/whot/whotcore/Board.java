@@ -10,4 +10,6 @@ public interface Board {
     void addToPlayPile(WhotCardWithNumberAndShape whotCards);
 
     void setDrawPile(Deque<WhotCardWithNumberAndShape> whotCards);
+
+    WhotCardWithNumberAndShape takeFromDrawPile();
 }

@@ -18,11 +18,8 @@ public class PlayCardPlayerEvent implements PlayerEvent {
     }
 
     @Override
-    public Optional<WhotCardWithNumberAndShape> optionalCardToPlay() {
+    public Optional<WhotCardWithNumberAndShape> cardToPlay() {
         return Optional.of(cardToPlay);
     }
 
-    public WhotCard getCardToPlay() {
-        return cardToPlay;
-    }
 }
