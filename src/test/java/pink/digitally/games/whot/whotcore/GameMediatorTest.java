@@ -21,6 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -163,5 +164,19 @@ class GameMediatorTest {
         verify(board).setDrawPile(any(LinkedList.class));
         //All the cards have been given to the board
         assertTrue(whotCards.isEmpty());
+    }
+
+    @Test
+    @DisplayName("Only current player can play")
+    void onlyCurrentPlayerCanPlay() {
+        Player firstPlayer = mock(Player.class);
+        Player secondPlayer = mock(Player.class);
+        PlayerEvent playerEvent = mock(PlayerEvent.class);
+
+        underTest.registerPlayers(firstPlayer, secondPlayer);
+        underTest.play(secondPlayer, playerEvent);
+
+        verify(playEventHandler, times(0))
+                .handle(any(), any(), any(), any());
     }
 }

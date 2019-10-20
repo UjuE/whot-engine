@@ -90,6 +90,26 @@ class PlayGameTest {
         whenPlayerTakesACard(ngozi);
 
         thenTheTopOfThePlayPileIs(whotCard(WhotNumber.FIVE, WhotShape.TRIANGLE));
+        thenTheNumberOfCardsOfPlayer(ngozi, 2);
+    }
+
+    @Test
+    void onlyTheCurrentPlayerCanPlay() {
+        givenThereIsAWhotGame();
+        andTheGameMediatorWillDeal(Collections.singletonList(whotCard(WhotNumber.FIVE, WhotShape.SQUARE)), ngozi);
+        andTheGameMediatorWillDeal(Collections.singletonList(whotCard(WhotNumber.EIGHT, WhotShape.TRIANGLE)), emeka);
+        andTheTopOfPlayPileIs(whotCard(WhotNumber.FIVE, WhotShape.TRIANGLE));
+
+        andTheGameHasStarted();
+
+        whenPlayerTakesACard(emeka);
+
+        thenTheTopOfThePlayPileIs(whotCard(WhotNumber.FIVE, WhotShape.TRIANGLE));
+        thenTheNumberOfCardsOfPlayer(emeka, 1);
+    }
+
+    private void thenTheNumberOfCardsOfPlayer(Player player, int expectedNumberOfCards) {
+        assertEquals(expectedNumberOfCards, player.getCards().size());
     }
 
     private void thenTheTopOfThePlayPileIs(WhotCard whotCard) {

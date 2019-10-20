@@ -76,12 +76,13 @@ public class GameMediator {
     }
 
     public void play(Player player, PlayerEvent playerEvent) {
-        //Validate is correct player
         //Validate valid card play
         //Determine Game Next state
         //Carry out all events based on the game and change turn
-        players = playEventHandler
-                .handle(playerEvent, player, players, board);
+        if(playersIsNotNullOrEmptyAndIsPlayerTurn(player)){
+            players = playEventHandler
+                    .handle(playerEvent, player, players, board);
+        }
     }
 
     public Deque<Player> getPlayers(){
@@ -90,5 +91,11 @@ public class GameMediator {
 
     public Player getNextPlayer() {
         return Optional.ofNullable(players).map(Deque::getFirst).orElse(null);
+    }
+
+    private boolean playersIsNotNullOrEmptyAndIsPlayerTurn(Player player) {
+        return Optional.ofNullable(players)
+                .filter(it -> !it.isEmpty() && it.peekFirst().equals(player))
+                .isPresent();
     }
 }
