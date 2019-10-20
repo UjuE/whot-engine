@@ -25,9 +25,10 @@ public class WhotGamePlay {
     public void startGame() {
         gameMediator.shuffle(cards);
         gameMediator.registerPlayers(players);
+        gameMediator.registerBoard(board);
         gameMediator.deal(cards);
-        gameMediator.updatePlayPile(cards, board);
-        gameMediator.updateDrawPile(cards, board);
+        gameMediator.updatePlayPile(cards);
+        gameMediator.updateDrawPile(cards);
         updateGameState(GameState.STARTED);
     }
 

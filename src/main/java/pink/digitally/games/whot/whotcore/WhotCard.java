@@ -1,6 +1,8 @@
 package pink.digitally.games.whot.whotcore;
 
-class WhotCard implements WhotCardWithNumberAndShape {
+import java.util.Objects;
+
+public class WhotCard implements WhotCardWithNumberAndShape {
     private final WhotShape shape;
     private final WhotNumber number;
 
@@ -24,7 +26,21 @@ class WhotCard implements WhotCardWithNumberAndShape {
                 '}';
     }
 
-    static WhotCard whotCardDetails(WhotNumber whotNumber, WhotShape whotShape){
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        WhotCard whotCard = (WhotCard) o;
+        return getShape() == whotCard.getShape() &&
+                getNumber() == whotCard.getNumber();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getShape(), getNumber());
+    }
+
+    public static WhotCard whotCard(WhotNumber whotNumber, WhotShape whotShape){
         return new WhotCard(whotNumber, whotShape);
     }
 }

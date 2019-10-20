@@ -10,8 +10,7 @@ public interface Player {
     String getPlayerName();
     void registerMediator(GameMediator mediator);
     GameMediator getMediator();
-    default void playCard(PlayerEvent playerEvent){
-        //TODO Throw exception when Mediator is not set. Not Null Pointer
+    default void play(PlayerEvent playerEvent){
         getMediator().play(this, playerEvent);
     }
 

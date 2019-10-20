@@ -36,7 +36,7 @@ class WhotGamePlayTest {
         inOrder.verify(gameMediator).shuffle(any());
         inOrder.verify(gameMediator).registerPlayers(eq(asList(james, john)));
         inOrder.verify(gameMediator).deal(any(LinkedList.class));
-        inOrder.verify(gameMediator).updatePlayPile(any(LinkedList.class), eq(board));
-        inOrder.verify(gameMediator).updateDrawPile(any(LinkedList.class), eq(board));
+        inOrder.verify(gameMediator).updatePlayPile(any(LinkedList.class));
+        inOrder.verify(gameMediator).updateDrawPile(any(LinkedList.class));
     }
 }

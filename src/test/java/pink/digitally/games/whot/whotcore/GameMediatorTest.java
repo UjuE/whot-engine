@@ -5,7 +5,7 @@ import org.hamcrest.collection.IsIterableContainingInOrder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.ArgumentMatchers;
+import pink.digitally.games.whot.whotcore.events.PlayEventHandler;
 import pink.digitally.games.whot.whotcore.events.PlayerEvent;
 import pink.digitally.games.whot.whotcore.teststub.StubPlayer;
 
@@ -19,17 +19,21 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @DisplayName("Game Moderator")
 class GameMediatorTest {
 
     private GameMediator underTest;
+    private PlayEventHandler playEventHandler;
 
     @BeforeEach
     void setUp() {
-        underTest = new GameMediator();
+        playEventHandler = mock(PlayEventHandler.class);
+        underTest = new GameMediator(playEventHandler);
     }
 
     @Test
@@ -118,38 +122,46 @@ class GameMediatorTest {
     void theNextPlayerAfterFirstPlayerHasPlayed() {
         Player firstPlayer = mock(Player.class);
         Player secondPlayer = mock(Player.class);
+        PlayerEvent playerEvent = mock(PlayerEvent.class);
 
+        when(playEventHandler.handle(eq(playerEvent), eq(firstPlayer),
+                eq(new LinkedList<>(asList(firstPlayer, secondPlayer))), any(Board.class)))
+                .thenReturn(new LinkedList<>(asList(secondPlayer, firstPlayer)));
+
+        underTest.registerBoard(mock(Board.class));
         underTest.registerPlayers(firstPlayer, secondPlayer);
-        underTest.play(firstPlayer, mock(PlayerEvent.class));
+        underTest.play(firstPlayer, playerEvent);
 
         assertEquals(secondPlayer, underTest.getNextPlayer());
     }
 
     @Test
+    @DisplayName("can update the Board's play pile")
     void updateBoardPlayPile() {
         LinkedList<WhotCardWithNumberAndShape> whotCards = WhotCardDeck.getCards();
         WhotCardWithNumberAndShape first = whotCards.getFirst();
 
         Board board = mock(Board.class);
 
-        underTest.updatePlayPile(whotCards, board);
+        underTest.registerBoard(board);
+        underTest.updatePlayPile(whotCards);
 
-        verify(board).addToPlayPile(ArgumentMatchers.eq(first));
+        verify(board).addToPlayPile(eq(first));
         //Size of the cards is reduced by one
         assertEquals(53, whotCards.size());
     }
 
     @Test
+    @DisplayName("can update the Board's draw pile")
     void updateBoardDrawPile() {
         LinkedList<WhotCardWithNumberAndShape> whotCards = WhotCardDeck.getCards();
         Board board = mock(Board.class);
 
-        underTest.updateDrawPile(whotCards, board);
+        underTest.registerBoard(board);
+        underTest.updateDrawPile(whotCards);
 
         verify(board).setDrawPile(any(LinkedList.class));
         //All the cards have been given to the board
         assertTrue(whotCards.isEmpty());
     }
-
-
 }

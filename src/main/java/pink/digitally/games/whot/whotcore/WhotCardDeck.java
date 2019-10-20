@@ -53,7 +53,7 @@ public enum WhotCardDeck {
 
         for (int i = 0; i < whotCardDeck.numberOfOccurancesEach; i++) {
             whotCardDetails.addAll(possibleShapes.stream()
-                    .map(shape -> WhotCard.whotCardDetails(whotNumber, shape))
+                    .map(shape -> WhotCard.whotCard(whotNumber, shape))
                     .collect(Collectors.toList()));
         }
 
