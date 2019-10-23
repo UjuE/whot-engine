@@ -26,7 +26,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static pink.digitally.games.whot.acceptance.actors.PlayerActor.player;
 import static pink.digitally.games.whot.whotcore.WhotCard.whotCard;
 
-@DisplayName("Playing Whot")
+@DisplayName("Whot game should")
 class PlayGameTest {
 
     private Player ngozi;
@@ -40,6 +40,7 @@ class PlayGameTest {
     }
 
     @Test
+    @DisplayName("not be set up before the game has started")
     void theGameHasNotBeenStarted() {
         givenThereIsAWhotGame();
 
@@ -52,6 +53,7 @@ class PlayGameTest {
     }
 
     @Test
+    @DisplayName("be in the correct state when the game has started")
     void theGameIsInTheExpectedState() {
         givenThereIsAWhotGame();
         andTheGameHasStarted();
@@ -65,6 +67,7 @@ class PlayGameTest {
     }
 
     @Test
+    @DisplayName("allow players play card on play pile after the game has started")
     void givenThatTheGameHasStartedAPlayerPlays() {
         givenThereIsAWhotGame();
         andTheGameMediatorWillDeal(Collections.singletonList(whotCard(WhotNumber.FIVE, WhotShape.SQUARE)), ngozi);
@@ -79,6 +82,7 @@ class PlayGameTest {
     }
 
     @Test
+    @DisplayName("allow players take cards from draw pile after the game has started")
     void givenThatTheGameHasStartedAPlayerTakesACard() {
         givenThereIsAWhotGame();
         andTheGameMediatorWillDeal(Collections.singletonList(whotCard(WhotNumber.FIVE, WhotShape.SQUARE)), ngozi);
@@ -94,6 +98,7 @@ class PlayGameTest {
     }
 
     @Test
+    @DisplayName("allow only the current player play a turn")
     void onlyTheCurrentPlayerCanPlay() {
         givenThereIsAWhotGame();
         andTheGameMediatorWillDeal(Collections.singletonList(whotCard(WhotNumber.FIVE, WhotShape.SQUARE)), ngozi);

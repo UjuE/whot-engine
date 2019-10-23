@@ -12,7 +12,7 @@ public class PlayerActor implements Player {
     private final String playerName;
     private final ArrayList<WhotCardWithNumberAndShape> whotCardWithNumberAndShapes = new ArrayList<>();
 
-    public PlayerActor(String playerName) {
+    private PlayerActor(String playerName) {
         this.playerName = playerName;
     }
 

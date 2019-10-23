@@ -78,7 +78,7 @@ public class GameMediator {
     public void play(Player player, PlayerEvent playerEvent) {
         //Validate valid card play
         //Determine Game Next state
-        //Carry out all events based on the game and change turn
+        //Carry out all events based on the turn and change turn
         if(playersIsNotNullOrEmptyAndIsPlayerTurn(player)){
             players = playEventHandler
                     .handle(playerEvent, player, players, board);
