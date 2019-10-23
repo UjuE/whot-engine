@@ -1,6 +1,7 @@
 package pink.digitally.games.whot.acceptance;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import pink.digitally.games.whot.acceptance.actors.BoardActor;
@@ -128,6 +129,22 @@ class PlayGameTest {
         thenTheTopOfThePlayPileIs(whotCard(WhotNumber.FOUR, WhotShape.TRIANGLE));
     }
 
+    @Test
+    @DisplayName("end game when a player has no more cards")
+    @Disabled("Failing for the right reasons")
+    void theGameIsEndedWhenAPlayerHasNoMoreCards() {
+        givenThereIsAWhotGame();
+        andTheGameMediatorWillDeal(Collections.singletonList(whotCard(WhotNumber.FIVE, WhotShape.SQUARE)), ngozi);
+        andTheGameMediatorWillDeal(Collections.singletonList(whotCard(WhotNumber.EIGHT, WhotShape.TRIANGLE)), emeka);
+        andTheTopOfPlayPileIs(whotCard(WhotNumber.FIVE, WhotShape.TRIANGLE));
+
+        andTheGameHasStarted();
+
+        whenPlayerPlays(ngozi, whotCard(WhotNumber.FIVE, WhotShape.SQUARE));
+
+        assertEquals(GameState.ENDED, whotGamePlay.getGameState());
+    }
+
     private void thenTheNumberOfCardsOfPlayer(Player player, int expectedNumberOfCards) {
         assertEquals(expectedNumberOfCards, player.getCards().size());
     }
@@ -163,7 +180,6 @@ class PlayGameTest {
                 .withBoard(new BoardActor())
                 .withDeckOfCards()
                 .withGameMediator(gameMediator)
-                .withDeckOfCards()
                 .withPlayers(ngozi, emeka)
                 .build();
     }
