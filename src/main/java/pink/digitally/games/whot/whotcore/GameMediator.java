@@ -1,6 +1,7 @@
 package pink.digitally.games.whot.whotcore;
 
 import io.vavr.control.Either;
+import pink.digitally.games.whot.whotcore.error.ErrorMessage;
 import pink.digitally.games.whot.whotcore.events.PlayerEvent;
 import pink.digitally.games.whot.whotcore.events.handler.PlayEventHandler;
 import pink.digitally.games.whot.whotcore.validation.Validator;
@@ -65,24 +66,20 @@ public class GameMediator {
         return board;
     }
 
-    private Validator<Integer> getDealValidator(int numberOfPlayers, int numberOfCards) {
-        int maximumNumberOfPlayers = numberOfCards / 10;
-
-        return new Validator.ValidatorBuilder<Integer>()
-                .withFailureConditionAndMessage(number -> number < 2, "At least 2 Players is required")
-                .withFailureConditionAndMessage(number -> number > maximumNumberOfPlayers,
-                        String.format("No more than %d Players is allowed", maximumNumberOfPlayers))
-                .build(numberOfPlayers);
-    }
-
-    public void play(Player player, PlayerEvent playerEvent) {
+    public Either<ErrorMessage, Void> play(Player player, PlayerEvent playerEvent) {
         //Validate valid card play
         //Determine Game Next state
         //Carry out all events based on the turn and change turn
         if(playersIsNotNullOrEmptyAndIsPlayerTurn(player)){
-            players = playEventHandler
-                    .handle(playerEvent, player, players, board);
+            return playEventHandler
+                    .handle(playerEvent, player, players, board)
+                    .map(newPlayersOrdering -> {
+                        players = newPlayersOrdering;
+                        return null;
+                    });
         }
+
+        return Either.left(new ErrorMessage("It is not player's turn"));
     }
 
     public Deque<Player> getPlayers(){
@@ -97,5 +94,15 @@ public class GameMediator {
         return Optional.ofNullable(players)
                 .filter(it -> !it.isEmpty() && it.peekFirst().equals(player))
                 .isPresent();
+    }
+
+    private Validator<Integer> getDealValidator(int numberOfPlayers, int numberOfCards) {
+        int maximumNumberOfPlayers = numberOfCards / 10;
+
+        return new Validator.ValidatorBuilder<Integer>()
+                .withFailureConditionAndMessage(number -> number < 2, "At least 2 Players is required")
+                .withFailureConditionAndMessage(number -> number > maximumNumberOfPlayers,
+                        String.format("No more than %d Players is allowed", maximumNumberOfPlayers))
+                .build(numberOfPlayers);
     }
 }

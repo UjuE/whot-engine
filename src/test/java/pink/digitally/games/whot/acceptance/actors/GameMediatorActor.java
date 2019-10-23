@@ -46,6 +46,7 @@ public class GameMediatorActor extends GameMediator {
     public void updatePlayPile(Deque<WhotCardWithNumberAndShape> whotCards) {
         if(Objects.nonNull(topOfPile)){
             getBoard().addToPlayPile(topOfPile);
+            whotCards.remove(topOfPile);
         } else {
             super.updatePlayPile(whotCards);
         }

@@ -1,11 +1,15 @@
 package pink.digitally.games.whot.whotcore.events.handler;
 
+import io.vavr.control.Either;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import pink.digitally.games.whot.whotcore.Board;
 import pink.digitally.games.whot.whotcore.Player;
 import pink.digitally.games.whot.whotcore.WhotCard;
+import pink.digitally.games.whot.whotcore.WhotNumber;
+import pink.digitally.games.whot.whotcore.WhotShape;
+import pink.digitally.games.whot.whotcore.error.ErrorMessage;
 import pink.digitally.games.whot.whotcore.events.PlayCardPlayerEvent;
 import pink.digitally.games.whot.whotcore.events.TakeCardPlayerEvent;
 
@@ -15,6 +19,7 @@ import java.util.LinkedList;
 import static java.util.Arrays.asList;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -34,15 +39,17 @@ class NoRulesPlayEventHandlerTest {
     void playACardEvent() {
         Player firstPlayer = mock(Player.class);
         Player secondPlayer = mock(Player.class);
-        WhotCard cardPlayed = mock(WhotCard.class);
         Board board = mock(Board.class);
+        WhotCard cardPlayed = WhotCard.whotCard(WhotNumber.EIGHT, WhotShape.CIRCLE);
 
-        Deque<Player> actualPlayers = underTest.handle(new PlayCardPlayerEvent(cardPlayed),
+        when(board.getTopOfPlayPile()).thenReturn(WhotCard.whotCard(WhotNumber.THIRTEEN, WhotShape.CIRCLE));
+        Either<ErrorMessage, Deque<Player>> actualPlayers = underTest.handle(new PlayCardPlayerEvent(cardPlayed),
                 firstPlayer, new LinkedList<>(asList(firstPlayer, secondPlayer)), board);
 
         assertAll(
-                () -> assertEquals(2, actualPlayers.size()),
-                () -> assertEquals(secondPlayer, actualPlayers.peekFirst())
+                () -> assertTrue(actualPlayers.isRight()),
+                () -> assertEquals(2, actualPlayers.get().size()),
+                () -> assertEquals(secondPlayer, actualPlayers.get().peekFirst())
         );
 
         verify(board).addToPlayPile(cardPlayed);
@@ -53,17 +60,18 @@ class NoRulesPlayEventHandlerTest {
     void takeACardEvent() {
         Player firstPlayer = mock(Player.class);
         Player secondPlayer = mock(Player.class);
-        WhotCard cardTaken = mock(WhotCard.class);
         Board board = mock(Board.class);
+        WhotCard cardTaken = mock(WhotCard.class);
 
         when(board.takeFromDrawPile()).thenReturn(cardTaken);
 
-        Deque<Player> actualPlayers = underTest.handle(new TakeCardPlayerEvent(),
+        Either<ErrorMessage, Deque<Player>> actualPlayers = underTest.handle(new TakeCardPlayerEvent(),
                 firstPlayer, new LinkedList<>(asList(firstPlayer, secondPlayer)), board);
 
         assertAll(
-                () -> assertEquals(2, actualPlayers.size()),
-                () -> assertEquals(secondPlayer, actualPlayers.peekFirst())
+                () -> assertTrue(actualPlayers.isRight()),
+                () -> assertEquals(2, actualPlayers.get().size()),
+                () -> assertEquals(secondPlayer, actualPlayers.get().peekFirst())
         );
 
         verify(firstPlayer).addCard(cardTaken);

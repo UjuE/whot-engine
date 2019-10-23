@@ -124,12 +124,15 @@ class GameMediatorTest {
         Player firstPlayer = mock(Player.class);
         Player secondPlayer = mock(Player.class);
         PlayerEvent playerEvent = mock(PlayerEvent.class);
+        Board board = mock(Board.class);
+        LinkedList<Player> playersWithFirstPlayeNext = new LinkedList<>(asList(firstPlayer, secondPlayer));
+
 
         when(playEventHandler.handle(eq(playerEvent), eq(firstPlayer),
-                eq(new LinkedList<>(asList(firstPlayer, secondPlayer))), any(Board.class)))
-                .thenReturn(new LinkedList<>(asList(secondPlayer, firstPlayer)));
+                eq(playersWithFirstPlayeNext), any(Board.class)))
+                .thenReturn(Either.right(new LinkedList<>(asList(secondPlayer, firstPlayer))));
 
-        underTest.registerBoard(mock(Board.class));
+        underTest.registerBoard(board);
         underTest.registerPlayers(firstPlayer, secondPlayer);
         underTest.play(firstPlayer, playerEvent);
 

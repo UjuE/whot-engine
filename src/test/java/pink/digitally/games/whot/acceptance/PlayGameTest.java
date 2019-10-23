@@ -113,6 +113,21 @@ class PlayGameTest {
         thenTheNumberOfCardsOfPlayer(emeka, 1);
     }
 
+    @Test
+    @DisplayName("allow only valid cards to be played on the play pile")
+    void onlyValidCardsCanBePlayed() {
+        givenThereIsAWhotGame();
+        andTheGameMediatorWillDeal(Collections.singletonList(whotCard(WhotNumber.FIVE, WhotShape.SQUARE)), ngozi);
+        andTheGameMediatorWillDeal(Collections.singletonList(whotCard(WhotNumber.EIGHT, WhotShape.TRIANGLE)), emeka);
+        andTheTopOfPlayPileIs(whotCard(WhotNumber.FOUR, WhotShape.TRIANGLE));
+
+        andTheGameHasStarted();
+
+        whenPlayerPlays(ngozi, whotCard(WhotNumber.FIVE, WhotShape.SQUARE));
+
+        thenTheTopOfThePlayPileIs(whotCard(WhotNumber.FOUR, WhotShape.TRIANGLE));
+    }
+
     private void thenTheNumberOfCardsOfPlayer(Player player, int expectedNumberOfCards) {
         assertEquals(expectedNumberOfCards, player.getCards().size());
     }

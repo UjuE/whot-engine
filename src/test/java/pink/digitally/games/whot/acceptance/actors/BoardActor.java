@@ -35,4 +35,9 @@ public class BoardActor implements Board {
     public WhotCardWithNumberAndShape takeFromDrawPile() {
         return drawPile.removeFirst();
     }
+
+    @Override
+    public WhotCardWithNumberAndShape getTopOfPlayPile() {
+        return playPile.peekFirst();
+    }
 }

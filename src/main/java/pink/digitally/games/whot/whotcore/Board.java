@@ -12,4 +12,6 @@ public interface Board {
     void setDrawPile(Deque<WhotCardWithNumberAndShape> whotCards);
 
     WhotCardWithNumberAndShape takeFromDrawPile();
+
+    WhotCardWithNumberAndShape getTopOfPlayPile();
 }
