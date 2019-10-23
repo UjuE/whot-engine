@@ -1,10 +1,11 @@
 package pink.digitally.games.whot.whotcore;
 
 import io.vavr.control.Either;
+import pink.digitally.games.whot.state.GameState;
 import pink.digitally.games.whot.whotcore.error.ErrorMessage;
 import pink.digitally.games.whot.whotcore.events.PlayerEvent;
 import pink.digitally.games.whot.whotcore.events.handler.PlayEventHandler;
-import pink.digitally.games.whot.whotcore.validation.Validator;
+import pink.digitally.games.whot.whotcore.validation.SimpleValidator;
 
 import java.util.Collections;
 import java.util.Deque;
@@ -15,9 +16,11 @@ import java.util.Optional;
 import static java.util.Arrays.asList;
 
 public class GameMediator {
+    private static final int MINIMUM_NUMBER_OF_PLAYERS = 2;
     private final PlayEventHandler playEventHandler;
     private Deque<Player> players;
     private Board board;
+    private GameStateObserver gameStateObserver;
 
     public GameMediator(PlayEventHandler playEventHandler) {
         this.playEventHandler = playEventHandler;
@@ -36,12 +39,16 @@ public class GameMediator {
         this.players.forEach(it -> it.registerMediator(this));
     }
 
-    public void registerBoard(Board board){
+    public void registerBoard(Board board) {
         this.board = board;
     }
 
+    public void registerGameStateObserver(GameStateObserver gameStateObserver) {
+        this.gameStateObserver = gameStateObserver;
+    }
+
     public Either<String, Void> deal(Deque<WhotCardWithNumberAndShape> cards) {
-        Validator<Integer> validator = getDealValidator(players.size(), cards.size());
+        SimpleValidator<Integer> validator = getDealValidator(players.size(), cards.size());
 
         if (validator.isValid()) {
             for (int i = 0; i < 6; i++) {
@@ -67,22 +74,30 @@ public class GameMediator {
     }
 
     public Either<ErrorMessage, Void> play(Player player, PlayerEvent playerEvent) {
-        //Validate valid card play
-        //Determine Game Next state
-        //Carry out all events based on the turn and change turn
-        if(playersIsNotNullOrEmptyAndIsPlayerTurn(player)){
+        SimpleValidator<Player> validator = new SimpleValidator.ValidatorBuilder<Player>()
+                .withFailureConditionAndMessage(thePlayer -> !playersIsNotNullOrEmptyAndIsPlayerTurn(thePlayer),
+                        "It is not player's turn")
+                .build(player);
+
+        if (validator.isValid()) {
             return playEventHandler
                     .handle(playerEvent, player, players, board)
-                    .map(newPlayersOrdering -> {
-                        players = newPlayersOrdering;
-                        return null;
-                    });
+                    .map(newPlayersOrdering -> applyNewState(player, newPlayersOrdering));
         }
 
-        return Either.left(new ErrorMessage("It is not player's turn"));
+        return Either.left(new ErrorMessage(validator.errorMessages().orElse("Error Occurred")));
     }
 
-    public Deque<Player> getPlayers(){
+    private Void applyNewState(Player player, Deque<Player> newPlayersOrdering) {
+        players = newPlayersOrdering;
+        if (player.getCards().isEmpty()) {
+            Optional.ofNullable(gameStateObserver)
+                    .ifPresent(theGameStateObserver -> theGameStateObserver.updateState(GameState.ENDED));
+        }
+        return null;
+    }
+
+    public Deque<Player> getPlayers() {
         return players;
     }
 
@@ -96,11 +111,11 @@ public class GameMediator {
                 .isPresent();
     }
 
-    private Validator<Integer> getDealValidator(int numberOfPlayers, int numberOfCards) {
+    private SimpleValidator<Integer> getDealValidator(int numberOfPlayers, int numberOfCards) {
         int maximumNumberOfPlayers = numberOfCards / 10;
 
-        return new Validator.ValidatorBuilder<Integer>()
-                .withFailureConditionAndMessage(number -> number < 2, "At least 2 Players is required")
+        return new SimpleValidator.ValidatorBuilder<Integer>()
+                .withFailureConditionAndMessage(number -> number < MINIMUM_NUMBER_OF_PLAYERS, "At least 2 Players is required")
                 .withFailureConditionAndMessage(number -> number > maximumNumberOfPlayers,
                         String.format("No more than %d Players is allowed", maximumNumberOfPlayers))
                 .build(numberOfPlayers);

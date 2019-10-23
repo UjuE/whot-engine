@@ -26,6 +26,9 @@ public class NoRulesPlayCardAction implements PlayerEventAction {
         WhotCardWithNumberAndShape topOfPlayPile = board.getTopOfPlayPile();
         if (isValidPlay(whotCard, topOfPlayPile)) {
             board.addToPlayPile(whotCard);
+
+            currentPlayer.getCards().remove(whotCard);
+
             allPlayers.remove(currentPlayer);
             allPlayers.addLast(currentPlayer);
             return Either.right(allPlayers);

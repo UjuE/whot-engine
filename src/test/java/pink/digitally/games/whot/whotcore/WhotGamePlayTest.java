@@ -17,7 +17,7 @@ class WhotGamePlayTest {
 
     @Test
     @DisplayName("sets up when game has started")
-    public void startGame() {
+    void startGame() {
         GameMediator gameMediator = mock(GameMediator.class);
         Board board = mock(Board.class);
         Player james = mock(Player.class);

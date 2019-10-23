@@ -1,11 +1,11 @@
 package pink.digitally.games.whot.acceptance;
 
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import pink.digitally.games.whot.acceptance.actors.BoardActor;
 import pink.digitally.games.whot.acceptance.actors.GameMediatorActor;
+import pink.digitally.games.whot.acceptance.actors.GameObserverActor;
 import pink.digitally.games.whot.state.GameState;
 import pink.digitally.games.whot.whotcore.Player;
 import pink.digitally.games.whot.whotcore.WhotCard;
@@ -131,7 +131,6 @@ class PlayGameTest {
 
     @Test
     @DisplayName("end game when a player has no more cards")
-    @Disabled("Failing for the right reasons")
     void theGameIsEndedWhenAPlayerHasNoMoreCards() {
         givenThereIsAWhotGame();
         andTheGameMediatorWillDeal(Collections.singletonList(whotCard(WhotNumber.FIVE, WhotShape.SQUARE)), ngozi);
@@ -181,6 +180,7 @@ class PlayGameTest {
                 .withDeckOfCards()
                 .withGameMediator(gameMediator)
                 .withPlayers(ngozi, emeka)
+                .withGameStateObserver(new GameObserverActor())
                 .build();
     }
 }

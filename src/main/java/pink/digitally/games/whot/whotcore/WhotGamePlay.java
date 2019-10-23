@@ -4,6 +4,7 @@ import pink.digitally.games.whot.state.GameState;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 
 import static java.util.Arrays.asList;
 
@@ -12,24 +13,27 @@ public class WhotGamePlay {
     private final List<Player> players;
     private final GameMediator gameMediator;
     private final Board board;
-
-    private GameState gameState = GameState.NOT_STARTED;
+    private final GameStateObserver gameStateObserver;
 
     private WhotGamePlay(Builder builder) {
         this.players = builder.players;
         this.cards = builder.cards;
         this.gameMediator = builder.gameMediator;
         this.board = builder.board;
+        this.gameStateObserver = builder.gameStateObserver;
     }
 
     public void startGame() {
+        gameMediator.registerGameStateObserver(gameStateObserver);
         gameMediator.shuffle(cards);
         gameMediator.registerPlayers(players);
         gameMediator.registerBoard(board);
         gameMediator.deal(cards);
         gameMediator.updatePlayPile(cards);
         gameMediator.updateDrawPile(cards);
-        updateGameState(GameState.STARTED);
+
+        Optional.ofNullable(gameStateObserver)
+                .ifPresent(it -> it.updateState(GameState.STARTED));
     }
 
     public Player nextPlayer() {
@@ -41,12 +45,7 @@ public class WhotGamePlay {
     }
 
     public GameState getGameState() {
-        return gameState;
-    }
-
-
-    private void updateGameState(GameState gameState) {
-        this.gameState = gameState;
+        return gameStateObserver.getCurrentGameState();
     }
 
     public static class Builder {
@@ -54,6 +53,7 @@ public class WhotGamePlay {
         private LinkedList<WhotCardWithNumberAndShape> cards;
         private GameMediator gameMediator;
         private Board board;
+        private GameStateObserver gameStateObserver;
 
         public Builder withPlayers(Player... players) {
             this.players = asList(players);
@@ -72,6 +72,11 @@ public class WhotGamePlay {
 
         public Builder withBoard(Board board) {
             this.board = board;
+            return this;
+        }
+
+        public Builder withGameStateObserver(GameStateObserver gameStateObserver){
+            this.gameStateObserver = gameStateObserver;
             return this;
         }
 
