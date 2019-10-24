@@ -4,10 +4,10 @@ import io.vavr.control.Either;
 import pink.digitally.games.whot.whotcore.error.ErrorMessage;
 import pink.digitally.games.whot.whotcore.events.PlayerEvent;
 import pink.digitally.games.whot.whotcore.events.handler.PlayEventHandler;
+import pink.digitally.games.whot.whotcore.utils.QueueShuffler;
 import pink.digitally.games.whot.whotcore.validation.SimpleValidator;
 import pink.digitally.games.whot.whotcore.validation.Validator;
 
-import java.util.Collections;
 import java.util.Deque;
 import java.util.LinkedList;
 import java.util.List;
@@ -27,8 +27,8 @@ public class GameMediator {
         this.playEventHandler = playEventHandler;
     }
 
-    public void shuffle(LinkedList<WhotCardWithNumberAndShape> cards) {
-        Collections.shuffle(cards);
+    public void shuffle(Deque<WhotCardWithNumberAndShape> cards) {
+        QueueShuffler.shuffle(cards);
     }
 
     public void registerPlayers(Player... players) {
