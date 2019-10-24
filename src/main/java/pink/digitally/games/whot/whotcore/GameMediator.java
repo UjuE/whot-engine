@@ -17,6 +17,7 @@ import static java.util.Arrays.asList;
 import static pink.digitally.games.whot.whotcore.validation.DealValidator.dealValidator;
 
 public class GameMediator {
+    private static final int MAXIMUM_NUMBER_OF_CARDS_TO_DEAL = 6;
     private final PlayEventHandler playEventHandler;
     private Deque<Player> players;
     private Board board;
@@ -106,7 +107,7 @@ public class GameMediator {
     }
 
     private Either<String, Void> dealCardsSuccessfully(Deque<WhotCardWithNumberAndShape> cards) {
-        for (int i = 0; i < 6; i++) {
+        for (int i = 0; i < MAXIMUM_NUMBER_OF_CARDS_TO_DEAL; i++) {
             players.forEach(p -> p.addCard(cards.removeFirst()));
         }
         return Either.right(null);
