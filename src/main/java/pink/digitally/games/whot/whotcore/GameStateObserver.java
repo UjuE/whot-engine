@@ -5,7 +5,7 @@ import pink.digitally.games.whot.state.GameState;
 import java.util.Collection;
 
 public interface GameStateObserver {
-     void gameStarted();
+     void gameStarted(Collection<Player> players, Board board);
      void gameEnded(Player winner, Collection<Player> players);
      void currentPlayer(Player player);
      GameState getCurrentGameState();

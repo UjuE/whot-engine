@@ -6,11 +6,13 @@ import org.mockito.InOrder;
 import org.mockito.Mockito;
 
 import java.util.LinkedList;
+import java.util.List;
 
 import static java.util.Arrays.asList;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 @DisplayName("Whot Game Play")
 class WhotGamePlayTest {
@@ -23,6 +25,9 @@ class WhotGamePlayTest {
         Player james = mock(Player.class);
         Player john = mock(Player.class);
         GameStateObserver gameStateObserver = mock(GameStateObserver.class);
+        List<Player> players = asList(james, john);
+
+        when(gameMediator.getNextPlayer()).thenReturn(james);
 
         WhotGamePlay whotGamePlay = new WhotGamePlay.Builder()
                 .withPlayers(james, john)
@@ -37,10 +42,11 @@ class WhotGamePlayTest {
         InOrder inOrder = Mockito.inOrder(gameMediator, board, gameStateObserver);
         inOrder.verify(gameMediator).registerGameStateObserver(gameStateObserver);
         inOrder.verify(gameMediator).shuffle(any());
-        inOrder.verify(gameMediator).registerPlayers(eq(asList(james, john)));
+        inOrder.verify(gameMediator).registerPlayers(eq(players));
         inOrder.verify(gameMediator).deal(any(LinkedList.class));
         inOrder.verify(gameMediator).updatePlayPile(any(LinkedList.class));
         inOrder.verify(gameMediator).updateDrawPile(any(LinkedList.class));
-        inOrder.verify(gameStateObserver).gameStarted();
+        inOrder.verify(gameStateObserver).gameStarted(eq(players), eq(board));
+        inOrder.verify(gameStateObserver).currentPlayer(eq(james));
     }
 }

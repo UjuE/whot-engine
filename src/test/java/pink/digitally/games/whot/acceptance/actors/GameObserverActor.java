@@ -1,6 +1,7 @@
 package pink.digitally.games.whot.acceptance.actors;
 
 import pink.digitally.games.whot.state.GameState;
+import pink.digitally.games.whot.whotcore.Board;
 import pink.digitally.games.whot.whotcore.GameStateObserver;
 import pink.digitally.games.whot.whotcore.Player;
 
@@ -16,7 +17,7 @@ public class GameObserverActor implements GameStateObserver {
     }
 
     @Override
-    public void gameStarted() {
+    public void gameStarted(Collection<Player> players, Board board) {
         updateState(GameState.STARTED);
     }
 
