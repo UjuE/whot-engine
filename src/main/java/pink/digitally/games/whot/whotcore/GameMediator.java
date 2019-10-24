@@ -5,6 +5,7 @@ import pink.digitally.games.whot.whotcore.error.ErrorMessage;
 import pink.digitally.games.whot.whotcore.events.PlayerEvent;
 import pink.digitally.games.whot.whotcore.events.handler.PlayEventHandler;
 import pink.digitally.games.whot.whotcore.validation.SimpleValidator;
+import pink.digitally.games.whot.whotcore.validation.Validator;
 
 import java.util.Collections;
 import java.util.Deque;
@@ -13,9 +14,9 @@ import java.util.List;
 import java.util.Optional;
 
 import static java.util.Arrays.asList;
+import static pink.digitally.games.whot.whotcore.validation.DealValidator.dealValidator;
 
 public class GameMediator {
-    private static final int MINIMUM_NUMBER_OF_PLAYERS = 2;
     private final PlayEventHandler playEventHandler;
     private Deque<Player> players;
     private Board board;
@@ -47,13 +48,10 @@ public class GameMediator {
     }
 
     public Either<String, Void> deal(Deque<WhotCardWithNumberAndShape> cards) {
-        SimpleValidator<Integer> validator = getDealValidator(players.size(), cards.size());
+        Validator validator = dealValidator(players.size(), cards.size());
 
         if (validator.isValid()) {
-            for (int i = 0; i < 6; i++) {
-                players.forEach(p -> p.addCard(cards.removeFirst()));
-            }
-            return Either.right(null);
+            return dealCardsSuccessfully(cards);
         } else {
             return Either.left(validator.errorMessages().orElse("An Error occurred"));
         }
@@ -87,18 +85,6 @@ public class GameMediator {
         return Either.left(new ErrorMessage(validator.errorMessages().orElse("Error Occurred")));
     }
 
-    private Void applyNewState(Player player, Deque<Player> newPlayersOrdering) {
-        players = newPlayersOrdering;
-        if (player.getCards().isEmpty()) {
-            Optional.ofNullable(gameStateObserver)
-                    .ifPresent(theGameStateObserver -> theGameStateObserver.gameEnded(players));
-        } else {
-            Optional.ofNullable(gameStateObserver)
-                    .ifPresent(theGameStateObserver -> theGameStateObserver.currentPlayer(players.peekFirst()));
-        }
-        return null;
-    }
-
     public Deque<Player> getPlayers() {
         return players;
     }
@@ -113,13 +99,26 @@ public class GameMediator {
                 .isPresent();
     }
 
-    private SimpleValidator<Integer> getDealValidator(int numberOfPlayers, int numberOfCards) {
-        int maximumNumberOfPlayers = numberOfCards / 10;
+    private Void applyNewState(Player player, Deque<Player> newPlayersOrdering) {
+        players = newPlayersOrdering;
+        notifyObserver(player);
+        return null;
+    }
 
-        return new SimpleValidator.ValidatorBuilder<Integer>()
-                .withFailureConditionAndMessage(number -> number < MINIMUM_NUMBER_OF_PLAYERS, "At least 2 Players is required")
-                .withFailureConditionAndMessage(number -> number > maximumNumberOfPlayers,
-                        String.format("No more than %d Players is allowed", maximumNumberOfPlayers))
-                .build(numberOfPlayers);
+    private Either<String, Void> dealCardsSuccessfully(Deque<WhotCardWithNumberAndShape> cards) {
+        for (int i = 0; i < 6; i++) {
+            players.forEach(p -> p.addCard(cards.removeFirst()));
+        }
+        return Either.right(null);
+    }
+
+    private void notifyObserver(Player player) {
+        if (player.getCards().isEmpty()) {
+            Optional.ofNullable(gameStateObserver)
+                    .ifPresent(theGameStateObserver -> theGameStateObserver.gameEnded(players));
+        } else {
+            Optional.ofNullable(gameStateObserver)
+                    .ifPresent(theGameStateObserver -> theGameStateObserver.currentPlayer(players.peekFirst()));
+        }
     }
 }

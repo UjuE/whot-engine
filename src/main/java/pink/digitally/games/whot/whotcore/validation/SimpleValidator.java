@@ -11,7 +11,7 @@ public class SimpleValidator<T> implements Validator{
     private final T objectToValidate;
     private final List<Pair<Predicate<T>, String>> failureConditions;
 
-    private SimpleValidator(T t, List<Pair<Predicate<T>, String>> failureConditions){
+    SimpleValidator(T t, List<Pair<Predicate<T>, String>> failureConditions){
         objectToValidate = t;
         this.failureConditions = failureConditions;
     }
