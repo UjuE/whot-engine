@@ -1,14 +1,13 @@
 package pink.digitally.games.whot.whotcore.events;
 
-import pink.digitally.games.whot.whotcore.WhotCard;
 import pink.digitally.games.whot.whotcore.WhotCardWithNumberAndShape;
 
 import java.util.Optional;
 
 public class PlayCardPlayerEvent implements PlayerEvent {
-    private final WhotCard cardToPlay;
+    private final WhotCardWithNumberAndShape cardToPlay;
 
-    public PlayCardPlayerEvent(WhotCard cardToPlay) {
+    public PlayCardPlayerEvent(WhotCardWithNumberAndShape cardToPlay) {
         this.cardToPlay = cardToPlay;
     }
 
