@@ -8,7 +8,7 @@ public class CompoundValidator implements Validator {
 
     private Collection<SimpleValidator> validators;
 
-    private CompoundValidator(CompoundValidatorBuilder builder) {
+    private CompoundValidator(Builder builder) {
         validators = builder.validators;
     }
 
@@ -30,10 +30,10 @@ public class CompoundValidator implements Validator {
                         ));
     }
 
-    public static class CompoundValidatorBuilder {
+    public static class Builder {
         private Collection<SimpleValidator> validators = new ArrayList<>();
 
-        public CompoundValidatorBuilder withValidator(SimpleValidator validator) {
+        public Builder withValidator(SimpleValidator validator) {
             validators.add(validator);
             return this;
         }

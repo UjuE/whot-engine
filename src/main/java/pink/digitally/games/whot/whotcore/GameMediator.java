@@ -72,7 +72,7 @@ public class GameMediator {
     }
 
     public Either<ErrorMessage, Void> play(Player player, PlayerEvent playerEvent) {
-        SimpleValidator<Player> validator = new SimpleValidator.ValidatorBuilder<Player>()
+        SimpleValidator<Player> validator = new SimpleValidator.Builder<Player>()
                 .withFailureConditionAndMessage(thePlayer -> !playersIsNotNullOrEmptyAndIsPlayerTurn(thePlayer),
                         "It is not player's turn")
                 .build(player);

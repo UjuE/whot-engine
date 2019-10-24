@@ -31,10 +31,10 @@ public class SimpleValidator<T> implements Validator{
                 .reduce((s, s2) -> s + ",\n"+s2);
     }
 
-    public static class ValidatorBuilder<T> {
+    public static class Builder<T> {
         private List<Pair<Predicate<T>, String>> failureConditionAndMessages = new ArrayList<>();
 
-        public ValidatorBuilder<T> withFailureConditionAndMessage(Predicate<T> predicate, String message){
+        public Builder<T> withFailureConditionAndMessage(Predicate<T> predicate, String message){
             failureConditionAndMessages.add(new Pair<>(predicate, message));
             return this;
         }
