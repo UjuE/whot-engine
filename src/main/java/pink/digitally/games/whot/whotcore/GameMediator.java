@@ -1,7 +1,6 @@
 package pink.digitally.games.whot.whotcore;
 
 import io.vavr.control.Either;
-import pink.digitally.games.whot.state.GameState;
 import pink.digitally.games.whot.whotcore.error.ErrorMessage;
 import pink.digitally.games.whot.whotcore.events.PlayerEvent;
 import pink.digitally.games.whot.whotcore.events.handler.PlayEventHandler;
@@ -92,7 +91,10 @@ public class GameMediator {
         players = newPlayersOrdering;
         if (player.getCards().isEmpty()) {
             Optional.ofNullable(gameStateObserver)
-                    .ifPresent(theGameStateObserver -> theGameStateObserver.updateState(GameState.ENDED));
+                    .ifPresent(theGameStateObserver -> theGameStateObserver.gameEnded(players));
+        } else {
+            Optional.ofNullable(gameStateObserver)
+                    .ifPresent(theGameStateObserver -> theGameStateObserver.currentPlayer(players.peekFirst()));
         }
         return null;
     }

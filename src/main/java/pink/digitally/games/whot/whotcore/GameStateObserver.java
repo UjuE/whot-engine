@@ -2,7 +2,11 @@ package pink.digitally.games.whot.whotcore;
 
 import pink.digitally.games.whot.state.GameState;
 
+import java.util.Collection;
+
 public interface GameStateObserver {
-     void updateState(GameState gameState);
+     void gameStarted();
+     void gameEnded(Collection<Player> players);
+     void currentPlayer(Player player);
      GameState getCurrentGameState();
 }

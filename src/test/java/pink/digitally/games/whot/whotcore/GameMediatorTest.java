@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.stream.Stream;
 
 import static java.util.Arrays.asList;
+import static java.util.Collections.singletonList;
 import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -181,5 +182,30 @@ class GameMediatorTest {
 
         verify(playEventHandler, times(0))
                 .handle(any(), any(), any(), any());
+    }
+
+    @Test
+    @DisplayName("notifies game observer of new turn")
+    void gameObserverIsNotifiedWhenTurnIsChanged() {
+        Player firstPlayer = mock(Player.class);
+        Player secondPlayer = mock(Player.class);
+        PlayerEvent playerEvent = mock(PlayerEvent.class);
+        Board board = mock(Board.class);
+        GameStateObserver gameObserver = mock(GameStateObserver.class);
+
+        LinkedList<Player> allPlayers = new LinkedList<>(asList(firstPlayer, secondPlayer));
+
+        when(playEventHandler.handle(playerEvent, firstPlayer, allPlayers, board))
+                .thenReturn(Either.right(allPlayers));
+
+        when(firstPlayer.getCards())
+                .thenReturn(singletonList(WhotCard.whotCard(WhotNumber.EIGHT, WhotShape.CIRCLE)));
+
+        underTest.registerBoard(board);
+        underTest.registerGameStateObserver(gameObserver);
+        underTest.registerPlayers(firstPlayer, secondPlayer);
+        underTest.play(firstPlayer, playerEvent);
+
+        verify(gameObserver).currentPlayer(firstPlayer);
     }
 }

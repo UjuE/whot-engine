@@ -33,7 +33,7 @@ public class WhotGamePlay {
         gameMediator.updateDrawPile(cards);
 
         Optional.ofNullable(gameStateObserver)
-                .ifPresent(it -> it.updateState(GameState.STARTED));
+                .ifPresent(GameStateObserver::gameStarted);
     }
 
     public Player nextPlayer() {
