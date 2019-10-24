@@ -206,6 +206,6 @@ class GameMediatorTest {
         underTest.registerPlayers(firstPlayer, secondPlayer);
         underTest.play(firstPlayer, playerEvent);
 
-        verify(gameObserver).currentPlayer(firstPlayer);
+        verify(gameObserver).currentPlayer(firstPlayer, board);
     }
 }

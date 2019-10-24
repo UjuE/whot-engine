@@ -124,7 +124,7 @@ public class GameMediator {
                     .ifPresent(theGameStateObserver -> theGameStateObserver.gameEnded(player, players));
         } else {
             Optional.ofNullable(gameStateObserver)
-                    .ifPresent(theGameStateObserver -> theGameStateObserver.currentPlayer(players.peekFirst()));
+                    .ifPresent(theGameStateObserver -> theGameStateObserver.currentPlayer(players.peekFirst(), board));
         }
     }
 

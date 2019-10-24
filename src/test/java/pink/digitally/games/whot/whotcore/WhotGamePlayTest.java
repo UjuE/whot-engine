@@ -47,6 +47,6 @@ class WhotGamePlayTest {
         inOrder.verify(gameMediator).updatePlayPile(any(LinkedList.class));
         inOrder.verify(gameMediator).updateDrawPile(any(LinkedList.class));
         inOrder.verify(gameStateObserver).gameStarted(eq(players), eq(board));
-        inOrder.verify(gameStateObserver).currentPlayer(eq(james));
+        inOrder.verify(gameStateObserver).currentPlayer(eq(james), eq(board));
     }
 }

@@ -28,7 +28,7 @@ public class GameObserverActor implements GameStateObserver {
     }
 
     @Override
-    public void currentPlayer(Player player) {
+    public void currentPlayer(Player player, Board board) {
         //LOG Player
     }
 
