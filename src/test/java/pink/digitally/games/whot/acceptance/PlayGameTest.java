@@ -34,10 +34,12 @@ class PlayGameTest {
     private Player emeka;
     private WhotGamePlay whotGamePlay;
     private GameMediatorActor gameMediator;
+    private GameObserverActor gameStateObserver;
 
     @BeforeEach
     void setUp() {
         gameMediator = new GameMediatorActor(new NoRulesPlayEventHandler());
+        gameStateObserver = new GameObserverActor();
     }
 
     @Test
@@ -49,7 +51,7 @@ class PlayGameTest {
                 () -> assertNull(whotGamePlay.nextPlayer(), "The next player should be null"),
                 () -> assertTrue(whotGamePlay.getBoard().getPlayPile().isEmpty(), "There should be no Play pile"),
                 () -> assertTrue(whotGamePlay.getBoard().getDrawPile().isEmpty(), "There should be no Draw Pile"),
-                () -> assertEquals(GameState.NOT_STARTED, whotGamePlay.getGameState())
+                () -> assertEquals(GameState.NOT_STARTED, whotGamePlay.getGameState(), "the game state should be 'NOT_STARTED'")
         );
     }
 
@@ -142,6 +144,8 @@ class PlayGameTest {
         whenPlayerPlays(ngozi, whotCard(WhotNumber.FIVE, WhotShape.SQUARE));
 
         assertEquals(GameState.ENDED, whotGamePlay.getGameState());
+        assertEquals(ngozi, gameStateObserver.getWinner());
+        assertNull(whotGamePlay.nextPlayer());
     }
 
     private void thenTheNumberOfCardsOfPlayer(Player player, int expectedNumberOfCards) {
@@ -180,7 +184,7 @@ class PlayGameTest {
                 .withDeckOfCards()
                 .withGameMediator(gameMediator)
                 .withPlayers(ngozi, emeka)
-                .withGameStateObserver(new GameObserverActor())
+                .withGameStateObserver(gameStateObserver)
                 .build();
     }
 }

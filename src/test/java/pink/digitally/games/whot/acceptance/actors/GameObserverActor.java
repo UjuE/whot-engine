@@ -9,6 +9,7 @@ import java.util.Collection;
 public class GameObserverActor implements GameStateObserver {
 
     private GameState gameState = GameState.NOT_STARTED;
+    private Player winner;
 
     private void updateState(GameState gameState) {
         this.gameState = gameState;
@@ -20,7 +21,8 @@ public class GameObserverActor implements GameStateObserver {
     }
 
     @Override
-    public void gameEnded(Collection<Player> players) {
+    public void gameEnded(Player winner, Collection<Player> players) {
+        this.winner = winner;
         updateState(GameState.ENDED);
     }
 
@@ -32,5 +34,9 @@ public class GameObserverActor implements GameStateObserver {
     @Override
     public GameState getCurrentGameState() {
         return gameState;
+    }
+
+    public Player getWinner() {
+        return winner;
     }
 }

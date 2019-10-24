@@ -6,7 +6,7 @@ import java.util.Collection;
 
 public interface GameStateObserver {
      void gameStarted();
-     void gameEnded(Collection<Player> players);
+     void gameEnded(Player winner, Collection<Player> players);
      void currentPlayer(Player player);
      GameState getCurrentGameState();
 }
