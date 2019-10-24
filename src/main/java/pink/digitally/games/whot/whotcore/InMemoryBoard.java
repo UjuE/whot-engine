@@ -1,11 +1,16 @@
 package pink.digitally.games.whot.whotcore;
 
 import java.util.Deque;
+import java.util.LinkedList;
 
 public class InMemoryBoard implements Board {
 
     private Deque<WhotCardWithNumberAndShape> playPile;
     private Deque<WhotCardWithNumberAndShape> drawPile;
+
+    public InMemoryBoard() {
+        playPile = new LinkedList<>();
+    }
 
     @Override
     public Deque<WhotCardWithNumberAndShape> getPlayPile() {
