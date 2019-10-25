@@ -35,8 +35,8 @@ public class WhotGamePlay {
 
         Optional.ofNullable(gameStateObserver)
                 .ifPresent(it -> {
-                    gameStateObserver.gameStarted(players, board);
-                    gameStateObserver.currentPlayer(nextPlayer(), board);
+                    gameStateObserver.onGameStarted(players, board);
+                    gameStateObserver.onPlayerTurn(nextPlayer(), board);
                 });
     }
 

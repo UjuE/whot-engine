@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InOrder;
 import org.mockito.Mockito;
 
-import java.util.LinkedList;
+import java.util.Deque;
 import java.util.List;
 
 import static java.util.Arrays.asList;
@@ -43,10 +43,10 @@ class WhotGamePlayTest {
         inOrder.verify(gameMediator).registerGameStateObserver(gameStateObserver);
         inOrder.verify(gameMediator).shuffle(any());
         inOrder.verify(gameMediator).registerPlayers(eq(players));
-        inOrder.verify(gameMediator).deal(any(LinkedList.class));
-        inOrder.verify(gameMediator).updatePlayPile(any(LinkedList.class));
-        inOrder.verify(gameMediator).updateDrawPile(any(LinkedList.class));
-        inOrder.verify(gameStateObserver).gameStarted(eq(players), eq(board));
-        inOrder.verify(gameStateObserver).currentPlayer(eq(james), eq(board));
+        inOrder.verify(gameMediator).deal(any(Deque.class));
+        inOrder.verify(gameMediator).updatePlayPile(any(Deque.class));
+        inOrder.verify(gameMediator).updateDrawPile(any(Deque.class));
+        inOrder.verify(gameStateObserver).onGameStarted(eq(players), eq(board));
+        inOrder.verify(gameStateObserver).onPlayerTurn(eq(james), eq(board));
     }
 }

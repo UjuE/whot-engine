@@ -72,19 +72,18 @@ public class GameMediator {
         return board;
     }
 
-    public Either<ErrorMessage, Void> play(Player player, PlayerEvent playerEvent) {
+    public void play(Player player, PlayerEvent playerEvent) {
         SimpleValidator<Player> validator = new SimpleValidator.Builder<Player>()
                 .withFailureConditionAndMessage(thePlayer -> !playersIsNotNullOrEmptyAndIsPlayerTurn(thePlayer),
                         "It is not player's turn")
                 .build(player);
 
         if (validator.isValid()) {
-            return playEventHandler
+            Either<ErrorMessage, Void> playResult = playEventHandler
                     .handle(playerEvent, player, players, board)
                     .map(newPlayersOrdering -> applyNewState(player, newPlayersOrdering));
+            handlePossibleError(player, playResult);
         }
-
-        return Either.left(new ErrorMessage(validator.errorMessages().orElse("Error Occurred")));
     }
 
     public Deque<Player> getPlayers() {
@@ -121,10 +120,10 @@ public class GameMediator {
     private void notifyObserver(Player player) {
         if (player.getCards().isEmpty()) {
             Optional.ofNullable(gameStateObserver)
-                    .ifPresent(theGameStateObserver -> theGameStateObserver.gameEnded(player, players));
+                    .ifPresent(theGameStateObserver -> theGameStateObserver.onGameEnded(player, players));
         } else {
             Optional.ofNullable(gameStateObserver)
-                    .ifPresent(theGameStateObserver -> theGameStateObserver.currentPlayer(players.peekFirst(), board));
+                    .ifPresent(theGameStateObserver -> theGameStateObserver.onPlayerTurn(players.peekFirst(), board));
         }
     }
 
@@ -132,5 +131,11 @@ public class GameMediator {
         return Optional.ofNullable(gameStateObserver)
                 .filter(it -> GameState.ENDED.equals(it.getCurrentGameState()))
                 .isPresent();
+    }
+
+    private void handlePossibleError(Player player, Either<ErrorMessage, Void> playResult) {
+        if(playResult.isLeft()){
+            gameStateObserver.onInvalidPlay(player, board, playResult.getLeft());
+        }
     }
 }

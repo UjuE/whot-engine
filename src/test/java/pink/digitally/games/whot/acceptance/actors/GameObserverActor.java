@@ -4,6 +4,7 @@ import pink.digitally.games.whot.state.GameState;
 import pink.digitally.games.whot.whotcore.Board;
 import pink.digitally.games.whot.whotcore.GameStateObserver;
 import pink.digitally.games.whot.whotcore.Player;
+import pink.digitally.games.whot.whotcore.error.ErrorMessage;
 
 import java.util.Collection;
 
@@ -17,24 +18,29 @@ public class GameObserverActor implements GameStateObserver {
     }
 
     @Override
-    public void gameStarted(Collection<Player> players, Board board) {
+    public void onGameStarted(Collection<Player> players, Board board) {
         updateState(GameState.STARTED);
     }
 
     @Override
-    public void gameEnded(Player winner, Collection<Player> players) {
+    public void onGameEnded(Player winner, Collection<Player> players) {
         this.winner = winner;
         updateState(GameState.ENDED);
     }
 
     @Override
-    public void currentPlayer(Player player, Board board) {
+    public void onPlayerTurn(Player player, Board board) {
         //LOG Player
     }
 
     @Override
     public GameState getCurrentGameState() {
         return gameState;
+    }
+
+    @Override
+    public void onInvalidPlay(Player player, Board board, ErrorMessage errorMessage) {
+
     }
 
     public Player getWinner() {

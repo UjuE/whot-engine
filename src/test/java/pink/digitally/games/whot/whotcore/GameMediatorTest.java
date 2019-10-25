@@ -5,10 +5,12 @@ import org.hamcrest.collection.IsIterableContainingInOrder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import pink.digitally.games.whot.whotcore.error.ErrorMessage;
 import pink.digitally.games.whot.whotcore.events.PlayerEvent;
 import pink.digitally.games.whot.whotcore.events.handler.PlayEventHandler;
 import pink.digitally.games.whot.whotcore.teststub.StubPlayer;
 
+import java.util.Deque;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Stream;
@@ -165,7 +167,7 @@ class GameMediatorTest {
         underTest.registerBoard(board);
         underTest.updateDrawPile(whotCards);
 
-        verify(board).setDrawPile(any(LinkedList.class));
+        verify(board).setDrawPile(any(Deque.class));
         //All the cards have been given to the board
         assertTrue(whotCards.isEmpty());
     }
@@ -206,6 +208,32 @@ class GameMediatorTest {
         underTest.registerPlayers(firstPlayer, secondPlayer);
         underTest.play(firstPlayer, playerEvent);
 
-        verify(gameObserver).currentPlayer(firstPlayer, board);
+        verify(gameObserver).onPlayerTurn(firstPlayer, board);
+    }
+
+    @Test
+    @DisplayName("notifies game observer of new invalid play")
+    void gameObserverIsNotifiedPlayIsInvalid() {
+        ErrorMessage someError = new ErrorMessage("Some error");
+        Player firstPlayer = mock(Player.class);
+        Player secondPlayer = mock(Player.class);
+        PlayerEvent playerEvent = mock(PlayerEvent.class);
+        Board board = mock(Board.class);
+        GameStateObserver gameObserver = mock(GameStateObserver.class);
+
+        LinkedList<Player> allPlayers = new LinkedList<>(asList(firstPlayer, secondPlayer));
+
+        when(playEventHandler.handle(playerEvent, firstPlayer, allPlayers, board))
+                .thenReturn(Either.left(someError));
+
+        when(firstPlayer.getCards())
+                .thenReturn(singletonList(WhotCard.whotCard(WhotNumber.EIGHT, WhotShape.CIRCLE)));
+
+        underTest.registerBoard(board);
+        underTest.registerGameStateObserver(gameObserver);
+        underTest.registerPlayers(firstPlayer, secondPlayer);
+        underTest.play(firstPlayer, playerEvent);
+
+        verify(gameObserver).onInvalidPlay(firstPlayer, board, someError);
     }
 }

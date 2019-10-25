@@ -3,7 +3,6 @@ package pink.digitally.games.whot.acceptance.actors;
 import pink.digitally.games.whot.whotcore.GameMediator;
 import pink.digitally.games.whot.whotcore.Player;
 import pink.digitally.games.whot.whotcore.WhotCardWithNumberAndShape;
-import pink.digitally.games.whot.whotcore.error.PlayErrorHandler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,13 +39,6 @@ public class PlayerActor implements Player {
     @Override
     public GameMediator getMediator() {
         return mediator;
-    }
-
-    @Override
-    public PlayErrorHandler getPlayErrorHandler() {
-        return errorMessage -> {
-            System.out.println(errorMessage.getMessage());
-        } ;
     }
 
     public static Player player(String playerName){

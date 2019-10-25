@@ -1,12 +1,14 @@
 package pink.digitally.games.whot.whotcore;
 
 import pink.digitally.games.whot.state.GameState;
+import pink.digitally.games.whot.whotcore.error.ErrorMessage;
 
 import java.util.Collection;
 
 public interface GameStateObserver {
-     void gameStarted(Collection<Player> players, Board board);
-     void gameEnded(Player winner, Collection<Player> players);
-     void currentPlayer(Player player, Board board);
+     void onGameStarted(Collection<Player> players, Board board);
+     void onGameEnded(Player winner, Collection<Player> players);
+     void onPlayerTurn(Player player, Board board);
      GameState getCurrentGameState();
+     void onInvalidPlay(Player player, Board board, ErrorMessage errorMessage);
 }

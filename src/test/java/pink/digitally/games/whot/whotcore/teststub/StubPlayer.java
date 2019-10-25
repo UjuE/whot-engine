@@ -3,7 +3,6 @@ package pink.digitally.games.whot.whotcore.teststub;
 import pink.digitally.games.whot.whotcore.GameMediator;
 import pink.digitally.games.whot.whotcore.Player;
 import pink.digitally.games.whot.whotcore.WhotCardWithNumberAndShape;
-import pink.digitally.games.whot.whotcore.error.PlayErrorHandler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,8 +36,4 @@ public class StubPlayer implements Player {
         return null;
     }
 
-    @Override
-    public PlayErrorHandler getPlayErrorHandler() {
-        return errorMessage -> {};
-    }
 }
