@@ -9,9 +9,8 @@ commit_version_files() {
   git status
   git remote set-url origin "https://UjuE:${GIT_ACCES_KEY}@github.com/UjuE/whot-engine.git"
   git checkout master
-#  git add -f version.txt next-version.txt
-  # with "[skip ci]" to avoid a build loop
-#  git commit -m "Updating version files (Version $TRAVIS_TAG) (Build $TRAVIS_BUILD_NUMBER)" -m "[skip ci]"
+  git add -f version.txt next-version.txt
+  git commit -m "Updating version files (Version $TRAVIS_TAG) (Build $TRAVIS_BUILD_NUMBER)" -m "[skip ci]"
 }
 
 upload_files() {

@@ -15,6 +15,7 @@ stages:
 jobs:
   include:
   - stage: updateVersion
+    if: tag IS present
     script:
     - "./gradlew updateVersion "
     - sh ./travis-commit.sh
