@@ -6,6 +6,7 @@ setup_git() {
 }
 
 commit_version_files() {
+  git fetch
   git checkout master
   git add -f version.txt next-version.txt
   # with "[skip ci]" to avoid a build loop
@@ -17,7 +18,6 @@ upload_files() {
 }
 
 setup_git
-
 commit_version_files
 
 # Attempt to commit to git only if "git commit" succeeded
