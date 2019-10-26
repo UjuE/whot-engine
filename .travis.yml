@@ -1,36 +1,32 @@
 before_cache:
-  - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
-  - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
-
+- rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
+- rm -fr $HOME/.gradle/caches/*/plugin-resolution/
 cache:
   directories:
-    - "$HOME/.gradle/caches/"
-    - "$HOME/.gradle/wrapper/"
-
+  - "$HOME/.gradle/caches/"
+  - "$HOME/.gradle/wrapper/"
 language: java
-
 jdk:
-  - openjdk8
-
+- openjdk8
 stages:
-  - test
-  - publish
-  - updateVersion
-
+- test
+- publish
+- updateVersion
 jobs:
   include:
-    - stage: updateVersion
-#      if: tag IS present
-      script:
-        - "./gradlew updateVersion "
-        - sh ./travis-commit.sh
-    - stage: test
-      script: "./gradlew clean build"
-    - stage: publish
-      script: "./gradlew clean publish"
-
+  - stage: updateVersion
+    script:
+    - "./gradlew updateVersion "
+    - sh ./travis-commit.sh
+  - stage: test
+    script: "./gradlew clean build"
+  - stage: publish
+    script: "./gradlew clean publish"
 aws:
   key:
     secure: X2GTALOgi8MJ57GET89HqxCh4kaRq0LLT0PSK3cTc38qRVYUZ39qdREF6WkoJfMvImGFylD1tdQQ5SeJDZsWfx486k5XSffxexz+XkxkxCMVj4VdTUiyLv2P4WVV8vWi9rme6QlXh4eWvQ/CzLE3XW9GDbAKfQ1xscXpbhVH1HMK7hf+oIpM8dIdwanI4so8BXqrtQBVV35jK/0S5N+Ws1odgZcaTyXc/+Z1amz+ezi6fCigcXvy+TKReIHQTgKuC11iwrEkNDVJWevYzVYxSnvPbtK3b5hPObUIHOR/4hGk2C9+GFW7JsC8w/CRHeR4U0+i02C7lOhWW0l7NWjO6VjNzNd1W17xS8N912dR3LAAdGP1c84mgt7rAcO57VHYmEZHLNUmbwcAXQ3BOCd7FAmqZuOOVFyqnbkiTokQ15yTDCWsZmFryerBI4k1HBys2wTVEW4Vz7NtnXAmoArqV/MkwjwFLwCwV0/sdKjV5k4opVmWB8RvpYS2ZL/PDIvltCfFZx+gfDaJgQmpVwWbbbRazA0GW0TucKRmwpuGaTId4UeoMhPE0Y2+k2G9knbQiIzFGp8xeZe9WGE/NUEJ5WQEQhDJdvrD2xBJKWrVdrcZpxdIUTQT7vNjmmmU7PDij/1oHnHgHGgSmGRD5VqRvlsR/GQrjhMzpAZZRq2u4DM=
   secret:
     secure: OHeuJAx50p1N0MC/N3u6XfNkGwhc03Gm1jHU+5S2b95j1lSyTIIU3ipS3cUAGhsyZDv9gtz8mhjOOfjlAsjBYKzbJ7Phba+Yk83Y71MLWR7xJxbDaHtGjAN2+Th0rCY2VYN+L6h+VY55M6iFW2i+MEO4z9ltzxsxUbMu3KwZP1A8qOv3Rohg5PtsJX3ggrEKcUaB98WX1OKAhNxaJW4IMbboFKr83kfCwdzBzDNkhBmKJs5z6scNMMvF4K6LidBkRLbLCC6eEj3sL4MNv7+rdTPfkadByTZr83k1sEsKhJd1xrGnCqPGZf2J6okXhhDWInTm1FtZ5WOv47txE2FigGaFshJUFr+jnx85nv+SaXEMzDlbfYvRgecNzb6R10PLAH1YWr0lRoZ8cZ9x1UUnZn+c+GYSiQocInlCFl3TraWddKw9yjtDHo8Ox8xwMj9OLcucDdR0+2xkScUxBT9ru+NwBdQjRor5O7sfb7NXX3TUqvaQb/CCoVzu5Cm8KlfHkoRt/I3KWz/zL6D5RoN/qToHqZNdDGgG3wJb+ZkfHgloGkMQkkBK6y5iMMj+WW9awMcC5lhhXw1/uM++W88yLgwUOVqgCDd3TihkSz8sRAT7lflVP2RpsQtrlX1JKgu5Ajjit/PNn5i+3nBZKKNB6JEHPVOawnXo5VzY1I/OwtQ=
+env:
+  global:
+    secure: by7L3ELOWJSiD7z5GTEJllR1lwAAGZ2mxQ8q7hPPOVP8qmgPd4TlGwLaqq/FcjBCzB16z6SkzrC/sC/mnAZVQ3U5gfAI+n1p3rJlKESKV8ur+OeA/dwm63+01/F7TXjLx2g4I+T7PLSZ87FF33Rh5K+yJu11IYF0fmMtW+ojz8hvbkmIUOtAkK4UC5hY3pABw4941lWMgdpI9gOZJFAJZJKoqUfjeqj7+J248eDORd1IdoSVzb6kal8EYBGuE0Fc0eE9+1vZLDstCxJODpVAWUrKwNUypWEL8ZO8CeWaguGDi9B7bJqthkU+L9tL/3i2Oe6pQi04kAeYcDWnsiDUtYkTIV/iI0oWpIUZ/rKB/yKBaVKz/dAmPlQgTS8u5TgGOj8Y6fBm2R11eLMuFKVVNa5IrVhOP7SxXUEdJgeVDKnKd52EaN+w6dd0ZWTVZUcl+4CFd0SUkKAvEnvQcchCfK6oVJ6n+2yXA0v/dOe8ookIqnXvosea34a65hPBm5qo+xLHfHt2rkxxE0ne7u4Yf3JMH8WbPlQVKoGx+7SjN+4PX1/7t+Tf9vDmofInaIKrSECegbyprH5ikoOCHd8M1dN05WMu3pM2lmXE6OyBY66fMHTcgmJDIzLyIYYwij8QoWgSD0aVy5zErLyzTXf75M8hUjHa0sQ20P39AKk8g0k=
