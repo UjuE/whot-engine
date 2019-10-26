@@ -2,7 +2,7 @@
 
 setup_git() {
   git config --global user.email "me@ujuezeoke.com"
-  git config --global user.name "ujue"
+  git config --global user.name "UjuE"
   git config --global user.password $GIT_ACCES_KEY
 }
 
