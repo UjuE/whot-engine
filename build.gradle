@@ -41,7 +41,7 @@ dependencies {
 }
 
 test {
-    println "Building version: ${version}"
+    println "Building version: ${artifactVersion}"
     useJUnitPlatform {
          includeEngines("junit-jupiter", "junit-vintage")
     }
@@ -63,7 +63,7 @@ def static getPublishPath() {
     }
 }
 
-def getVersion(){
+def getArtifactVersion(){
     if(isTag()){
         return System.getenv('TRAVIS_TAG');
     } else {
@@ -72,11 +72,11 @@ def getVersion(){
 }
 
 task updateVersion()  {
-    def (major, minor, patch) = getVersion() =~ /\d+/
+    def (major, minor, patch) = getArtifactVersion() =~ /\d+/
     def newVersion = Integer.parseInt(patch) + 1
     def nextVersion = major +"."+minor+"." + newVersion
     doLast {
-        new File(projectDir, "version.txt").text = getVersion()
+        new File(projectDir, "version.txt").text = getArtifactVersion()
         new File(projectDir, "next-version.txt").text = nextVersion
     }
 }
@@ -105,9 +105,9 @@ publishing {
 
     publications {
         mavenJava(MavenPublication) {
-            groupId 'pink.digitally.games.whot'
-            artifactId 'whot-engine'
-            version "${version}"
+            groupId = 'pink.digitally.games.whot'
+            artifactId = 'whot-engine'
+            version = "${artifactVersion}"
             from components.java
         }
     }
