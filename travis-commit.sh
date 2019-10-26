@@ -6,15 +6,15 @@ setup_git() {
 }
 
 commit_version_files() {
-  git fetch
-  git checkout master
-  git add -f version.txt next-version.txt
+  git status
+#  git checkout master
+#  git add -f version.txt next-version.txt
   # with "[skip ci]" to avoid a build loop
-  git commit -m "Updating version files (Version $TRAVIS_TAG) (Build $TRAVIS_BUILD_NUMBER)" -m "[skip ci]"
+#  git commit -m "Updating version files (Version $TRAVIS_TAG) (Build $TRAVIS_BUILD_NUMBER)" -m "[skip ci]"
 }
 
 upload_files() {
-  git push origin master --quiet
+  git push origin master
 }
 
 setup_git
