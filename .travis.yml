@@ -1,6 +1,3 @@
-env:
-  - PACKAGE_VERSION="1.0.*"
-
 before_cache:
   - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
   - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
@@ -16,11 +13,17 @@ jdk:
   - openjdk8
 
 stages:
+  - updateVersion
   - test
   - publish
 
 jobs:
   include:
+    - stage: updateVersion
+      if: tag IS present
+      script:
+        - "./gradlew updateVersion "
+        - sh .travis-commit.sh
     - stage: test
       script: "./gradlew clean build"
     - stage: publish

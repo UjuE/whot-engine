@@ -40,9 +40,7 @@ dependencies {
 }
 
 test {
-    println "The Travis Platform version: $System.env.PACKAGE_VERSION"
-    println "The TRAVIS_TAG name: $System.env.TRAVIS_TAG"
-    println "The is tag: "+isTag()
+    println "Building version: "+ getVersion()
     useJUnitPlatform {
          includeEngines("junit-jupiter", "junit-vintage")
     }
@@ -61,6 +59,24 @@ static def publishPath() {
         return 'releases'
     } else{
         return 'snapshots'
+    }
+}
+
+def getVersion(){
+    if(isTag()){
+        return System.getenv('TRAVIS_TAG');
+    } else {
+        return getRootProject().file('next-version.txt').text.trim() + '-SNAPSHOT'
+    }
+}
+
+task updateVersion()  {
+    def (major, minor, patch) = getVersion() =~ /\d+/
+    def newVersion = Integer.parseInt(patch) + 1
+    def nextVersion = major +"."+minor+"." + newVersion
+    doLast {
+        new File(projectDir, "version.txt").text = getVersion()
+        new File(projectDir, "next-version.txt").text = nextVersion
     }
 }
 
@@ -90,7 +106,7 @@ publishing {
         mavenJava(MavenPublication) {
             groupId 'pink.digitally.games.whot'
             artifactId 'whot-engine'
-            version '13.1-SNAPSHOT'
+            version getVersion()
             from components.java
         }
     }
