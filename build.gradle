@@ -7,6 +7,7 @@ buildscript {
     }
 }
 
+
 import com.amazonaws.auth.AWSCredentials
 import com.amazonaws.auth.EnvironmentVariableCredentialsProvider
 
@@ -40,7 +41,7 @@ dependencies {
 }
 
 test {
-    println "Building version: "+ getVersion()
+    println "Building version: ${version}"
     useJUnitPlatform {
          includeEngines("junit-jupiter", "junit-vintage")
     }
@@ -54,7 +55,7 @@ static def isTag(){
     return System.getenv('TRAVIS_TAG') != null && !System.getenv('TRAVIS_TAG').isEmpty()
 }
 
-static def publishPath() {
+def static getPublishPath() {
     if(isTag()){
         return 'releases'
     } else{
@@ -94,7 +95,7 @@ AWSCredentials awsCredentials = fetchAwsCredentials()
 publishing {
     repositories {
         maven {
-            url "s3://repo.digitally.pink/"+publishPath()
+            url "s3://repo.digitally.pink/$publishPath"
             credentials(AwsCredentials) {
                 accessKey = awsCredentials.AWSAccessKeyId
                 secretKey = awsCredentials.AWSSecretKey
@@ -106,7 +107,7 @@ publishing {
         mavenJava(MavenPublication) {
             groupId 'pink.digitally.games.whot'
             artifactId 'whot-engine'
-            version getVersion()
+            version "${version}"
             from components.java
         }
     }
