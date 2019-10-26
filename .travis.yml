@@ -13,9 +13,9 @@ jdk:
   - openjdk8
 
 stages:
-  - updateVersion
   - test
   - publish
+  - updateVersion
 
 jobs:
   include:
