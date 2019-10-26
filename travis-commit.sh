@@ -7,7 +7,7 @@ setup_git() {
 
 commit_version_files() {
   git status
-  git remote add origin "https://UjuE:${GIT_ACCES_KEY}@github.com/UjuE/whot-engine.git"
+  git remote set-url origin "https://UjuE:${GIT_ACCES_KEY}@github.com/UjuE/whot-engine.git"
   git checkout master
 #  git add -f version.txt next-version.txt
   # with "[skip ci]" to avoid a build loop
