@@ -41,6 +41,7 @@ dependencies {
 
 test {
     println "The Travis Platform version: $System.env.PACKAGE_VERSION"
+    println "The GIT Branch name: $System.env.GIT_BRANCH"
     useJUnitPlatform {
          includeEngines("junit-jupiter", "junit-vintage")
     }
