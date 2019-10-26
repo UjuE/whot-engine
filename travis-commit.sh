@@ -7,6 +7,7 @@ setup_git() {
 
 commit_version_files() {
   git status
+  git config -l
 #  git checkout master
 #  git add -f version.txt next-version.txt
   # with "[skip ci]" to avoid a build loop
