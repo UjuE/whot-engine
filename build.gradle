@@ -42,6 +42,7 @@ dependencies {
 test {
     println "The Travis Platform version: $System.env.PACKAGE_VERSION"
     println "The TRAVIS_TAG name: $System.env.TRAVIS_TAG"
+    println "The is tag: "+isTag()
     useJUnitPlatform {
          includeEngines("junit-jupiter", "junit-vintage")
     }
@@ -52,7 +53,7 @@ test {
 }
 
 static def isTag(){
-    return "$System.env.TRAVIS_TAG" != null
+    return System.getenv('TRAVIS_TAG') != null && !System.getenv('TRAVIS_TAG').isEmpty()
 }
 
 static def publishPath() {
