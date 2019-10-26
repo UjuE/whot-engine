@@ -41,7 +41,7 @@ dependencies {
 
 test {
     println "The Travis Platform version: $System.env.PACKAGE_VERSION"
-    println "The GIT Branch name: $System.env.GIT_BRANCH"
+    println "The TRAVIS_TAG name: $System.env.TRAVIS_TAG"
     useJUnitPlatform {
          includeEngines("junit-jupiter", "junit-vintage")
     }
@@ -51,6 +51,17 @@ test {
     }
 }
 
+static def isTag(){
+    return "$System.env.TRAVIS_TAG" != null
+}
+
+static def publishPath() {
+    if(isTag()){
+        return 'releases'
+    } else{
+        return 'snapshots'
+    }
+}
 
 def fetchAwsCredentials = {
     try {
@@ -66,7 +77,7 @@ AWSCredentials awsCredentials = fetchAwsCredentials()
 publishing {
     repositories {
         maven {
-            url "s3://repo.digitally.pink/snapshots"
+            url "s3://repo.digitally.pink/"+publishPath()
             credentials(AwsCredentials) {
                 accessKey = awsCredentials.AWSAccessKeyId
                 secretKey = awsCredentials.AWSSecretKey
