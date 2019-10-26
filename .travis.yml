@@ -23,7 +23,7 @@ jobs:
       if: tag IS present
       script:
         - "./gradlew updateVersion "
-        - sh .travis-commit.sh
+        - sh ./travis-commit.sh
     - stage: test
       script: "./gradlew clean build"
     - stage: publish
