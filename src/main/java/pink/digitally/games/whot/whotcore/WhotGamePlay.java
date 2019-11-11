@@ -68,7 +68,11 @@ public class WhotGamePlay {
         private GameStateObserver gameStateObserver;
 
         public Builder withPlayers(Player... players) {
-            this.players = asList(players);
+            return this.withPlayers(asList(players));
+        }
+
+        public Builder withPlayers(List<Player> players) {
+            this.players = players;
             return this;
         }
 
