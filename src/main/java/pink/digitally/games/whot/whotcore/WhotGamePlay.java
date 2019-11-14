@@ -1,7 +1,7 @@
 package pink.digitally.games.whot.whotcore;
 
 import pink.digitally.games.whot.state.GameState;
-import pink.digitally.games.whot.whotcore.events.handler.NoRulesPlayEventHandler;
+import pink.digitally.games.whot.whotcore.events.handler.StandardRulesPlayEventHandler;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -57,7 +57,7 @@ public class WhotGamePlay {
         return new Builder()
                 .withBoard(new InMemoryBoard())
                 .withDeckOfCards()
-                .withGameMediator(new GameMediator(new NoRulesPlayEventHandler()));
+                .withGameMediator(new GameMediator(new StandardRulesPlayEventHandler()));
     }
 
     public static class Builder {
