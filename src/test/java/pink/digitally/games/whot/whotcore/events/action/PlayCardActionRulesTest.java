@@ -50,7 +50,7 @@ class PlayCardActionRulesTest {
         GamePlayRule gamePlayRule = mock(GamePlayRule.class);
 
         when(gamePlayRuleDeterminer.determineRuleToApply(any())).thenReturn(gamePlayRule);
-        when(gamePlayRule.play(any(), any(), any(), any(), gameStateObserver)).thenReturn(allPlayers);
+        when(gamePlayRule.play(any(), any(), any(), any(), any())).thenReturn(allPlayers);
 
         when(board.getTopOfPlayPile()).thenReturn(WhotCard.whotCard(WhotNumber.EIGHT, WhotShape.CIRCLE));
         Either<ErrorMessage, Deque<Player>> actualPlayers = underTest.handle(Optional.of(playedCard),
