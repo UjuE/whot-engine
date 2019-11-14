@@ -43,7 +43,7 @@ class GameMediatorTest {
     @Test
     @DisplayName("can shuffle decks of cards")
     void canShuffleADeckOfCards() {
-        LinkedList<WhotCardWithNumberAndShape> cards = WhotCardDeck.getCards();
+        Deque<WhotCardWithNumberAndShape> cards = WhotCardDeck.getCards();
         LinkedList<WhotCardWithNumberAndShape> unTouchedCopy = new LinkedList<>(cards);
         underTest.shuffle(cards);
 
@@ -58,7 +58,7 @@ class GameMediatorTest {
     @Test
     @DisplayName("will not allow less than 2 players")
     void errorMessageWhenNumberOfPlayersIsLessThanTwo() {
-        LinkedList<WhotCardWithNumberAndShape> cards = WhotCardDeck.getCards();
+        Deque<WhotCardWithNumberAndShape> cards = WhotCardDeck.getCards();
         underTest.registerPlayers(mock(Player.class));
         Either<String, Void> dealResult = underTest.deal(cards);
         assertAll(
@@ -70,7 +70,7 @@ class GameMediatorTest {
     @Test
     @DisplayName("will not allow players greater than numberOfCards/10")
     void maximumNumberOfPlayersIsTheNumberOfCardsDividedByTen() {
-        LinkedList<WhotCardWithNumberAndShape> cards = WhotCardDeck.getCards();
+        Deque<WhotCardWithNumberAndShape> cards = WhotCardDeck.getCards();
         int maximumNumberOfPlayers = cards.size() / 10;
 
         underTest.registerPlayers(mock(Player.class),
@@ -90,7 +90,7 @@ class GameMediatorTest {
     @Test
     @DisplayName("deals 6 cards to each player")
     void dealsSixCardsToEachPlayer() {
-        LinkedList<WhotCardWithNumberAndShape> cards = WhotCardDeck.getCards();
+        Deque<WhotCardWithNumberAndShape> cards = WhotCardDeck.getCards();
         int deckSizeBeforeDeal = cards.size();
 
         WhotCardWithNumberAndShape[] ts = cards.toArray(new WhotCardWithNumberAndShape[]{});
@@ -147,7 +147,7 @@ class GameMediatorTest {
     @Test
     @DisplayName("can update the Board's play pile")
     void updateBoardPlayPile() {
-        LinkedList<WhotCardWithNumberAndShape> whotCards = WhotCardDeck.getCards();
+        Deque<WhotCardWithNumberAndShape> whotCards = WhotCardDeck.getCards();
         WhotCardWithNumberAndShape first = whotCards.getFirst();
 
         Board board = mock(Board.class);
@@ -163,7 +163,7 @@ class GameMediatorTest {
     @Test
     @DisplayName("can update the Board's draw pile")
     void updateBoardDrawPile() {
-        LinkedList<WhotCardWithNumberAndShape> whotCards = WhotCardDeck.getCards();
+        Deque<WhotCardWithNumberAndShape> whotCards = WhotCardDeck.getCards();
         Board board = mock(Board.class);
 
         underTest.registerBoard(board);

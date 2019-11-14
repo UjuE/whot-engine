@@ -3,14 +3,14 @@ package pink.digitally.games.whot.whotcore;
 import pink.digitally.games.whot.state.GameState;
 import pink.digitally.games.whot.whotcore.events.handler.StandardRulesPlayEventHandler;
 
-import java.util.LinkedList;
+import java.util.Deque;
 import java.util.List;
 import java.util.Optional;
 
 import static java.util.Arrays.asList;
 
 public class WhotGamePlay {
-    private final LinkedList<WhotCardWithNumberAndShape> cards;
+    private final Deque<WhotCardWithNumberAndShape> cards;
     private final List<Player> players;
     private final GameMediator gameMediator;
     private final Board board;
@@ -62,7 +62,7 @@ public class WhotGamePlay {
 
     public static class Builder {
         private List<Player> players;
-        private LinkedList<WhotCardWithNumberAndShape> cards;
+        private Deque<WhotCardWithNumberAndShape> cards;
         private GameMediator gameMediator;
         private Board board;
         private GameStateObserver gameStateObserver;
