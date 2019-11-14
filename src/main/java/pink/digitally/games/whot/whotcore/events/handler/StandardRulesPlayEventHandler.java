@@ -14,10 +14,11 @@ import java.util.stream.Stream;
 
 import static pink.digitally.games.whot.whotcore.events.PlayerEventType.PLAY_CARD;
 import static pink.digitally.games.whot.whotcore.events.PlayerEventType.TAKE_CARD;
-import static pink.digitally.games.whot.whotcore.events.action.PlayEventActionFactory.playActionWithBasicRules;
+import static pink.digitally.games.whot.whotcore.events.action.PlayEventActionFactory.playActionWithStandardRules;
 import static pink.digitally.games.whot.whotcore.events.action.PlayEventActionFactory.takeCardAction;
 
-public class NoRulesPlayEventHandler implements PlayEventHandler {
+public class StandardRulesPlayEventHandler implements PlayEventHandler {
+
     @Override
     public Either<ErrorMessage, Deque<Player>> handle(PlayerEvent playerEvent,
                                                       Player currentPlayer,
@@ -30,7 +31,7 @@ public class NoRulesPlayEventHandler implements PlayEventHandler {
     }
 
     private enum PlayEventHandlerAction {
-        PLAY_CARD_EVENT_HANDLER(PLAY_CARD, playActionWithBasicRules()),
+        PLAY_CARD_EVENT_HANDLER(PLAY_CARD, playActionWithStandardRules()),
         TAKE_CARD_EVENT_HANDLER(TAKE_CARD, takeCardAction());
 
         private final PlayerEventType eventType;
@@ -49,4 +50,5 @@ public class NoRulesPlayEventHandler implements PlayEventHandler {
                     .orElseThrow(() -> new UnsupportedOperationException("Get rid of this"));
         }
     }
+
 }

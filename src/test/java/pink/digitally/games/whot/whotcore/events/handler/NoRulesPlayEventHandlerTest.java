@@ -5,6 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import pink.digitally.games.whot.whotcore.Board;
+import pink.digitally.games.whot.whotcore.GameStateObserver;
 import pink.digitally.games.whot.whotcore.Player;
 import pink.digitally.games.whot.whotcore.WhotCard;
 import pink.digitally.games.whot.whotcore.WhotNumber;
@@ -40,11 +41,12 @@ class NoRulesPlayEventHandlerTest {
         Player firstPlayer = mock(Player.class);
         Player secondPlayer = mock(Player.class);
         Board board = mock(Board.class);
+        GameStateObserver gameStateObserver = mock(GameStateObserver.class);
         WhotCard cardPlayed = WhotCard.whotCard(WhotNumber.EIGHT, WhotShape.CIRCLE);
 
         when(board.getTopOfPlayPile()).thenReturn(WhotCard.whotCard(WhotNumber.THIRTEEN, WhotShape.CIRCLE));
         Either<ErrorMessage, Deque<Player>> actualPlayers = underTest.handle(new PlayCardPlayerEvent(cardPlayed),
-                firstPlayer, new LinkedList<>(asList(firstPlayer, secondPlayer)), board);
+                firstPlayer, new LinkedList<>(asList(firstPlayer, secondPlayer)), board, gameStateObserver);
 
         assertAll(
                 () -> assertTrue(actualPlayers.isRight()),
@@ -62,11 +64,12 @@ class NoRulesPlayEventHandlerTest {
         Player secondPlayer = mock(Player.class);
         Board board = mock(Board.class);
         WhotCard cardTaken = mock(WhotCard.class);
+        GameStateObserver gameStateObserver = mock(GameStateObserver.class);
 
         when(board.takeFromDrawPile()).thenReturn(cardTaken);
 
         Either<ErrorMessage, Deque<Player>> actualPlayers = underTest.handle(new TakeCardPlayerEvent(),
-                firstPlayer, new LinkedList<>(asList(firstPlayer, secondPlayer)), board);
+                firstPlayer, new LinkedList<>(asList(firstPlayer, secondPlayer)), board, gameStateObserver);
 
         assertAll(
                 () -> assertTrue(actualPlayers.isRight()),

@@ -128,14 +128,16 @@ class GameMediatorTest {
         Player secondPlayer = mock(Player.class);
         PlayerEvent playerEvent = mock(PlayerEvent.class);
         Board board = mock(Board.class);
+        GameStateObserver gameStateObserver = mock(GameStateObserver.class);
         LinkedList<Player> playersWithFirstPlayeNext = new LinkedList<>(asList(firstPlayer, secondPlayer));
 
 
         when(playEventHandler.handle(eq(playerEvent), eq(firstPlayer),
-                eq(playersWithFirstPlayeNext), any(Board.class)))
+                eq(playersWithFirstPlayeNext), any(Board.class), eq(gameStateObserver)))
                 .thenReturn(Either.right(new LinkedList<>(asList(secondPlayer, firstPlayer))));
 
         underTest.registerBoard(board);
+        underTest.registerGameStateObserver(gameStateObserver);
         underTest.registerPlayers(firstPlayer, secondPlayer);
         underTest.play(firstPlayer, playerEvent);
 
@@ -183,7 +185,7 @@ class GameMediatorTest {
         underTest.play(secondPlayer, playerEvent);
 
         verify(playEventHandler, times(0))
-                .handle(any(), any(), any(), any());
+                .handle(any(), any(), any(), any(), any());
     }
 
     @Test
@@ -197,7 +199,7 @@ class GameMediatorTest {
 
         LinkedList<Player> allPlayers = new LinkedList<>(asList(firstPlayer, secondPlayer));
 
-        when(playEventHandler.handle(playerEvent, firstPlayer, allPlayers, board))
+        when(playEventHandler.handle(playerEvent, firstPlayer, allPlayers, board, gameObserver))
                 .thenReturn(Either.right(allPlayers));
 
         when(firstPlayer.getCards())
@@ -223,7 +225,7 @@ class GameMediatorTest {
 
         LinkedList<Player> allPlayers = new LinkedList<>(asList(firstPlayer, secondPlayer));
 
-        when(playEventHandler.handle(playerEvent, firstPlayer, allPlayers, board))
+        when(playEventHandler.handle(playerEvent, firstPlayer, allPlayers, board, gameObserver))
                 .thenReturn(Either.left(someError));
 
         when(firstPlayer.getCards())

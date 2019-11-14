@@ -80,7 +80,7 @@ public class GameMediator {
 
         if (validator.isValid()) {
             Either<ErrorMessage, Void> playResult = playEventHandler
-                    .handle(playerEvent, player, players, board)
+                    .handle(playerEvent, player, players, board, gameStateObserver)
                     .map(newPlayersOrdering -> applyNewState(player, newPlayersOrdering));
             handlePossibleError(player, playResult);
         }

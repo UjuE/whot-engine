@@ -4,7 +4,9 @@ import io.vavr.control.Either;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import pink.digitally.games.whot.playrule.GamePlayRuleDeterminer;
 import pink.digitally.games.whot.whotcore.Board;
+import pink.digitally.games.whot.whotcore.GameStateObserver;
 import pink.digitally.games.whot.whotcore.Player;
 import pink.digitally.games.whot.whotcore.WhotCard;
 import pink.digitally.games.whot.whotcore.WhotNumber;
@@ -22,14 +24,14 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-@DisplayName("Play Action")
-class NoRulesPlayCardActionTest {
+@DisplayName("Play Action with no rules should")
+class PlayCardActionWithNoRulesTest {
 
-    private NoRulesPlayCardAction underTest;
+    private PlayCardAction underTest;
 
     @BeforeEach
     void setUp() {
-        underTest = new NoRulesPlayCardAction();
+        underTest = new PlayCardAction(new GamePlayRuleDeterminer());
     }
 
     @Test
@@ -40,12 +42,13 @@ class NoRulesPlayCardActionTest {
         Player playerTwo = mock(Player.class);
         LinkedList<Player> allPlayers = new LinkedList<>(asList(playerOne, playerTwo));
         Board board = mock(Board.class);
+        GameStateObserver gameStateObserver = mock(GameStateObserver.class);
 
         when(board.getTopOfPlayPile()).thenReturn(WhotCard.whotCard(WhotNumber.EIGHT, WhotShape.CIRCLE));
         Either<ErrorMessage, Deque<Player>> actualPlayers = underTest.handle(Optional.of(playedCard),
                 playerOne,
                 allPlayers,
-                board);
+                board, gameStateObserver);
 
         verify(board).addToPlayPile(playedCard);
         assertEquals(playerTwo, actualPlayers.get().peekFirst(), "Expected playerTwo's turn to begin");
@@ -59,12 +62,13 @@ class NoRulesPlayCardActionTest {
         Player playerTwo = mock(Player.class);
         LinkedList<Player> allPlayers = new LinkedList<>(asList(playerOne, playerTwo));
         Board board = mock(Board.class);
+        GameStateObserver gameStateObserver = mock(GameStateObserver.class);
 
         when(board.getTopOfPlayPile()).thenReturn(WhotCard.whotCard(WhotNumber.FOUR, WhotShape.SQUARE));
         Either<ErrorMessage, Deque<Player>> actualPlayers = underTest.handle(Optional.of(playedCard),
                 playerOne,
                 allPlayers,
-                board);
+                board, gameStateObserver);
 
         verify(board).addToPlayPile(playedCard);
         assertEquals(playerTwo, actualPlayers.get().peekFirst(), "Expected playerTwo's turn to begin");
@@ -78,12 +82,13 @@ class NoRulesPlayCardActionTest {
         Player playerTwo = mock(Player.class);
         LinkedList<Player> allPlayers = new LinkedList<>(asList(playerOne, playerTwo));
         Board board = mock(Board.class);
+        GameStateObserver gameStateObserver = mock(GameStateObserver.class);
 
         when(board.getTopOfPlayPile()).thenReturn(WhotCard.whotCard(WhotNumber.FOUR, WhotShape.CIRCLE));
         Either<ErrorMessage, Deque<Player>> result = underTest.handle(Optional.of(playedCard),
                 playerOne,
                 allPlayers,
-                board);
+                board, gameStateObserver);
 
         verify(board, times(0)).addToPlayPile(playedCard);
         assertEquals("Invalid play. Played 'WhotCard{shape=SQUARE, number=EIGHT}'" +
@@ -99,31 +104,33 @@ class NoRulesPlayCardActionTest {
         Player playerTwo = mock(Player.class);
         LinkedList<Player> allPlayers = new LinkedList<>(asList(playerOne, playerTwo));
         Board board = mock(Board.class);
+        GameStateObserver gameStateObserver = mock(GameStateObserver.class);
 
         when(board.getTopOfPlayPile()).thenReturn(WhotCard.whotCard(WhotNumber.FOUR, WhotShape.CIRCLE));
         Either<ErrorMessage, Deque<Player>> actualPlayers = underTest.handle(Optional.of(playedCard),
                 playerOne,
                 allPlayers,
-                board);
+                board, gameStateObserver);
 
         verify(board).addToPlayPile(playedCard);
         assertEquals(playerTwo, actualPlayers.get().peekFirst(), "Expected playerTwo's turn to begin");
     }
 
     @Test
-    public void whotCardCanAlwaysBePlayedOn() {
+    void whotCardCanAlwaysBePlayedOn() {
         WhotCard playedCard = WhotCard.whotCard(WhotNumber.EIGHT, WhotShape.SQUARE);
 
         Player playerOne = mock(Player.class);
         Player playerTwo = mock(Player.class);
         LinkedList<Player> allPlayers = new LinkedList<>(asList(playerOne, playerTwo));
         Board board = mock(Board.class);
+        GameStateObserver gameStateObserver = mock(GameStateObserver.class);
 
         when(board.getTopOfPlayPile()).thenReturn(WhotCard.whotCard(WhotNumber.TWENTY, WhotShape.WHOT));
         Either<ErrorMessage, Deque<Player>> actualPlayers = underTest.handle(Optional.of(playedCard),
                 playerOne,
                 allPlayers,
-                board);
+                board, gameStateObserver);
 
 
         verify(board).addToPlayPile(playedCard);
