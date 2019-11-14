@@ -1,11 +1,11 @@
 package pink.digitally.games.whot.acceptance.actors;
 
-import pink.digitally.games.whot.playrule.SpecialCardPlayedEvent;
 import pink.digitally.games.whot.state.GameState;
 import pink.digitally.games.whot.whotcore.Board;
 import pink.digitally.games.whot.whotcore.GameStateObserver;
 import pink.digitally.games.whot.whotcore.Player;
 import pink.digitally.games.whot.whotcore.error.ErrorMessage;
+import pink.digitally.games.whot.whotcore.playrule.SpecialCardPlayedEvent;
 
 import java.util.Collection;
 

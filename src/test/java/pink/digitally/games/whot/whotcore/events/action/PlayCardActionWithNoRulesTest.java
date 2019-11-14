@@ -4,7 +4,6 @@ import io.vavr.control.Either;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import pink.digitally.games.whot.playrule.GamePlayRuleDeterminer;
 import pink.digitally.games.whot.whotcore.Board;
 import pink.digitally.games.whot.whotcore.GameStateObserver;
 import pink.digitally.games.whot.whotcore.Player;
@@ -12,6 +11,7 @@ import pink.digitally.games.whot.whotcore.WhotCard;
 import pink.digitally.games.whot.whotcore.WhotNumber;
 import pink.digitally.games.whot.whotcore.WhotShape;
 import pink.digitally.games.whot.whotcore.error.ErrorMessage;
+import pink.digitally.games.whot.whotcore.playrule.GamePlayRuleDeterminer;
 
 import java.util.Deque;
 import java.util.LinkedList;

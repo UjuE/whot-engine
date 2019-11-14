@@ -1,4 +1,4 @@
-package pink.digitally.games.whot.playrule;
+package pink.digitally.games.whot.whotcore.playrule;
 
 import pink.digitally.games.whot.whotcore.Board;
 import pink.digitally.games.whot.whotcore.GameStateObserver;
@@ -9,24 +9,31 @@ import pink.digitally.games.whot.whotcore.WhotNumber;
 import java.util.Deque;
 import java.util.Optional;
 
-public class HoldOnGamePlayRule implements GamePlayRule {
+public class SuspensionGamePlayRule implements GamePlayRule {
     @Override
     public String getDescription() {
-        return "HOLD ON Current player gets another turn";
+        return "SUSPENSION Next player skips a turn";
     }
 
     @Override
     public boolean cardMatches(WhotCardWithNumberAndShape whotCardWithNumberAndShape) {
-        return WhotNumber.ONE.equals(whotCardWithNumberAndShape.getNumber());
+        return WhotNumber.EIGHT.equals(whotCardWithNumberAndShape.getNumber());
     }
 
     @Override
     public Deque<Player> play(WhotCardWithNumberAndShape whotCard, Player currentPlayer, Deque<Player> allPlayers, Board board, GameStateObserver gameStateObserver) {
         board.addToPlayPile(whotCard);
-
         currentPlayer.getCards().remove(whotCard);
+
         Optional.ofNullable(gameStateObserver)
-                .ifPresent(it -> it.onSpecialCardPlayed(currentPlayer, SpecialCardPlayedEvent.HOLD_ON));
+                .ifPresent(it -> it.onSpecialCardPlayed(currentPlayer, SpecialCardPlayedEvent.SUSPENSION));
+
+        Player theCurrentPlayer = allPlayers.removeFirst();
+        Player theSkippedNexPlayer = allPlayers.removeFirst();
+
+        allPlayers.addLast(theCurrentPlayer);
+        allPlayers.addLast(theSkippedNexPlayer);
+
         return allPlayers;
     }
 }

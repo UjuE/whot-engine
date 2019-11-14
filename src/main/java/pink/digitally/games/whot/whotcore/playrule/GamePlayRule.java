@@ -1,4 +1,4 @@
-package pink.digitally.games.whot.playrule;
+package pink.digitally.games.whot.whotcore.playrule;
 
 import pink.digitally.games.whot.whotcore.Board;
 import pink.digitally.games.whot.whotcore.GameStateObserver;

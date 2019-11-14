@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -42,7 +43,7 @@ public enum WhotCardDeck {
         this.numberOfOccurancesEach = numberOfOccurancesEach;
     }
 
-    public static List<WhotCard> getCardsWithNumber(WhotNumber whotNumber) {
+    static List<WhotCard> getCardsWithNumber(WhotNumber whotNumber) {
         List<WhotCard> whotCardDetails = new ArrayList<>();
         WhotCardDeck whotCardDeck = Stream.of(values())
                 .filter(it -> whotNumber.equals(it.whotNumber))
@@ -60,7 +61,7 @@ public enum WhotCardDeck {
         return whotCardDetails;
     }
 
-    public static LinkedList<WhotCardWithNumberAndShape> getCards() {
+    public static Queue<WhotCardWithNumberAndShape> getCards() {
         return Stream.of(values())
                 .flatMap(it -> WhotCardDeck.getCardsWithNumber(it.whotNumber).stream())
                 .collect(Collectors.toCollection(LinkedList::new));

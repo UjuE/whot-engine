@@ -1,4 +1,4 @@
-package pink.digitally.games.whot.playrule;
+package pink.digitally.games.whot.whotcore.playrule;
 
 public enum SpecialCardPlayedEvent {
     PICK_TWO("The next player will pick 2"),

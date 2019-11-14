@@ -1,21 +1,23 @@
-package pink.digitally.games.whot.playrule;
+package pink.digitally.games.whot.whotcore.playrule;
 
 import pink.digitally.games.whot.whotcore.Board;
 import pink.digitally.games.whot.whotcore.GameStateObserver;
 import pink.digitally.games.whot.whotcore.Player;
 import pink.digitally.games.whot.whotcore.WhotCardWithNumberAndShape;
+import pink.digitally.games.whot.whotcore.WhotNumber;
 
 import java.util.Deque;
+import java.util.Optional;
 
-public class DefaultGamePlayRule implements GamePlayRule {
+public class HoldOnGamePlayRule implements GamePlayRule {
     @Override
     public String getDescription() {
-        return "Default Rules";
+        return "HOLD ON Current player gets another turn";
     }
 
     @Override
     public boolean cardMatches(WhotCardWithNumberAndShape whotCardWithNumberAndShape) {
-        return true;
+        return WhotNumber.ONE.equals(whotCardWithNumberAndShape.getNumber());
     }
 
     @Override
@@ -23,10 +25,8 @@ public class DefaultGamePlayRule implements GamePlayRule {
         board.addToPlayPile(whotCard);
 
         currentPlayer.getCards().remove(whotCard);
-
-        allPlayers.remove(currentPlayer);
-        allPlayers.addLast(currentPlayer);
-
+        Optional.ofNullable(gameStateObserver)
+                .ifPresent(it -> it.onSpecialCardPlayed(currentPlayer, SpecialCardPlayedEvent.HOLD_ON));
         return allPlayers;
     }
 }

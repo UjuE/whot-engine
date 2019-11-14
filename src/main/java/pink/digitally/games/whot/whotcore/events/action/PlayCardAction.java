@@ -1,12 +1,12 @@
 package pink.digitally.games.whot.whotcore.events.action;
 
 import io.vavr.control.Either;
-import pink.digitally.games.whot.playrule.GamePlayRuleDeterminer;
 import pink.digitally.games.whot.whotcore.Board;
 import pink.digitally.games.whot.whotcore.GameStateObserver;
 import pink.digitally.games.whot.whotcore.Player;
 import pink.digitally.games.whot.whotcore.WhotCardWithNumberAndShape;
 import pink.digitally.games.whot.whotcore.error.ErrorMessage;
+import pink.digitally.games.whot.whotcore.playrule.GamePlayRuleDeterminer;
 
 import java.util.Deque;
 import java.util.Optional;
