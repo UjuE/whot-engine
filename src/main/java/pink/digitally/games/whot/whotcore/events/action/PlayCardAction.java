@@ -27,18 +27,19 @@ class PlayCardAction implements PlayerEventAction {
                                                       Board board,
                                                       GameStateObserver gameStateObserver) {
         return whotCard
-                .map(card -> processTheCard(card, currentPlayer, allPlayers, board))
+                .map(card -> processTheCard(card, currentPlayer, allPlayers, board, gameStateObserver))
                 .orElseThrow(() -> new UnsupportedOperationException("This should be fixed!!"));
     }
 
     private Either<ErrorMessage, Deque<Player>> processTheCard(WhotCardWithNumberAndShape whotCard,
                                                                Player currentPlayer,
                                                                Deque<Player> allPlayers,
-                                                               Board board) {
+                                                               Board board,
+                                                               GameStateObserver gameStateObserver) {
         WhotCardWithNumberAndShape topOfPlayPile = board.getTopOfPlayPile();
         if (isValidPlay(whotCard, topOfPlayPile)) {
             Deque<Player> players = gamePlayRuleDeterminer.determineRuleToApply(whotCard)
-                    .play(whotCard, currentPlayer, allPlayers, board);
+                    .play(whotCard, currentPlayer, allPlayers, board, gameStateObserver);
             return Either.right(players);
         }
         return Either.left(new ErrorMessage(String.format("Invalid play. Played '%s' on Play Pile with '%s'", whotCard, topOfPlayPile)));

@@ -50,7 +50,7 @@ class PlayCardActionRulesTest {
         GamePlayRule gamePlayRule = mock(GamePlayRule.class);
 
         when(gamePlayRuleDeterminer.determineRuleToApply(any())).thenReturn(gamePlayRule);
-        when(gamePlayRule.play(any(), any(), any(), any())).thenReturn(allPlayers);
+        when(gamePlayRule.play(any(), any(), any(), any(), gameStateObserver)).thenReturn(allPlayers);
 
         when(board.getTopOfPlayPile()).thenReturn(WhotCard.whotCard(WhotNumber.EIGHT, WhotShape.CIRCLE));
         Either<ErrorMessage, Deque<Player>> actualPlayers = underTest.handle(Optional.of(playedCard),
@@ -59,7 +59,7 @@ class PlayCardActionRulesTest {
                 board, gameStateObserver);
 
         verify(gamePlayRuleDeterminer, times(1)).determineRuleToApply(playedCard);
-        verify(gamePlayRule, times(1)).play(playedCard, playerOne, allPlayers, board);
+        verify(gamePlayRule, times(1)).play(playedCard, playerOne, allPlayers, board, gameStateObserver);
         assertEquals(allPlayers, actualPlayers.get(), "Expected the list returned from gamePlayRuleDeterminer");
     }
 }

@@ -1,6 +1,7 @@
 package pink.digitally.games.whot.playrule;
 
 import pink.digitally.games.whot.whotcore.Board;
+import pink.digitally.games.whot.whotcore.GameStateObserver;
 import pink.digitally.games.whot.whotcore.Player;
 import pink.digitally.games.whot.whotcore.WhotCardWithNumberAndShape;
 
@@ -12,5 +13,5 @@ public interface GamePlayRule {
     Deque<Player> play(WhotCardWithNumberAndShape whotCard,
                        Player currentPlayer,
                        Deque<Player> allPlayers,
-                       Board board);
+                       Board board, GameStateObserver gameStateObserver);
 }

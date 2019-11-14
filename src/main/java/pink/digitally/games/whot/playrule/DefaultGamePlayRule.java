@@ -1,6 +1,7 @@
 package pink.digitally.games.whot.playrule;
 
 import pink.digitally.games.whot.whotcore.Board;
+import pink.digitally.games.whot.whotcore.GameStateObserver;
 import pink.digitally.games.whot.whotcore.Player;
 import pink.digitally.games.whot.whotcore.WhotCardWithNumberAndShape;
 
@@ -18,7 +19,7 @@ public class DefaultGamePlayRule implements GamePlayRule {
     }
 
     @Override
-    public Deque<Player> play(WhotCardWithNumberAndShape whotCard, Player currentPlayer, Deque<Player> allPlayers, Board board) {
+    public Deque<Player> play(WhotCardWithNumberAndShape whotCard, Player currentPlayer, Deque<Player> allPlayers, Board board, GameStateObserver gameStateObserver) {
         board.addToPlayPile(whotCard);
 
         currentPlayer.getCards().remove(whotCard);

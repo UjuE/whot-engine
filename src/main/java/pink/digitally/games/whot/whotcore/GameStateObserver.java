@@ -1,5 +1,6 @@
 package pink.digitally.games.whot.whotcore;
 
+import pink.digitally.games.whot.playrule.SpecialCardPlayedEvent;
 import pink.digitally.games.whot.state.GameState;
 import pink.digitally.games.whot.whotcore.error.ErrorMessage;
 
@@ -11,4 +12,5 @@ public interface GameStateObserver {
      void onPlayerTurn(Player player, Board board);
      GameState getCurrentGameState();
      void onInvalidPlay(Player player, Board board, ErrorMessage errorMessage);
+     void onSpecialCardPlayed(Player player, SpecialCardPlayedEvent specialCardPlayedEvent);
 }

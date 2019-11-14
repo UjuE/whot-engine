@@ -1,5 +1,6 @@
 package pink.digitally.games.whot.acceptance.actors;
 
+import pink.digitally.games.whot.playrule.SpecialCardPlayedEvent;
 import pink.digitally.games.whot.state.GameState;
 import pink.digitally.games.whot.whotcore.Board;
 import pink.digitally.games.whot.whotcore.GameStateObserver;
@@ -40,6 +41,11 @@ public class GameObserverActor implements GameStateObserver {
 
     @Override
     public void onInvalidPlay(Player player, Board board, ErrorMessage errorMessage) {
+
+    }
+
+    @Override
+    public void onSpecialCardPlayed(Player player, SpecialCardPlayedEvent specialCardPlayedEvent) {
 
     }
 
