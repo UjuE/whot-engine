@@ -1,5 +1,6 @@
 package pink.digitally.games.whot.whotcore.events.action;
 
+import pink.digitally.games.whot.whotcore.playrule.AdvancedPickTwoGamePlayRule;
 import pink.digitally.games.whot.whotcore.playrule.GamePlayRule;
 import pink.digitally.games.whot.whotcore.playrule.GamePlayRuleDeterminer;
 import pink.digitally.games.whot.whotcore.playrule.GeneralMarketGamePlayRule;
@@ -50,7 +51,7 @@ public class PlayEventActionFactory {
     private static Collection<GamePlayRule> advancedRules() {
         return asList(
                 new HoldOnGamePlayRule(),
-                new PickTwoGamePlayRule(true),
+                new AdvancedPickTwoGamePlayRule(),
                 new SuspensionGamePlayRule(),
                 new GeneralMarketGamePlayRule(),
                 new WhotGamePlayRule()
