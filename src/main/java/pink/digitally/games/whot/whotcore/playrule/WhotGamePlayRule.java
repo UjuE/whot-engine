@@ -30,6 +30,8 @@ public class WhotGamePlayRule implements GamePlayRule {
                               GameMediator gameMediator) {
         board.addToPlayPile(whotCard);
         currentPlayer.getCards().remove(whotCard);
+        gameMediator.resetTakeCount();
+        gameMediator.resetNextPlayEventValidation();
         return allPlayers;
     }
 }

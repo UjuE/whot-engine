@@ -31,7 +31,7 @@ public class GameObserverActor implements GameStateObserver {
 
     @Override
     public void onPlayerTurn(Player player, Board board) {
-        //LOG Player
+
     }
 
     @Override

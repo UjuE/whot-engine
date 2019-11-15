@@ -100,6 +100,33 @@ class AdvancedRulesPlayGameTest extends AcceptanceTestBase {
         );
     }
 
+    @Test
+    void whotBlocksItAll() {
+        givenThereIsAWhotGame();
+        andTheGameMediatorWillDeal(Arrays.asList(whotCard(WhotNumber.FIVE, WhotShape.SQUARE),
+                whotCard(WhotNumber.TWO, WhotShape.SQUARE)), ngozi);
+
+        andTheGameMediatorWillDeal(Arrays.asList(whotCard(WhotNumber.EIGHT, WhotShape.TRIANGLE),
+                whotCard(WhotNumber.TWO, WhotShape.STAR)), emeka);
+
+        andTheGameMediatorWillDeal(Arrays.asList(whotCard(WhotNumber.TWENTY, WhotShape.WHOT),
+                whotCard(WhotNumber.EIGHT, WhotShape.STAR),whotCard(WhotNumber.TEN, WhotShape.CIRCLE)), ada);
+
+        andTheTopOfPlayPileIs(whotCard(WhotNumber.EIGHT, WhotShape.SQUARE));
+
+        andTheGameHasStarted();
+
+        whenPlayerPlays(ngozi, whotCard(WhotNumber.TWO, WhotShape.SQUARE));
+        whenPlayerPlays(emeka, whotCard(WhotNumber.FIVE, WhotShape.SQUARE));
+        whenPlayerPlays(ada, whotCard(WhotNumber.TWENTY, WhotShape.WHOT));
+        whenPlayerPlays(ada, whotCard(WhotNumber.TEN, WhotShape.CIRCLE));
+
+        assertAll(
+                () -> assertEquals(1, ada.getCards().size()),
+                () -> assertEquals(onyinye.getPlayerName(), whotGamePlay.nextPlayer().getPlayerName())
+        );
+    }
+
     @Override
     PlayEventHandler playEventHandler() {
         return new AdvancedRulesPlayEventHandler();
