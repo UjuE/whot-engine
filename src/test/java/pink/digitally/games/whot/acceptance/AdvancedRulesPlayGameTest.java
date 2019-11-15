@@ -10,6 +10,7 @@ import pink.digitally.games.whot.whotcore.events.handler.PlayEventHandler;
 import java.util.Arrays;
 import java.util.Collections;
 
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static pink.digitally.games.whot.whotcore.WhotCard.whotCard;
 
@@ -72,6 +73,31 @@ class AdvancedRulesPlayGameTest extends AcceptanceTestBase {
 
         assertEquals(5, emeka.getCards().size());
         assertEquals(ada.getPlayerName(), whotGamePlay.nextPlayer().getPlayerName());
+    }
+
+    @Test
+    void fiveAddsToTwo() {
+        givenThereIsAWhotGame();
+        andTheGameMediatorWillDeal(Arrays.asList(whotCard(WhotNumber.FIVE, WhotShape.SQUARE),
+                whotCard(WhotNumber.TWO, WhotShape.SQUARE)), ngozi);
+
+        andTheGameMediatorWillDeal(Arrays.asList(whotCard(WhotNumber.EIGHT, WhotShape.TRIANGLE),
+                whotCard(WhotNumber.TWO, WhotShape.STAR)), emeka);
+
+        andTheGameMediatorWillDeal(Collections.singletonList(whotCard(WhotNumber.TEN, WhotShape.CROSS)), ada);
+
+        andTheTopOfPlayPileIs(whotCard(WhotNumber.EIGHT, WhotShape.SQUARE));
+
+        andTheGameHasStarted();
+
+        whenPlayerPlays(ngozi, whotCard(WhotNumber.TWO, WhotShape.SQUARE));
+        whenPlayerPlays(emeka, whotCard(WhotNumber.FIVE, WhotShape.SQUARE));
+        whenPlayerTakesCard(ada);
+
+        assertAll(
+                () -> assertEquals(6, ada.getCards().size()),
+                () -> assertEquals(onyinye.getPlayerName(), whotGamePlay.nextPlayer().getPlayerName())
+        );
     }
 
     @Override

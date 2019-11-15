@@ -6,7 +6,7 @@ import pink.digitally.games.whot.whotcore.GameStateObserver;
 import pink.digitally.games.whot.whotcore.Player;
 import pink.digitally.games.whot.whotcore.WhotCardWithNumberAndShape;
 import pink.digitally.games.whot.whotcore.validation.OrValidator;
-import pink.digitally.games.whot.whotcore.validation.PlayCardWithNumberEventValidator;
+import pink.digitally.games.whot.whotcore.validation.PlayBlockerCardEventValidator;
 import pink.digitally.games.whot.whotcore.validation.TakeCardEventValidator;
 
 import java.util.Deque;
@@ -45,7 +45,7 @@ public class AdvancedPickTwoGamePlayRule implements GamePlayRule {
 
         gameMediator.addTakeCardCount(2);
         gameMediator.nextPlayerValidation(
-                new OrValidator<>(asList(new PlayCardWithNumberEventValidator(TWO),
+                new OrValidator<>(asList(new PlayBlockerCardEventValidator(),
                         new TakeCardEventValidator())));
 
 
