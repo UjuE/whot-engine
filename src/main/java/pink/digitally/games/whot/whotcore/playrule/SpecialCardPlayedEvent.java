@@ -4,7 +4,8 @@ public enum SpecialCardPlayedEvent {
     PICK_TWO("The next player will pick 2"),
     GENERAL_MARKET("All other players will pick a card"),
     HOLD_ON("The current player gets another turn"),
-    SUSPENSION("The next Player will skip a turn");
+    SUSPENSION("The next Player will skip a turn"),
+    PICK_THREE("The next player will pick 3");
 
     private final String description;
 

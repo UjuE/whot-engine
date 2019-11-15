@@ -54,6 +54,26 @@ class AdvancedRulesPlayGameTest extends AcceptanceTestBase {
         assertEquals(emeka.getPlayerName(), whotGamePlay.nextPlayer().getPlayerName());
     }
 
+    @Test
+    void fiveIsTakeThree() {
+        givenThereIsAWhotGame();
+        andTheGameMediatorWillDeal(Arrays.asList(whotCard(WhotNumber.ONE, WhotShape.SQUARE),
+                whotCard(WhotNumber.FIVE, WhotShape.SQUARE)), ngozi);
+
+        andTheGameMediatorWillDeal(Arrays.asList(whotCard(WhotNumber.EIGHT, WhotShape.TRIANGLE),
+                whotCard(WhotNumber.TWO, WhotShape.STAR)), emeka);
+
+        andTheTopOfPlayPileIs(whotCard(WhotNumber.EIGHT, WhotShape.SQUARE));
+
+        andTheGameHasStarted();
+
+        whenPlayerPlays(ngozi, whotCard(WhotNumber.FIVE, WhotShape.SQUARE));
+        whenPlayerTakesCard(emeka);
+
+        assertEquals(5, emeka.getCards().size());
+        assertEquals(ada.getPlayerName(), whotGamePlay.nextPlayer().getPlayerName());
+    }
+
     @Override
     PlayEventHandler playEventHandler() {
         return new AdvancedRulesPlayEventHandler();
