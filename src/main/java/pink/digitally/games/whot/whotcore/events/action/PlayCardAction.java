@@ -2,6 +2,7 @@ package pink.digitally.games.whot.whotcore.events.action;
 
 import io.vavr.control.Either;
 import pink.digitally.games.whot.whotcore.Board;
+import pink.digitally.games.whot.whotcore.GameMediator;
 import pink.digitally.games.whot.whotcore.GameStateObserver;
 import pink.digitally.games.whot.whotcore.Player;
 import pink.digitally.games.whot.whotcore.WhotCardWithNumberAndShape;
@@ -25,9 +26,9 @@ class PlayCardAction implements PlayerEventAction {
                                                       Player currentPlayer,
                                                       Deque<Player> allPlayers,
                                                       Board board,
-                                                      GameStateObserver gameStateObserver) {
+                                                      GameStateObserver gameStateObserver, GameMediator gameMediator) {
         return whotCard
-                .map(card -> processTheCard(card, currentPlayer, allPlayers, board, gameStateObserver))
+                .map(card -> processTheCard(card, currentPlayer, allPlayers, board, gameStateObserver, gameMediator))
                 .orElseThrow(() -> new UnsupportedOperationException("This should be fixed!!"));
     }
 
@@ -35,11 +36,12 @@ class PlayCardAction implements PlayerEventAction {
                                                                Player currentPlayer,
                                                                Deque<Player> allPlayers,
                                                                Board board,
-                                                               GameStateObserver gameStateObserver) {
+                                                               GameStateObserver gameStateObserver,
+                                                               GameMediator gameMediator) {
         WhotCardWithNumberAndShape topOfPlayPile = board.getTopOfPlayPile();
         if (isValidPlay(whotCard, topOfPlayPile)) {
             Deque<Player> players = gamePlayRuleDeterminer.determineRuleToApply(whotCard)
-                    .play(whotCard, currentPlayer, allPlayers, board, gameStateObserver);
+                    .play(whotCard, currentPlayer, allPlayers, board, gameStateObserver, gameMediator);
             return Either.right(players);
         }
         return Either.left(new ErrorMessage(String.format("Invalid play. Played '%s' on Play Pile with '%s'", whotCard, topOfPlayPile)));

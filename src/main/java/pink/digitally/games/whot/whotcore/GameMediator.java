@@ -21,8 +21,10 @@ public class GameMediator {
     private static final int MAXIMUM_NUMBER_OF_CARDS_TO_DEAL = 6;
     private final PlayEventHandler playEventHandler;
     private Deque<Player> players;
+    private Validator<PlayerEvent> nextPlayEventValidator = new SimpleValidator.Builder<PlayerEvent>().build();
     private Board board;
     private GameStateObserver gameStateObserver;
+    private int totalTakeCount;
 
     public GameMediator(PlayEventHandler playEventHandler) {
         this.playEventHandler = playEventHandler;
@@ -50,12 +52,13 @@ public class GameMediator {
     }
 
     public Either<String, Void> deal(Deque<WhotCardWithNumberAndShape> cards) {
-        Validator validator = dealValidator(players.size(), cards.size());
+        int numberOfPlayers = players.size();
+        Validator<Integer> validator = dealValidator(cards.size());
 
-        if (validator.isValid()) {
+        if (validator.isValid(numberOfPlayers)) {
             return dealCardsSuccessfully(cards);
         } else {
-            return Either.left(validator.errorMessages().orElse("An Error occurred"));
+            return Either.left(validator.errorMessages(numberOfPlayers).orElse("An Error occurred"));
         }
     }
 
@@ -76,13 +79,18 @@ public class GameMediator {
         SimpleValidator<Player> validator = new SimpleValidator.Builder<Player>()
                 .withFailureConditionAndMessage(thePlayer -> !playersIsNotNullOrEmptyAndIsPlayerTurn(thePlayer),
                         "It is not player's turn")
-                .build(player);
+                .build();
 
-        if (validator.isValid()) {
-            Either<ErrorMessage, Void> playResult = playEventHandler
-                    .handle(playerEvent, player, players, board, gameStateObserver)
-                    .map(newPlayersOrdering -> applyNewState(player, newPlayersOrdering));
-            handlePossibleError(player, playResult);
+        if (validator.isValid(player)) {
+            if(nextPlayEventValidator.isValid(playerEvent)){
+                Either<ErrorMessage, Void> playResult = playEventHandler
+                        .handle(playerEvent, player, players, board, gameStateObserver, this)
+                        .map(newPlayersOrdering -> applyNewState(player, newPlayersOrdering));
+                handlePossibleError(player, playResult);
+            } else {
+                gameStateObserver.onInvalidPlay(player, board, new ErrorMessage(nextPlayEventValidator.errorMessages(playerEvent).orElse("")));
+            }
+
         }
     }
 
@@ -134,8 +142,32 @@ public class GameMediator {
     }
 
     private void handlePossibleError(Player player, Either<ErrorMessage, Void> playResult) {
-        if(playResult.isLeft()){
+        if (playResult.isLeft()) {
             gameStateObserver.onInvalidPlay(player, board, playResult.getLeft());
         }
+    }
+
+    public void addTakeCardCount(int takeCardCount) {
+        totalTakeCount += takeCardCount;
+    }
+
+    public void nextPlayerValidation(Validator<PlayerEvent> validator) {
+        this.nextPlayEventValidator = validator;
+    }
+
+    public Validator<PlayerEvent> getNextPlayerValidation(){
+        return nextPlayEventValidator;
+    }
+
+    public Integer getTotalTakeCount() {
+        return totalTakeCount;
+    }
+
+    public void resetTakeCount() {
+        totalTakeCount = 0;
+    }
+
+    public void resetNextPlayEventValidation(){
+        nextPlayEventValidator = new SimpleValidator.Builder<PlayerEvent>().build();
     }
 }

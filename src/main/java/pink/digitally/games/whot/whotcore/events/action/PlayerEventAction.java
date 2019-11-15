@@ -2,6 +2,7 @@ package pink.digitally.games.whot.whotcore.events.action;
 
 import io.vavr.control.Either;
 import pink.digitally.games.whot.whotcore.Board;
+import pink.digitally.games.whot.whotcore.GameMediator;
 import pink.digitally.games.whot.whotcore.GameStateObserver;
 import pink.digitally.games.whot.whotcore.Player;
 import pink.digitally.games.whot.whotcore.WhotCardWithNumberAndShape;
@@ -15,5 +16,5 @@ public interface PlayerEventAction {
                                                Player currentPlayer,
                                                Deque<Player> allPlayers,
                                                Board board,
-                                               GameStateObserver gameStateObserver);
+                                               GameStateObserver gameStateObserver, GameMediator gameMediator);
 }

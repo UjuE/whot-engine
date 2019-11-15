@@ -11,8 +11,10 @@ import pink.digitally.games.whot.whotcore.error.ErrorMessage;
 import java.util.Deque;
 import java.util.Optional;
 
-class TakeCardAction implements PlayerEventAction {
-    TakeCardAction(){}
+import static java.lang.Math.max;
+
+class AdvancedRuleTakeCardAction implements PlayerEventAction {
+    AdvancedRuleTakeCardAction(){}
     @Override
     public Either<ErrorMessage, Deque<Player>> handle(Optional<WhotCardWithNumberAndShape> whotCard,
                                                       Player currentPlayer,
@@ -20,10 +22,16 @@ class TakeCardAction implements PlayerEventAction {
                                                       Board board,
                                                       GameStateObserver gameStateObserver,
                                                       GameMediator gameMediator) {
-        WhotCardWithNumberAndShape whotCardWithNumberAndShape = board.takeFromDrawPile();
-        currentPlayer.addCard(whotCardWithNumberAndShape);
+
+        for (int i = 0; i < max(gameMediator.getTotalTakeCount(), 1); i++) {
+            WhotCardWithNumberAndShape whotCardWithNumberAndShape = board.takeFromDrawPile();
+            currentPlayer.addCard(whotCardWithNumberAndShape);
+        }
+
         allPlayers.remove(currentPlayer);
         allPlayers.addLast(currentPlayer);
+        gameMediator.resetTakeCount();
+        gameMediator.resetNextPlayEventValidation();
         return Either.right(allPlayers);
     }
 }

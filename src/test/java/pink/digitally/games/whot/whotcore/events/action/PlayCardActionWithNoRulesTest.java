@@ -5,6 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import pink.digitally.games.whot.whotcore.Board;
+import pink.digitally.games.whot.whotcore.GameMediator;
 import pink.digitally.games.whot.whotcore.GameStateObserver;
 import pink.digitally.games.whot.whotcore.Player;
 import pink.digitally.games.whot.whotcore.WhotCard;
@@ -43,12 +44,13 @@ class PlayCardActionWithNoRulesTest {
         LinkedList<Player> allPlayers = new LinkedList<>(asList(playerOne, playerTwo));
         Board board = mock(Board.class);
         GameStateObserver gameStateObserver = mock(GameStateObserver.class);
+        GameMediator gameMediator = mock(GameMediator.class);
 
         when(board.getTopOfPlayPile()).thenReturn(WhotCard.whotCard(WhotNumber.EIGHT, WhotShape.CIRCLE));
         Either<ErrorMessage, Deque<Player>> actualPlayers = underTest.handle(Optional.of(playedCard),
                 playerOne,
                 allPlayers,
-                board, gameStateObserver);
+                board, gameStateObserver, gameMediator);
 
         verify(board).addToPlayPile(playedCard);
         assertEquals(playerTwo, actualPlayers.get().peekFirst(), "Expected playerTwo's turn to begin");
@@ -63,12 +65,13 @@ class PlayCardActionWithNoRulesTest {
         LinkedList<Player> allPlayers = new LinkedList<>(asList(playerOne, playerTwo));
         Board board = mock(Board.class);
         GameStateObserver gameStateObserver = mock(GameStateObserver.class);
+        GameMediator gameMediator = mock(GameMediator.class);
 
         when(board.getTopOfPlayPile()).thenReturn(WhotCard.whotCard(WhotNumber.FOUR, WhotShape.SQUARE));
         Either<ErrorMessage, Deque<Player>> actualPlayers = underTest.handle(Optional.of(playedCard),
                 playerOne,
                 allPlayers,
-                board, gameStateObserver);
+                board, gameStateObserver, gameMediator);
 
         verify(board).addToPlayPile(playedCard);
         assertEquals(playerTwo, actualPlayers.get().peekFirst(), "Expected playerTwo's turn to begin");
@@ -83,12 +86,13 @@ class PlayCardActionWithNoRulesTest {
         LinkedList<Player> allPlayers = new LinkedList<>(asList(playerOne, playerTwo));
         Board board = mock(Board.class);
         GameStateObserver gameStateObserver = mock(GameStateObserver.class);
+        GameMediator gameMediator = mock(GameMediator.class);
 
         when(board.getTopOfPlayPile()).thenReturn(WhotCard.whotCard(WhotNumber.FOUR, WhotShape.CIRCLE));
         Either<ErrorMessage, Deque<Player>> result = underTest.handle(Optional.of(playedCard),
                 playerOne,
                 allPlayers,
-                board, gameStateObserver);
+                board, gameStateObserver, gameMediator);
 
         verify(board, times(0)).addToPlayPile(playedCard);
         assertEquals("Invalid play. Played 'WhotCard{shape=SQUARE, number=EIGHT}'" +
@@ -105,12 +109,13 @@ class PlayCardActionWithNoRulesTest {
         LinkedList<Player> allPlayers = new LinkedList<>(asList(playerOne, playerTwo));
         Board board = mock(Board.class);
         GameStateObserver gameStateObserver = mock(GameStateObserver.class);
+        GameMediator gameMediator = mock(GameMediator.class);
 
         when(board.getTopOfPlayPile()).thenReturn(WhotCard.whotCard(WhotNumber.FOUR, WhotShape.CIRCLE));
         Either<ErrorMessage, Deque<Player>> actualPlayers = underTest.handle(Optional.of(playedCard),
                 playerOne,
                 allPlayers,
-                board, gameStateObserver);
+                board, gameStateObserver, gameMediator);
 
         verify(board).addToPlayPile(playedCard);
         assertEquals(playerTwo, actualPlayers.get().peekFirst(), "Expected playerTwo's turn to begin");
@@ -125,12 +130,13 @@ class PlayCardActionWithNoRulesTest {
         LinkedList<Player> allPlayers = new LinkedList<>(asList(playerOne, playerTwo));
         Board board = mock(Board.class);
         GameStateObserver gameStateObserver = mock(GameStateObserver.class);
+        GameMediator gameMediator = mock(GameMediator.class);
 
         when(board.getTopOfPlayPile()).thenReturn(WhotCard.whotCard(WhotNumber.TWENTY, WhotShape.WHOT));
         Either<ErrorMessage, Deque<Player>> actualPlayers = underTest.handle(Optional.of(playedCard),
                 playerOne,
                 allPlayers,
-                board, gameStateObserver);
+                board, gameStateObserver, gameMediator);
 
 
         verify(board).addToPlayPile(playedCard);

@@ -13,12 +13,13 @@ import pink.digitally.games.whot.whotcore.events.handler.PlayEventHandler;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static pink.digitally.games.whot.acceptance.actors.PlayerActor.player;
 
 abstract class AcceptanceTestBase {
     private GameMediatorActor gameMediator;
-    private GameObserverActor gameStateObserver;
+    GameObserverActor gameStateObserver;
+    Player obinna;
+    Player onyinye;
     Player ngozi;
     Player emeka;
     Player ada;
@@ -32,6 +33,8 @@ abstract class AcceptanceTestBase {
 
 
     void givenThereIsAWhotGame() {
+        onyinye = player("Onyinye");
+        obinna = player("Obinna");
         ngozi = player("Ngozi");
         emeka = player("Emeka");
         ada = player("Ada");
@@ -39,7 +42,7 @@ abstract class AcceptanceTestBase {
                 .withBoard(new BoardActor())
                 .withDeckOfCards()
                 .withGameMediator(gameMediator)
-                .withPlayers(ngozi, emeka, ada)
+                .withPlayers(ngozi, emeka, ada, onyinye, obinna)
                 .withGameStateObserver(gameStateObserver)
                 .build();
     }
@@ -62,15 +65,7 @@ abstract class AcceptanceTestBase {
     }
 
 
-    void thenTheNumberOfCardsOfPlayer(Player player, int expectedNumberOfCards) {
-        assertEquals(expectedNumberOfCards, player.getCards().size());
-    }
-
-    void thenTheTopOfThePlayPileIs(WhotCard whotCard) {
-        assertEquals(whotCard, whotGamePlay.getBoard().getPlayPile().getFirst());
-    }
-
-    void whenPlayerTakesACard(Player player) {
+    void whenPlayerTakesCard(Player player) {
         player.play(new TakeCardPlayerEvent());
     }
 

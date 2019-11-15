@@ -13,41 +13,42 @@ import pink.digitally.games.whot.whotcore.events.action.PlayerEventAction;
 import java.util.Deque;
 import java.util.stream.Stream;
 
-import static pink.digitally.games.whot.whotcore.events.PlayerEventType.PLAY_CARD;
-import static pink.digitally.games.whot.whotcore.events.PlayerEventType.TAKE_CARD;
-import static pink.digitally.games.whot.whotcore.events.action.PlayEventActionFactory.playActionWithBasicRules;
-import static pink.digitally.games.whot.whotcore.events.action.PlayEventActionFactory.takeCardAction;
+import static pink.digitally.games.whot.whotcore.events.action.PlayEventActionFactory.advancedTakeCardAction;
+import static pink.digitally.games.whot.whotcore.events.action.PlayEventActionFactory.playActionWithAdvancedRules;
 
-public class NoRulesPlayEventHandler implements PlayEventHandler {
+public class AdvancedRulesPlayEventHandler implements PlayEventHandler {
     @Override
     public Either<ErrorMessage, Deque<Player>> handle(PlayerEvent playerEvent,
                                                       Player currentPlayer,
                                                       Deque<Player> allPlayers,
                                                       Board board,
-                                                      GameStateObserver gameStateObserver, GameMediator gameMediator) {
+                                                      GameStateObserver gameStateObserver,
+                                                      GameMediator gameMediator) {
         return PlayEventHandlerAction
                 .actionFor(playerEvent.getPlayerEventType())
                 .handle(playerEvent.cardToPlay(), currentPlayer, allPlayers, board, gameStateObserver, gameMediator);
     }
 
-    private enum PlayEventHandlerAction {
-        PLAY_CARD_EVENT_HANDLER(PLAY_CARD, playActionWithBasicRules()),
-        TAKE_CARD_EVENT_HANDLER(TAKE_CARD, takeCardAction());
+    private enum PlayEventHandlerAction{
+        TAKE_CARD(PlayerEventType.TAKE_CARD, advancedTakeCardAction()),
+        PLAY_CARD(PlayerEventType.PLAY_CARD, playActionWithAdvancedRules());
 
-        private final PlayerEventType eventType;
-        private final PlayerEventAction playEventAction;
+        private final PlayerEventType playerEventType;
+        private final PlayerEventAction takeCardAction;
 
-        PlayEventHandlerAction(PlayerEventType eventType, PlayerEventAction playEventAction) {
-            this.eventType = eventType;
-            this.playEventAction = playEventAction;
+        PlayEventHandlerAction(PlayerEventType playerEventType, PlayerEventAction takeCardAction) {
+
+            this.playerEventType = playerEventType;
+            this.takeCardAction = takeCardAction;
         }
+
 
         public static PlayerEventAction actionFor(PlayerEventType playerEventType){
             return Stream.of(values())
-                    .filter(it -> it.eventType.equals(playerEventType))
-                    .map(it -> it.playEventAction)
+                    .filter(it -> playerEventType.equals(it.playerEventType))
                     .findFirst()
-                    .orElseThrow(() -> new UnsupportedOperationException("Get rid of this"));
+                    .map(it -> it.takeCardAction)
+                    .orElseThrow(() -> new UnsupportedOperationException("How did this happen"));
         }
     }
 }

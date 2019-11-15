@@ -133,7 +133,7 @@ class GameMediatorTest {
 
 
         when(playEventHandler.handle(eq(playerEvent), eq(firstPlayer),
-                eq(playersWithFirstPlayeNext), any(Board.class), eq(gameStateObserver)))
+                eq(playersWithFirstPlayeNext), any(Board.class), eq(gameStateObserver), any()))
                 .thenReturn(Either.right(new LinkedList<>(asList(secondPlayer, firstPlayer))));
 
         underTest.registerBoard(board);
@@ -185,7 +185,7 @@ class GameMediatorTest {
         underTest.play(secondPlayer, playerEvent);
 
         verify(playEventHandler, times(0))
-                .handle(any(), any(), any(), any(), any());
+                .handle(any(), any(), any(), any(), any(), any());
     }
 
     @Test
@@ -199,7 +199,7 @@ class GameMediatorTest {
 
         LinkedList<Player> allPlayers = new LinkedList<>(asList(firstPlayer, secondPlayer));
 
-        when(playEventHandler.handle(playerEvent, firstPlayer, allPlayers, board, gameObserver))
+        when(playEventHandler.handle(playerEvent, firstPlayer, allPlayers, board, gameObserver, underTest))
                 .thenReturn(Either.right(allPlayers));
 
         when(firstPlayer.getCards())
@@ -225,7 +225,7 @@ class GameMediatorTest {
 
         LinkedList<Player> allPlayers = new LinkedList<>(asList(firstPlayer, secondPlayer));
 
-        when(playEventHandler.handle(playerEvent, firstPlayer, allPlayers, board, gameObserver))
+        when(playEventHandler.handle(playerEvent, firstPlayer, allPlayers, board, gameObserver, underTest))
                 .thenReturn(Either.left(someError));
 
         when(firstPlayer.getCards())

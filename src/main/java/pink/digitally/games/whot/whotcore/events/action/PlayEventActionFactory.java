@@ -21,6 +21,10 @@ public class PlayEventActionFactory {
         return new TakeCardAction();
     }
 
+    public static PlayerEventAction advancedTakeCardAction() {
+        return new AdvancedRuleTakeCardAction();
+    }
+
     public static PlayerEventAction playActionWithBasicRules() {
         return new PlayCardAction(new GamePlayRuleDeterminer());
     }
@@ -29,10 +33,24 @@ public class PlayEventActionFactory {
         return new PlayCardAction(standardRulesGamePlayDeterminer());
     }
 
+    public static PlayerEventAction playActionWithAdvancedRules() {
+        return new PlayCardAction(new GamePlayRuleDeterminer(advancedRules()));
+    }
+
     private static Collection<GamePlayRule> standardRules() {
         return asList(
                 new HoldOnGamePlayRule(),
                 new PickTwoGamePlayRule(),
+                new SuspensionGamePlayRule(),
+                new GeneralMarketGamePlayRule(),
+                new WhotGamePlayRule()
+        );
+    }
+
+    private static Collection<GamePlayRule> advancedRules() {
+        return asList(
+                new HoldOnGamePlayRule(),
+                new PickTwoGamePlayRule(true),
                 new SuspensionGamePlayRule(),
                 new GeneralMarketGamePlayRule(),
                 new WhotGamePlayRule()

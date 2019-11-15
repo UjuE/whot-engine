@@ -2,6 +2,7 @@ package pink.digitally.games.whot.whotcore.events.handler;
 
 import io.vavr.control.Either;
 import pink.digitally.games.whot.whotcore.Board;
+import pink.digitally.games.whot.whotcore.GameMediator;
 import pink.digitally.games.whot.whotcore.GameStateObserver;
 import pink.digitally.games.whot.whotcore.Player;
 import pink.digitally.games.whot.whotcore.error.ErrorMessage;
@@ -24,10 +25,10 @@ public class StandardRulesPlayEventHandler implements PlayEventHandler {
                                                       Player currentPlayer,
                                                       Deque<Player> allPlayers,
                                                       Board board,
-                                                      GameStateObserver gameStateObserver) {
+                                                      GameStateObserver gameStateObserver, GameMediator gameMediator) {
         return PlayEventHandlerAction
                 .actionFor(playerEvent.getPlayerEventType())
-                .handle(playerEvent.cardToPlay(), currentPlayer, allPlayers, board, gameStateObserver);
+                .handle(playerEvent.cardToPlay(), currentPlayer, allPlayers, board, gameStateObserver, gameMediator);
     }
 
     private enum PlayEventHandlerAction {

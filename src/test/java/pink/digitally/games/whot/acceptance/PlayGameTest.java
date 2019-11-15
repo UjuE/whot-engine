@@ -2,11 +2,7 @@ package pink.digitally.games.whot.acceptance;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import pink.digitally.games.whot.acceptance.actors.GameMediatorActor;
-import pink.digitally.games.whot.acceptance.actors.GameObserverActor;
 import pink.digitally.games.whot.state.GameState;
-import pink.digitally.games.whot.whotcore.Player;
-import pink.digitally.games.whot.whotcore.WhotGamePlay;
 import pink.digitally.games.whot.whotcore.WhotNumber;
 import pink.digitally.games.whot.whotcore.WhotShape;
 import pink.digitally.games.whot.whotcore.events.handler.NoRulesPlayEventHandler;
@@ -23,12 +19,6 @@ import static pink.digitally.games.whot.whotcore.WhotCard.whotCard;
 
 @DisplayName("Whot game should")
 class PlayGameTest extends AcceptanceTestBase {
-
-    private Player ngozi;
-    private Player emeka;
-    private WhotGamePlay whotGamePlay;
-    private GameMediatorActor gameMediator;
-    private GameObserverActor gameStateObserver;
 
     @Test
     @DisplayName("not be set up before the game has started")
@@ -69,7 +59,7 @@ class PlayGameTest extends AcceptanceTestBase {
 
         whenPlayerPlays(ngozi, whotCard(WhotNumber.FIVE, WhotShape.SQUARE));
 
-        thenTheTopOfThePlayPileIs(whotCard(WhotNumber.FIVE, WhotShape.SQUARE));
+        assertEquals(whotCard(WhotNumber.FIVE, WhotShape.SQUARE), whotGamePlay.getBoard().getPlayPile().getFirst());
     }
 
     @Test
@@ -82,10 +72,10 @@ class PlayGameTest extends AcceptanceTestBase {
 
         andTheGameHasStarted();
 
-        whenPlayerTakesACard(ngozi);
+        whenPlayerTakesCard(ngozi);
 
-        thenTheTopOfThePlayPileIs(whotCard(WhotNumber.FIVE, WhotShape.TRIANGLE));
-        thenTheNumberOfCardsOfPlayer(ngozi, 2);
+        assertEquals(whotCard(WhotNumber.FIVE, WhotShape.TRIANGLE), whotGamePlay.getBoard().getPlayPile().getFirst());
+        assertEquals(2, ngozi.getCards().size());
     }
 
     @Test
@@ -98,10 +88,10 @@ class PlayGameTest extends AcceptanceTestBase {
 
         andTheGameHasStarted();
 
-        whenPlayerTakesACard(emeka);
+        whenPlayerTakesCard(emeka);
 
-        thenTheTopOfThePlayPileIs(whotCard(WhotNumber.FIVE, WhotShape.TRIANGLE));
-        thenTheNumberOfCardsOfPlayer(emeka, 1);
+        assertEquals(whotCard(WhotNumber.FIVE, WhotShape.TRIANGLE), whotGamePlay.getBoard().getPlayPile().getFirst());
+        assertEquals(1, emeka.getCards().size());
     }
 
     @Test
@@ -116,7 +106,7 @@ class PlayGameTest extends AcceptanceTestBase {
 
         whenPlayerPlays(ngozi, whotCard(WhotNumber.FIVE, WhotShape.SQUARE));
 
-        thenTheTopOfThePlayPileIs(whotCard(WhotNumber.FOUR, WhotShape.TRIANGLE));
+        assertEquals(whotCard(WhotNumber.FOUR, WhotShape.TRIANGLE), whotGamePlay.getBoard().getPlayPile().getFirst());
     }
 
     @Test

@@ -5,6 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import pink.digitally.games.whot.whotcore.Board;
+import pink.digitally.games.whot.whotcore.GameMediator;
 import pink.digitally.games.whot.whotcore.GameStateObserver;
 import pink.digitally.games.whot.whotcore.Player;
 import pink.digitally.games.whot.whotcore.WhotCard;
@@ -46,7 +47,7 @@ class NoRulesPlayEventHandlerTest {
 
         when(board.getTopOfPlayPile()).thenReturn(WhotCard.whotCard(WhotNumber.THIRTEEN, WhotShape.CIRCLE));
         Either<ErrorMessage, Deque<Player>> actualPlayers = underTest.handle(new PlayCardPlayerEvent(cardPlayed),
-                firstPlayer, new LinkedList<>(asList(firstPlayer, secondPlayer)), board, gameStateObserver);
+                firstPlayer, new LinkedList<>(asList(firstPlayer, secondPlayer)), board, gameStateObserver, mock(GameMediator.class));
 
         assertAll(
                 () -> assertTrue(actualPlayers.isRight()),
@@ -69,7 +70,8 @@ class NoRulesPlayEventHandlerTest {
         when(board.takeFromDrawPile()).thenReturn(cardTaken);
 
         Either<ErrorMessage, Deque<Player>> actualPlayers = underTest.handle(new TakeCardPlayerEvent(),
-                firstPlayer, new LinkedList<>(asList(firstPlayer, secondPlayer)), board, gameStateObserver);
+                firstPlayer, new LinkedList<>(asList(firstPlayer, secondPlayer)), board, gameStateObserver,
+                mock(GameMediator.class));
 
         assertAll(
                 () -> assertTrue(actualPlayers.isRight()),
