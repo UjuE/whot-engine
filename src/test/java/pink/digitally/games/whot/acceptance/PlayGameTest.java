@@ -1,46 +1,34 @@
 package pink.digitally.games.whot.acceptance;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import pink.digitally.games.whot.acceptance.actors.BoardActor;
 import pink.digitally.games.whot.acceptance.actors.GameMediatorActor;
 import pink.digitally.games.whot.acceptance.actors.GameObserverActor;
 import pink.digitally.games.whot.state.GameState;
 import pink.digitally.games.whot.whotcore.Player;
-import pink.digitally.games.whot.whotcore.WhotCard;
 import pink.digitally.games.whot.whotcore.WhotGamePlay;
 import pink.digitally.games.whot.whotcore.WhotNumber;
 import pink.digitally.games.whot.whotcore.WhotShape;
-import pink.digitally.games.whot.whotcore.events.PlayCardPlayerEvent;
-import pink.digitally.games.whot.whotcore.events.TakeCardPlayerEvent;
 import pink.digitally.games.whot.whotcore.events.handler.NoRulesPlayEventHandler;
+import pink.digitally.games.whot.whotcore.events.handler.PlayEventHandler;
 
 import java.util.Collections;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static pink.digitally.games.whot.acceptance.actors.PlayerActor.player;
 import static pink.digitally.games.whot.whotcore.WhotCard.whotCard;
 
 @DisplayName("Whot game should")
-class PlayGameTest {
+class PlayGameTest extends AcceptanceTestBase {
 
     private Player ngozi;
     private Player emeka;
     private WhotGamePlay whotGamePlay;
     private GameMediatorActor gameMediator;
     private GameObserverActor gameStateObserver;
-
-    @BeforeEach
-    void setUp() {
-        gameMediator = new GameMediatorActor(new NoRulesPlayEventHandler());
-        gameStateObserver = new GameObserverActor();
-    }
 
     @Test
     @DisplayName("not be set up before the game has started")
@@ -148,43 +136,8 @@ class PlayGameTest {
         assertNull(whotGamePlay.nextPlayer());
     }
 
-    private void thenTheNumberOfCardsOfPlayer(Player player, int expectedNumberOfCards) {
-        assertEquals(expectedNumberOfCards, player.getCards().size());
-    }
-
-    private void thenTheTopOfThePlayPileIs(WhotCard whotCard) {
-        assertEquals(whotCard, whotGamePlay.getBoard().getPlayPile().getFirst());
-    }
-
-    private void whenPlayerPlays(Player player, WhotCard whotCard) {
-        player.play(new PlayCardPlayerEvent(whotCard));
-    }
-
-    private void whenPlayerTakesACard(Player player) {
-        player.play(new TakeCardPlayerEvent());
-    }
-
-    private void andTheTopOfPlayPileIs(WhotCard whotCard) {
-        gameMediator.setTheTopOfPile(whotCard);
-    }
-
-    private void andTheGameMediatorWillDeal(List<WhotCard> list, Player player) {
-        gameMediator.setPlayerCards(list, player);
-    }
-
-    private void andTheGameHasStarted() {
-        whotGamePlay.startGame();
-    }
-
-    private void givenThereIsAWhotGame() {
-        ngozi = player("Ngozi");
-        emeka = player("Emeka");
-        whotGamePlay =  new WhotGamePlay.Builder()
-                .withBoard(new BoardActor())
-                .withDeckOfCards()
-                .withGameMediator(gameMediator)
-                .withPlayers(ngozi, emeka)
-                .withGameStateObserver(gameStateObserver)
-                .build();
+    @Override
+    PlayEventHandler playEventHandler() {
+        return new NoRulesPlayEventHandler();
     }
 }

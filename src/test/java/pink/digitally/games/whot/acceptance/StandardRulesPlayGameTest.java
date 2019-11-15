@@ -1,40 +1,24 @@
 package pink.digitally.games.whot.acceptance;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import pink.digitally.games.whot.acceptance.actors.BoardActor;
-import pink.digitally.games.whot.acceptance.actors.GameMediatorActor;
-import pink.digitally.games.whot.acceptance.actors.GameObserverActor;
-import pink.digitally.games.whot.whotcore.Player;
-import pink.digitally.games.whot.whotcore.WhotCard;
-import pink.digitally.games.whot.whotcore.WhotGamePlay;
 import pink.digitally.games.whot.whotcore.WhotNumber;
 import pink.digitally.games.whot.whotcore.WhotShape;
-import pink.digitally.games.whot.whotcore.events.PlayCardPlayerEvent;
+import pink.digitally.games.whot.whotcore.events.handler.PlayEventHandler;
 import pink.digitally.games.whot.whotcore.events.handler.StandardRulesPlayEventHandler;
 
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static pink.digitally.games.whot.acceptance.actors.PlayerActor.player;
 import static pink.digitally.games.whot.whotcore.WhotCard.whotCard;
 
 @DisplayName("Whot game with standard rules should")
-class StandardRulesPlayGameTest {
-    private Player ngozi;
-    private Player emeka;
-    private Player ada;
-    private WhotGamePlay whotGamePlay;
-    private GameMediatorActor gameMediator;
-    private GameObserverActor gameStateObserver;
+class StandardRulesPlayGameTest extends AcceptanceTestBase{
 
-    @BeforeEach
-    void setUp() {
-        gameMediator = new GameMediatorActor(new StandardRulesPlayEventHandler());
-        gameStateObserver = new GameObserverActor();
+    @Override
+    PlayEventHandler playEventHandler() {
+        return new StandardRulesPlayEventHandler();
     }
 
     @Test
@@ -126,33 +110,4 @@ class StandardRulesPlayGameTest {
         assertEquals(ngozi.getPlayerName(), whotGamePlay.nextPlayer().getPlayerName());
     }
 
-
-    private void givenThereIsAWhotGame() {
-        ngozi = player("Ngozi");
-        emeka = player("Emeka");
-        ada = player("Ada");
-        whotGamePlay =  new WhotGamePlay.Builder()
-                .withBoard(new BoardActor())
-                .withDeckOfCards()
-                .withGameMediator(gameMediator)
-                .withPlayers(ngozi, emeka, ada)
-                .withGameStateObserver(gameStateObserver)
-                .build();
-    }
-
-    private void whenPlayerPlays(Player player, WhotCard whotCard) {
-        player.play(new PlayCardPlayerEvent(whotCard));
-    }
-
-    private void andTheTopOfPlayPileIs(WhotCard whotCard) {
-        gameMediator.setTheTopOfPile(whotCard);
-    }
-
-    private void andTheGameMediatorWillDeal(List<WhotCard> list, Player player) {
-        gameMediator.setPlayerCards(list, player);
-    }
-
-    private void andTheGameHasStarted() {
-        whotGamePlay.startGame();
-    }
 }
