@@ -129,13 +129,8 @@ public class GameMediator {
     }
 
     private void notifyObserver(Player player) {
-        if (player.getCards().isEmpty()) {
-            Optional.ofNullable(gameStateObserver)
-                    .ifPresent(theGameStateObserver -> theGameStateObserver.onGameEnded(player, players));
-        } else {
-            Optional.ofNullable(gameStateObserver)
-                    .ifPresent(theGameStateObserver -> theGameStateObserver.onPlayerTurn(players.peekFirst(), board));
-        }
+        NotifyObserverFunctions
+                .observe(player, players, board, gameStateObserver);
     }
 
     private boolean isGameEnded() {

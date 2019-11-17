@@ -204,6 +204,7 @@ class GameMediatorTest {
 
         LinkedList<Player> allPlayers = new LinkedList<>(asList(firstPlayer, secondPlayer));
 
+        when(board.getDrawPile()).thenReturn(WhotCardDeck.getCards());
         when(playEventHandler.handle(playerEvent, firstPlayer, allPlayers, board, gameObserver, underTest))
                 .thenReturn(Either.right(allPlayers));
 
