@@ -10,6 +10,8 @@ import pink.digitally.games.whot.whotcore.card.WhotShape;
 
 import java.util.Deque;
 
+import static java.lang.String.format;
+
 public class WhotGamePlayRule implements GamePlayRule {
     @Override
     public String getDescription() {
@@ -30,6 +32,15 @@ public class WhotGamePlayRule implements GamePlayRule {
                               GameMediator gameMediator) {
         board.addToPlayPile(whotCard);
         currentPlayer.getCards().remove(whotCard);
+
+        if (gameMediator.isInSpecialPlay()) {
+            gameStateObserver.onSpecialCardPlayed(currentPlayer,
+                    SpecialCardPlayedEvent.BLOCKED_PICKING_CARDS
+                            .witExtraDetail(
+                                    format("Blocked picking %d cards",
+                                            gameMediator.getTotalTakeCount())
+                            ));
+        }
         gameMediator.resetTakeCount();
         gameMediator.resetNextPlayEventValidation();
         return allPlayers;

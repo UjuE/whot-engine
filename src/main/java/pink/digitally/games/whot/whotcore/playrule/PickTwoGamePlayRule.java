@@ -34,7 +34,7 @@ public class PickTwoGamePlayRule implements GamePlayRule {
         currentPlayer.getCards().remove(whotCard);
 
         Optional.ofNullable(gameStateObserver)
-                .ifPresent(it -> it.onSpecialCardPlayed(currentPlayer, SpecialCardPlayedEvent.PICK_TWO));
+                .ifPresent(it -> it.onSpecialCardPlayed(currentPlayer, SpecialCardPlayedEvent.PLAYED_PICK_TWO));
 
         allPlayers.remove(currentPlayer);
         allPlayers.addLast(currentPlayer);

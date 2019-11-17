@@ -32,7 +32,7 @@ public class SuspensionGamePlayRule implements GamePlayRule {
         currentPlayer.getCards().remove(whotCard);
 
         Optional.ofNullable(gameStateObserver)
-                .ifPresent(it -> it.onSpecialCardPlayed(currentPlayer, SpecialCardPlayedEvent.SUSPENSION));
+                .ifPresent(it -> it.onSpecialCardPlayed(currentPlayer, SpecialCardPlayedEvent.PLAYED_SUSPENSION));
 
         Player theCurrentPlayer = allPlayers.removeFirst();
         Player theSkippedNexPlayer = allPlayers.removeFirst();

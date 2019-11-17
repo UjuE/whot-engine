@@ -13,6 +13,7 @@ import java.util.Deque;
 import java.util.Optional;
 
 import static java.lang.Math.max;
+import static java.lang.String.format;
 
 class AdvancedRuleTakeCardAction implements PlayerEventAction {
     AdvancedRuleTakeCardAction() {
@@ -27,13 +28,19 @@ class AdvancedRuleTakeCardAction implements PlayerEventAction {
                                                       GameMediator gameMediator) {
 
 
-        for (int i = 0; i < max(gameMediator.getTotalTakeCount(), 1); i++) {
+        int numberOfCardsToPick = max(gameMediator.getTotalTakeCount(), 1);
+
+        for (int i = 0; i < numberOfCardsToPick; i++) {
             WhotCardWithNumberAndShape whotCardWithNumberAndShape = board.takeFromDrawPile();
             currentPlayer.addCard(whotCardWithNumberAndShape);
         }
 
         if (gameMediator.isInSpecialPlay()) {
-            gameStateObserver.onSpecialCardPlayed(currentPlayer, SpecialCardPlayedEvent.PICK_CARDS);
+            gameStateObserver.onSpecialCardPlayed(currentPlayer,
+                    SpecialCardPlayedEvent.PICKED_CARDS
+                            .witExtraDetail(
+                                    format("Picked %d cards", numberOfCardsToPick)
+                            ));
         }
 
         allPlayers.remove(currentPlayer);

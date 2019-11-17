@@ -32,7 +32,7 @@ public class GeneralMarketGamePlayRule implements GamePlayRule {
         currentPlayer.getCards().remove(whotCard);
 
         Optional.ofNullable(gameStateObserver)
-                .ifPresent(it -> it.onSpecialCardPlayed(currentPlayer, SpecialCardPlayedEvent.GENERAL_MARKET));
+                .ifPresent(it -> it.onSpecialCardPlayed(currentPlayer, SpecialCardPlayedEvent.PLAYED_GENERAL_MARKET));
 
         allPlayers
                 .stream()

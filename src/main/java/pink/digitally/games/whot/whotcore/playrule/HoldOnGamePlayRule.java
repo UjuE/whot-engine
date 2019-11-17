@@ -32,7 +32,7 @@ public class HoldOnGamePlayRule implements GamePlayRule {
 
         currentPlayer.getCards().remove(whotCard);
         Optional.ofNullable(gameStateObserver)
-                .ifPresent(it -> it.onSpecialCardPlayed(currentPlayer, SpecialCardPlayedEvent.HOLD_ON));
+                .ifPresent(it -> it.onSpecialCardPlayed(currentPlayer, SpecialCardPlayedEvent.PLAYED_HOLD_ON));
         return allPlayers;
     }
 }
