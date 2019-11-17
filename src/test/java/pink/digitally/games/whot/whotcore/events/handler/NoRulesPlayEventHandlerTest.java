@@ -9,6 +9,7 @@ import pink.digitally.games.whot.whotcore.GameMediator;
 import pink.digitally.games.whot.whotcore.GameStateObserver;
 import pink.digitally.games.whot.whotcore.Player;
 import pink.digitally.games.whot.whotcore.card.WhotCard;
+import pink.digitally.games.whot.whotcore.card.WhotCardDeck;
 import pink.digitally.games.whot.whotcore.card.WhotNumber;
 import pink.digitally.games.whot.whotcore.card.WhotShape;
 import pink.digitally.games.whot.whotcore.error.ErrorMessage;
@@ -67,6 +68,7 @@ class NoRulesPlayEventHandlerTest {
         WhotCard cardTaken = mock(WhotCard.class);
         GameStateObserver gameStateObserver = mock(GameStateObserver.class);
 
+        when(board.getDrawPile()).thenReturn(WhotCardDeck.getCards());
         when(board.takeFromDrawPile()).thenReturn(cardTaken);
 
         Either<ErrorMessage, Deque<Player>> actualPlayers = underTest.handle(new TakeCardPlayerEvent(),
