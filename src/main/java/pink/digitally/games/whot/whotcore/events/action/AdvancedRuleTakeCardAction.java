@@ -30,10 +30,7 @@ class AdvancedRuleTakeCardAction implements PlayerEventAction {
 
         int numberOfCardsToPick = max(gameMediator.getTotalTakeCount(), 1);
 
-        for (int i = 0; i < numberOfCardsToPick; i++) {
-            WhotCardWithNumberAndShape whotCardWithNumberAndShape = board.takeFromDrawPile();
-            currentPlayer.addCard(whotCardWithNumberAndShape);
-        }
+        takeCards(currentPlayer, board, numberOfCardsToPick);
 
         if (gameMediator.isInSpecialPlay()) {
             gameStateObserver.onSpecialCardPlayed(currentPlayer,
@@ -48,5 +45,18 @@ class AdvancedRuleTakeCardAction implements PlayerEventAction {
         gameMediator.resetTakeCount();
         gameMediator.resetNextPlayEventValidation();
         return Either.right(allPlayers);
+    }
+
+    private void takeCards(Player currentPlayer, Board board, int numberOfCardsToPick) {
+        for (int i = 0; i < numberOfCardsToPick; i++) {
+            takeIfBoardDrawPileHasCards(currentPlayer, board);
+        }
+    }
+
+    private void takeIfBoardDrawPileHasCards(Player currentPlayer, Board board) {
+        if(!board.getDrawPile().isEmpty()){
+            WhotCardWithNumberAndShape whotCardWithNumberAndShape = board.takeFromDrawPile();
+            currentPlayer.addCard(whotCardWithNumberAndShape);
+        }
     }
 }

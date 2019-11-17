@@ -12,6 +12,7 @@ import pink.digitally.games.whot.whotcore.validation.TakeCardEventValidator;
 import java.util.Deque;
 import java.util.Optional;
 
+import static java.lang.String.format;
 import static java.util.Arrays.asList;
 import static pink.digitally.games.whot.whotcore.card.WhotNumber.FIVE;
 
@@ -37,9 +38,6 @@ public class AdvancedPickThreeGamePlayRule implements GamePlayRule {
         board.addToPlayPile(whotCard);
         currentPlayer.getCards().remove(whotCard);
 
-        Optional.ofNullable(gameStateObserver)
-                .ifPresent(it -> it.onSpecialCardPlayed(currentPlayer, SpecialCardPlayedEvent.PLAYED_PICK_THREE));
-
         allPlayers.remove(currentPlayer);
         allPlayers.addLast(currentPlayer);
 
@@ -47,6 +45,12 @@ public class AdvancedPickThreeGamePlayRule implements GamePlayRule {
         gameMediator.nextPlayerValidation(
                 new OrValidator<>(asList(new PlayBlockerCardEventValidator(),
                         new TakeCardEventValidator())));
+
+        Optional.ofNullable(gameStateObserver)
+                .ifPresent(it -> it.onSpecialCardPlayed(currentPlayer,
+                        SpecialCardPlayedEvent.PLAYED_PICK_THREE
+                .witExtraDetail(format("Total cards to pick is now %d",
+                        gameMediator.getTotalTakeCount()))));
 
 
         return allPlayers;

@@ -20,8 +20,11 @@ class TakeCardAction implements PlayerEventAction {
                                                       Board board,
                                                       GameStateObserver gameStateObserver,
                                                       GameMediator gameMediator) {
-        WhotCardWithNumberAndShape whotCardWithNumberAndShape = board.takeFromDrawPile();
-        currentPlayer.addCard(whotCardWithNumberAndShape);
+        if(!board.getDrawPile().isEmpty()){
+            WhotCardWithNumberAndShape whotCardWithNumberAndShape = board.takeFromDrawPile();
+            currentPlayer.addCard(whotCardWithNumberAndShape);
+        }
+
         allPlayers.remove(currentPlayer);
         allPlayers.addLast(currentPlayer);
         return Either.right(allPlayers);
