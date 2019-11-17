@@ -2,8 +2,8 @@ package pink.digitally.games.whot.acceptance;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import pink.digitally.games.whot.whotcore.WhotNumber;
-import pink.digitally.games.whot.whotcore.WhotShape;
+import pink.digitally.games.whot.whotcore.card.WhotNumber;
+import pink.digitally.games.whot.whotcore.card.WhotShape;
 import pink.digitally.games.whot.whotcore.events.handler.AdvancedRulesPlayEventHandler;
 import pink.digitally.games.whot.whotcore.events.handler.PlayEventHandler;
 
@@ -12,7 +12,7 @@ import java.util.Collections;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static pink.digitally.games.whot.whotcore.WhotCard.whotCard;
+import static pink.digitally.games.whot.whotcore.card.WhotCard.whotCard;
 
 @DisplayName("Whot game with standard rules should")
 class AdvancedRulesPlayGameTest extends AcceptanceTestBase {

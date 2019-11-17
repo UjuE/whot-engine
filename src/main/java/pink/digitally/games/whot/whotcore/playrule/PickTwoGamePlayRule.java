@@ -4,12 +4,12 @@ import pink.digitally.games.whot.whotcore.Board;
 import pink.digitally.games.whot.whotcore.GameMediator;
 import pink.digitally.games.whot.whotcore.GameStateObserver;
 import pink.digitally.games.whot.whotcore.Player;
-import pink.digitally.games.whot.whotcore.WhotCardWithNumberAndShape;
+import pink.digitally.games.whot.whotcore.card.WhotCardWithNumberAndShape;
 
 import java.util.Deque;
 import java.util.Optional;
 
-import static pink.digitally.games.whot.whotcore.WhotNumber.TWO;
+import static pink.digitally.games.whot.whotcore.card.WhotNumber.TWO;
 
 public class PickTwoGamePlayRule implements GamePlayRule {
 

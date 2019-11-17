@@ -1,5 +1,6 @@
 package pink.digitally.games.whot.whotcore;
 
+import pink.digitally.games.whot.whotcore.card.WhotCardWithNumberAndShape;
 import pink.digitally.games.whot.whotcore.events.PlayerEvent;
 
 import java.util.List;

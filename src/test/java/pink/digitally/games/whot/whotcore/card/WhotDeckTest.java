@@ -1,4 +1,4 @@
-package pink.digitally.games.whot.whotcore;
+package pink.digitally.games.whot.whotcore.card;
 
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.DisplayName;
@@ -12,11 +12,11 @@ import static java.util.Arrays.asList;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static pink.digitally.games.whot.whotcore.WhotShape.CIRCLE;
-import static pink.digitally.games.whot.whotcore.WhotShape.CROSS;
-import static pink.digitally.games.whot.whotcore.WhotShape.SQUARE;
-import static pink.digitally.games.whot.whotcore.WhotShape.STAR;
-import static pink.digitally.games.whot.whotcore.WhotShape.TRIANGLE;
+import static pink.digitally.games.whot.whotcore.card.WhotShape.CIRCLE;
+import static pink.digitally.games.whot.whotcore.card.WhotShape.CROSS;
+import static pink.digitally.games.whot.whotcore.card.WhotShape.SQUARE;
+import static pink.digitally.games.whot.whotcore.card.WhotShape.STAR;
+import static pink.digitally.games.whot.whotcore.card.WhotShape.TRIANGLE;
 
 @DisplayName("Whot Deck of Cards")
 class WhotDeckTest {

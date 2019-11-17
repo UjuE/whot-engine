@@ -1,6 +1,6 @@
 package pink.digitally.games.whot.whotcore.playrule;
 
-import pink.digitally.games.whot.whotcore.WhotCardWithNumberAndShape;
+import pink.digitally.games.whot.whotcore.card.WhotCardWithNumberAndShape;
 
 import java.util.Collection;
 import java.util.HashSet;

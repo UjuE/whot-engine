@@ -4,9 +4,9 @@ import pink.digitally.games.whot.whotcore.Board;
 import pink.digitally.games.whot.whotcore.GameMediator;
 import pink.digitally.games.whot.whotcore.GameStateObserver;
 import pink.digitally.games.whot.whotcore.Player;
-import pink.digitally.games.whot.whotcore.WhotCardWithNumberAndShape;
-import pink.digitally.games.whot.whotcore.WhotNumber;
-import pink.digitally.games.whot.whotcore.WhotShape;
+import pink.digitally.games.whot.whotcore.card.WhotCardWithNumberAndShape;
+import pink.digitally.games.whot.whotcore.card.WhotNumber;
+import pink.digitally.games.whot.whotcore.card.WhotShape;
 
 import java.util.Deque;
 

@@ -2,6 +2,7 @@ package pink.digitally.games.whot.whotcore;
 
 import io.vavr.control.Either;
 import pink.digitally.games.whot.state.GameState;
+import pink.digitally.games.whot.whotcore.card.WhotCardWithNumberAndShape;
 import pink.digitally.games.whot.whotcore.error.ErrorMessage;
 import pink.digitally.games.whot.whotcore.events.PlayerEvent;
 import pink.digitally.games.whot.whotcore.events.handler.PlayEventHandler;
@@ -24,6 +25,7 @@ public class GameMediator {
     private Validator<PlayerEvent> nextPlayEventValidator = new SimpleValidator.Builder<PlayerEvent>().build();
     private Board board;
     private GameStateObserver gameStateObserver;
+    private boolean inSpecialPlay = false;
     private int totalTakeCount;
 
     public GameMediator(PlayEventHandler playEventHandler) {
@@ -82,10 +84,11 @@ public class GameMediator {
                 .build();
 
         if (validator.isValid(player)) {
-            if(nextPlayEventValidator.isValid(playerEvent)){
+            if (nextPlayEventValidator.isValid(playerEvent)) {
                 Either<ErrorMessage, Void> playResult = playEventHandler
                         .handle(playerEvent, player, players, board, gameStateObserver, this)
                         .map(newPlayersOrdering -> applyNewState(player, newPlayersOrdering));
+
                 handlePossibleError(player, playResult);
             } else {
                 gameStateObserver.onInvalidPlay(player, board, new ErrorMessage(nextPlayEventValidator.errorMessages(playerEvent).orElse("")));
@@ -152,11 +155,12 @@ public class GameMediator {
     }
 
     public void nextPlayerValidation(Validator<PlayerEvent> validator) {
+        this.inSpecialPlay = true;
         this.nextPlayEventValidator = validator;
     }
 
-    public Validator<PlayerEvent> getNextPlayerValidation(){
-        return nextPlayEventValidator;
+    public boolean isInSpecialPlay() {
+        return inSpecialPlay;
     }
 
     public Integer getTotalTakeCount() {
@@ -167,7 +171,8 @@ public class GameMediator {
         totalTakeCount = 0;
     }
 
-    public void resetNextPlayEventValidation(){
-        nextPlayEventValidator = new SimpleValidator.Builder<PlayerEvent>().build();
+    public void resetNextPlayEventValidation() {
+        this.inSpecialPlay = false;
+        this.nextPlayEventValidator = new SimpleValidator.Builder<PlayerEvent>().build();
     }
 }

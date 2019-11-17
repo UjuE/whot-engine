@@ -2,7 +2,7 @@ package pink.digitally.games.whot.whotcore.teststub;
 
 import pink.digitally.games.whot.whotcore.GameMediator;
 import pink.digitally.games.whot.whotcore.Player;
-import pink.digitally.games.whot.whotcore.WhotCardWithNumberAndShape;
+import pink.digitally.games.whot.whotcore.card.WhotCardWithNumberAndShape;
 
 import java.util.ArrayList;
 import java.util.List;

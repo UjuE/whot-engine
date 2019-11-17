@@ -1,9 +1,9 @@
 package pink.digitally.games.whot.whotcore.events.action;
 
-import pink.digitally.games.whot.whotcore.WhotCard;
-import pink.digitally.games.whot.whotcore.WhotCardWithNumberAndShape;
-import pink.digitally.games.whot.whotcore.WhotNumber;
-import pink.digitally.games.whot.whotcore.WhotShape;
+import pink.digitally.games.whot.whotcore.card.WhotCard;
+import pink.digitally.games.whot.whotcore.card.WhotCardWithNumberAndShape;
+import pink.digitally.games.whot.whotcore.card.WhotNumber;
+import pink.digitally.games.whot.whotcore.card.WhotShape;
 
 import java.util.stream.Stream;
 

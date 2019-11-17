@@ -4,7 +4,7 @@ import pink.digitally.games.whot.whotcore.Board;
 import pink.digitally.games.whot.whotcore.GameMediator;
 import pink.digitally.games.whot.whotcore.GameStateObserver;
 import pink.digitally.games.whot.whotcore.Player;
-import pink.digitally.games.whot.whotcore.WhotCardWithNumberAndShape;
+import pink.digitally.games.whot.whotcore.card.WhotCardWithNumberAndShape;
 import pink.digitally.games.whot.whotcore.validation.OrValidator;
 import pink.digitally.games.whot.whotcore.validation.PlayBlockerCardEventValidator;
 import pink.digitally.games.whot.whotcore.validation.TakeCardEventValidator;
@@ -13,7 +13,7 @@ import java.util.Deque;
 import java.util.Optional;
 
 import static java.util.Arrays.asList;
-import static pink.digitally.games.whot.whotcore.WhotNumber.FIVE;
+import static pink.digitally.games.whot.whotcore.card.WhotNumber.FIVE;
 
 public class AdvancedPickThreeGamePlayRule implements GamePlayRule {
 

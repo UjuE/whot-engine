@@ -1,7 +1,7 @@
 package pink.digitally.games.whot.whotcore.scorer;
 
-import pink.digitally.games.whot.whotcore.WhotCardWithNumberAndShape;
-import pink.digitally.games.whot.whotcore.WhotShape;
+import pink.digitally.games.whot.whotcore.card.WhotCardWithNumberAndShape;
+import pink.digitally.games.whot.whotcore.card.WhotShape;
 
 public class WhotCardScoreHelper {
     private WhotCardScoreHelper() {

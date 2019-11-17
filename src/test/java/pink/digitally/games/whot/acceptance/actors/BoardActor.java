@@ -1,7 +1,7 @@
 package pink.digitally.games.whot.acceptance.actors;
 
 import pink.digitally.games.whot.whotcore.Board;
-import pink.digitally.games.whot.whotcore.WhotCardWithNumberAndShape;
+import pink.digitally.games.whot.whotcore.card.WhotCardWithNumberAndShape;
 
 import java.util.Deque;
 import java.util.LinkedList;

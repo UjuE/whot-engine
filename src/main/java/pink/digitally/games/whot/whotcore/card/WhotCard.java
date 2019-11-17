@@ -1,4 +1,4 @@
-package pink.digitally.games.whot.whotcore;
+package pink.digitally.games.whot.whotcore.card;
 
 import java.util.Objects;
 

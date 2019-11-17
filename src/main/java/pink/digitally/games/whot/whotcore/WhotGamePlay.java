@@ -1,6 +1,8 @@
 package pink.digitally.games.whot.whotcore;
 
 import pink.digitally.games.whot.state.GameState;
+import pink.digitally.games.whot.whotcore.card.WhotCardDeck;
+import pink.digitally.games.whot.whotcore.card.WhotCardWithNumberAndShape;
 import pink.digitally.games.whot.whotcore.events.handler.StandardRulesPlayEventHandler;
 
 import java.util.Deque;

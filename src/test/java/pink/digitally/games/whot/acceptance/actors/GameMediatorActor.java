@@ -4,8 +4,8 @@ import io.vavr.control.Either;
 import org.apache.commons.math3.util.Pair;
 import pink.digitally.games.whot.whotcore.GameMediator;
 import pink.digitally.games.whot.whotcore.Player;
-import pink.digitally.games.whot.whotcore.WhotCard;
-import pink.digitally.games.whot.whotcore.WhotCardWithNumberAndShape;
+import pink.digitally.games.whot.whotcore.card.WhotCard;
+import pink.digitally.games.whot.whotcore.card.WhotCardWithNumberAndShape;
 import pink.digitally.games.whot.whotcore.events.handler.PlayEventHandler;
 
 import java.util.ArrayList;

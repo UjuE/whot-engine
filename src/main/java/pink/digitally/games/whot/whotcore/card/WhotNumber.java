@@ -1,4 +1,4 @@
-package pink.digitally.games.whot.whotcore;
+package pink.digitally.games.whot.whotcore.card;
 
 public enum WhotNumber {
     ONE(1), TWO(2), THREE(3),

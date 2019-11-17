@@ -1,7 +1,7 @@
 package pink.digitally.games.whot.whotcore.validation;
 
 import org.apache.commons.math3.util.Pair;
-import pink.digitally.games.whot.whotcore.WhotNumber;
+import pink.digitally.games.whot.whotcore.card.WhotNumber;
 import pink.digitally.games.whot.whotcore.events.PlayerEvent;
 import pink.digitally.games.whot.whotcore.events.PlayerEventType;
 

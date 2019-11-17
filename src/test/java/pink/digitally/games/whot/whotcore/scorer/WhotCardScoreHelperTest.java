@@ -1,9 +1,9 @@
 package pink.digitally.games.whot.whotcore.scorer;
 
 import org.junit.jupiter.api.Test;
-import pink.digitally.games.whot.whotcore.WhotCard;
-import pink.digitally.games.whot.whotcore.WhotNumber;
-import pink.digitally.games.whot.whotcore.WhotShape;
+import pink.digitally.games.whot.whotcore.card.WhotCard;
+import pink.digitally.games.whot.whotcore.card.WhotNumber;
+import pink.digitally.games.whot.whotcore.card.WhotShape;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

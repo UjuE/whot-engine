@@ -1,5 +1,7 @@
 package pink.digitally.games.whot.whotcore;
 
+import pink.digitally.games.whot.whotcore.card.WhotCardWithNumberAndShape;
+
 import java.util.Deque;
 import java.util.LinkedList;
 

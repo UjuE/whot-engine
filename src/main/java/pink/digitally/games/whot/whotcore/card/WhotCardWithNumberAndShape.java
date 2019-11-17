@@ -1,4 +1,4 @@
-package pink.digitally.games.whot.whotcore;
+package pink.digitally.games.whot.whotcore.card;
 
 public interface WhotCardWithNumberAndShape {
     WhotNumber getNumber();

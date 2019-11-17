@@ -1,4 +1,4 @@
-package pink.digitally.games.whot.whotcore;
+package pink.digitally.games.whot.whotcore.card;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -11,12 +11,12 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static pink.digitally.games.whot.whotcore.WhotNumber.TWENTY;
-import static pink.digitally.games.whot.whotcore.WhotShape.CIRCLE;
-import static pink.digitally.games.whot.whotcore.WhotShape.CROSS;
-import static pink.digitally.games.whot.whotcore.WhotShape.SQUARE;
-import static pink.digitally.games.whot.whotcore.WhotShape.STAR;
-import static pink.digitally.games.whot.whotcore.WhotShape.TRIANGLE;
+import static pink.digitally.games.whot.whotcore.card.WhotNumber.TWENTY;
+import static pink.digitally.games.whot.whotcore.card.WhotShape.CIRCLE;
+import static pink.digitally.games.whot.whotcore.card.WhotShape.CROSS;
+import static pink.digitally.games.whot.whotcore.card.WhotShape.SQUARE;
+import static pink.digitally.games.whot.whotcore.card.WhotShape.STAR;
+import static pink.digitally.games.whot.whotcore.card.WhotShape.TRIANGLE;
 
 public enum WhotCardDeck {
     ONE(WhotNumber.ONE, new HashSet<>(Arrays.asList(CIRCLE, TRIANGLE, CROSS, SQUARE, STAR)), 1),
