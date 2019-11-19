@@ -27,6 +27,8 @@ class WhotGamePlayTest {
         GameStateObserver gameStateObserver = mock(GameStateObserver.class);
         List<Player> players = asList(james, john);
 
+        when(james.isHumanPlayer()).thenReturn(true);
+        when(john.isHumanPlayer()).thenReturn(true);
         when(gameMediator.getNextPlayer()).thenReturn(james);
 
         WhotGamePlay whotGamePlay = new WhotGamePlay.Builder()

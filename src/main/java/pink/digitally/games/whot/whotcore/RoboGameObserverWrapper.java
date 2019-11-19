@@ -26,8 +26,11 @@ public class RoboGameObserverWrapper implements GameStateObserver {
 
     @Override
     public void onPlayerTurn(Player player, Board board) {
-        this.gameStateObserver.onPlayerTurn(player, board);
-        player.play(board);
+        if (player.isHumanPlayer()) {
+            this.gameStateObserver.onPlayerTurn(player, board);
+        } else {
+            player.play(board);
+        }
     }
 
     @Override

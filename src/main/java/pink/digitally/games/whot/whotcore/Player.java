@@ -51,4 +51,8 @@ public interface Player {
         getMediator().play(this, playerEvent);
     }
 
+    default boolean isHumanPlayer(){
+        return true;
+    }
+
 }

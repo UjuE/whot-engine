@@ -58,4 +58,8 @@ public class RobotPlayer implements Player {
             play(new PlayCardPlayerEvent(whotCard.get(0)));
         }
     }
+
+    public boolean isHumanPlayer() {
+        return false;
+    }
 }
