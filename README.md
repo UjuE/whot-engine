@@ -3,4 +3,3 @@
 
 The core of the game. Cards and rules
 
-Okay as an experiment
