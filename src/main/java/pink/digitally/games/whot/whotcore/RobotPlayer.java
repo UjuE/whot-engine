@@ -2,6 +2,7 @@ package pink.digitally.games.whot.whotcore;
 
 import pink.digitally.games.whot.whotcore.card.WhotCardWithNumberAndShape;
 import pink.digitally.games.whot.whotcore.events.PlayCardPlayerEvent;
+import pink.digitally.games.whot.whotcore.events.PlayerEvent;
 import pink.digitally.games.whot.whotcore.events.TakeCardPlayerEvent;
 import pink.digitally.games.whot.whotcore.events.action.AllRulesValidPlayCheck;
 
@@ -45,7 +46,7 @@ public class RobotPlayer implements Player {
     }
 
     @Override
-    public void play(Board board) {
+    public PlayerEvent playEventFunction(Board board) {
         List<WhotCardWithNumberAndShape> whotCard = this.whotCardWithNumberAndShapes
                 .stream()
                 .filter(theCard -> AllRulesValidPlayCheck.isValidPlay(theCard, board.getTopOfPlayPile())
@@ -53,12 +54,13 @@ public class RobotPlayer implements Player {
                 .collect(Collectors.toList());
 
         if (whotCard.isEmpty()) {
-            play(new TakeCardPlayerEvent());
+            return new TakeCardPlayerEvent();
         } else {
-            play(new PlayCardPlayerEvent(whotCard.get(0)));
+            return new PlayCardPlayerEvent(whotCard.get(0));
         }
     }
 
+    @Override
     public boolean isHumanPlayer() {
         return false;
     }

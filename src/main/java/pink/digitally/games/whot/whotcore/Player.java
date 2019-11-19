@@ -37,11 +37,15 @@ public interface Player {
      */
     GameMediator getMediator();
 
+    PlayerEvent playEventFunction(Board board);
+
     /**
      * play is to indicate to a robo-player to player
      * @param board Board
      */
-    default void play(Board board){}
+    default void play(Board board){
+        play(playEventFunction(board));
+    }
 
     /**
      *
