@@ -5,6 +5,7 @@ import pink.digitally.games.whot.acceptance.actors.BoardActor;
 import pink.digitally.games.whot.acceptance.actors.GameMediatorActor;
 import pink.digitally.games.whot.acceptance.actors.GameObserverActor;
 import pink.digitally.games.whot.whotcore.Player;
+import pink.digitally.games.whot.whotcore.RobotPlayer;
 import pink.digitally.games.whot.whotcore.WhotGamePlay;
 import pink.digitally.games.whot.whotcore.card.WhotCard;
 import pink.digitally.games.whot.whotcore.events.PlayCardPlayerEvent;
@@ -34,7 +35,7 @@ abstract class AcceptanceTestBase {
 
     void givenThereIsAWhotGame() {
         onyinye = player("Onyinye");
-        obinna = player("Obinna");
+        obinna = new RobotPlayer("Obinna");
         ngozi = player("Ngozi");
         emeka = player("Emeka");
         ada = player("Ada");

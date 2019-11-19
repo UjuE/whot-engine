@@ -5,6 +5,7 @@ import pink.digitally.games.whot.whotcore.card.WhotCardDeck;
 import pink.digitally.games.whot.whotcore.card.WhotCardWithNumberAndShape;
 import pink.digitally.games.whot.whotcore.events.handler.StandardRulesPlayEventHandler;
 
+import java.util.ArrayList;
 import java.util.Deque;
 import java.util.List;
 import java.util.Optional;
@@ -63,7 +64,7 @@ public class WhotGamePlay {
     }
 
     public static class Builder {
-        private List<Player> players;
+        private List<Player> players = new ArrayList<>();
         private Deque<WhotCardWithNumberAndShape> cards;
         private GameMediator gameMediator;
         private Board board;
@@ -74,8 +75,17 @@ public class WhotGamePlay {
         }
 
         public Builder withPlayers(List<Player> players) {
-            this.players = players;
+            this.players.addAll(players);
             return this;
+        }
+
+        public Builder addPlayer(Player player){
+            players.add(player);
+            return this;
+        }
+
+        public Builder addEasyRobotPlayer(String name){
+            return addPlayer(new RobotPlayer(name));
         }
 
         public Builder withDeckOfCards() {
@@ -94,7 +104,7 @@ public class WhotGamePlay {
         }
 
         public Builder withGameStateObserver(GameStateObserver gameStateObserver) {
-            this.gameStateObserver = gameStateObserver;
+            this.gameStateObserver = new RoboGameObserverWrapper(gameStateObserver);
             return this;
         }
 

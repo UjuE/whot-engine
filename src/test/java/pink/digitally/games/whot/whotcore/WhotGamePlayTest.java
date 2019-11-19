@@ -40,7 +40,7 @@ class WhotGamePlayTest {
         whotGamePlay.startGame();
 
         InOrder inOrder = Mockito.inOrder(gameMediator, board, gameStateObserver);
-        inOrder.verify(gameMediator).registerGameStateObserver(gameStateObserver);
+        inOrder.verify(gameMediator).registerGameStateObserver(new RoboGameObserverWrapper(gameStateObserver));
         inOrder.verify(gameMediator).shuffle(any());
         inOrder.verify(gameMediator).registerPlayers(eq(players));
         inOrder.verify(gameMediator).deal(any(Deque.class));

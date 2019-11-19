@@ -31,7 +31,6 @@ public class GameObserverActor implements GameStateObserver {
 
     @Override
     public void onPlayerTurn(Player player, Board board) {
-
     }
 
     @Override
@@ -46,7 +45,6 @@ public class GameObserverActor implements GameStateObserver {
 
     @Override
     public void onSpecialCardPlayed(Player player, SpecialCardPlayedEvent specialCardPlayedEvent) {
-
     }
 
     public Player getWinner() {

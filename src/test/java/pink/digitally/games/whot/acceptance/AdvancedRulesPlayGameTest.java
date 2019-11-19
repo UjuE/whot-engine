@@ -110,7 +110,7 @@ class AdvancedRulesPlayGameTest extends AcceptanceTestBase {
                 whotCard(WhotNumber.TWO, WhotShape.STAR)), emeka);
 
         andTheGameMediatorWillDeal(Arrays.asList(whotCard(WhotNumber.TWENTY, WhotShape.WHOT),
-                whotCard(WhotNumber.EIGHT, WhotShape.STAR),whotCard(WhotNumber.TEN, WhotShape.CIRCLE)), ada);
+                whotCard(WhotNumber.EIGHT, WhotShape.STAR), whotCard(WhotNumber.TEN, WhotShape.CIRCLE)), ada);
 
         andTheTopOfPlayPileIs(whotCard(WhotNumber.EIGHT, WhotShape.SQUARE));
 
@@ -125,6 +125,53 @@ class AdvancedRulesPlayGameTest extends AcceptanceTestBase {
                 () -> assertEquals(1, ada.getCards().size()),
                 () -> assertEquals(onyinye.getPlayerName(), whotGamePlay.nextPlayer().getPlayerName())
         );
+    }
+
+    @Test
+    void canOnlyPlayValidCard() {
+        givenThereIsAWhotGame();
+        andTheGameMediatorWillDeal(Arrays.asList(whotCard(WhotNumber.ONE, WhotShape.SQUARE),
+                whotCard(WhotNumber.TWO, WhotShape.SQUARE)), ngozi);
+
+        andTheGameMediatorWillDeal(Arrays.asList(whotCard(WhotNumber.EIGHT, WhotShape.TRIANGLE),
+                whotCard(WhotNumber.TWO, WhotShape.STAR)), emeka);
+
+        andTheGameMediatorWillDeal(Collections.singletonList(whotCard(WhotNumber.TEN, WhotShape.CROSS)), ada);
+
+        andTheTopOfPlayPileIs(whotCard(WhotNumber.TEN, WhotShape.SQUARE));
+
+        andTheGameHasStarted();
+
+        whenPlayerPlays(ngozi, whotCard(WhotNumber.TWO, WhotShape.SQUARE));
+        whenPlayerPlays(emeka, whotCard(WhotNumber.FIVE, WhotShape.STAR));
+
+        assertEquals(emeka.getPlayerName(), whotGamePlay.nextPlayer().getPlayerName());
+    }
+
+    @Test
+    void obinnaIsRoboPlayer() {
+        givenThereIsAWhotGame();
+        andTheGameMediatorWillDeal(Arrays.asList(whotCard(WhotNumber.ONE, WhotShape.CROSS),
+                whotCard(WhotNumber.TWO, WhotShape.SQUARE)), ngozi);
+
+        andTheGameMediatorWillDeal(Arrays.asList(whotCard(WhotNumber.FIVE, WhotShape.TRIANGLE),
+                whotCard(WhotNumber.TWO, WhotShape.STAR)), emeka);
+
+        andTheGameMediatorWillDeal(Collections.singletonList(whotCard(WhotNumber.TEN, WhotShape.CROSS)), ada);
+
+        andTheGameMediatorWillDeal(Collections.singletonList(whotCard(WhotNumber.TWELVE, WhotShape.CROSS)), onyinye);
+        andTheGameMediatorWillDeal(Collections.singletonList(whotCard(WhotNumber.FIVE, WhotShape.STAR)), obinna);
+
+        andTheTopOfPlayPileIs(whotCard(WhotNumber.FIVE, WhotShape.SQUARE));
+
+        andTheGameHasStarted();
+
+        whenPlayerPlays(ngozi, whotCard(WhotNumber.TWO, WhotShape.SQUARE));
+        whenPlayerPlays(emeka, whotCard(WhotNumber.TWO, WhotShape.STAR));
+        whenPlayerTakesCard(ada);
+        whenPlayerTakesCard(onyinye);
+
+        assertEquals(obinna, gameStateObserver.getWinner());
     }
 
     @Override

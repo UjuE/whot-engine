@@ -154,6 +154,10 @@ public class GameMediator {
         this.nextPlayEventValidator = validator;
     }
 
+    public Validator<PlayerEvent> getNextPlayEventValidator(){
+        return nextPlayEventValidator;
+    }
+
     public boolean isInSpecialPlay() {
         return inSpecialPlay;
     }
