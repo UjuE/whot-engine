@@ -8,8 +8,10 @@ import pink.digitally.games.whot.whotcore.Player;
 import pink.digitally.games.whot.whotcore.card.WhotCardWithNumberAndShape;
 import pink.digitally.games.whot.whotcore.card.WhotShape;
 import pink.digitally.games.whot.whotcore.error.ErrorMessage;
+import pink.digitally.games.whot.whotcore.playrule.SpecialCardPlayedEvent;
 import pink.digitally.games.whot.whotcore.validation.OrValidator;
 import pink.digitally.games.whot.whotcore.validation.PlayShapeEventValidator;
+import pink.digitally.games.whot.whotcore.validation.PlayWhotEventValidator;
 import pink.digitally.games.whot.whotcore.validation.TakeCardEventValidator;
 
 import java.util.Deque;
@@ -30,9 +32,14 @@ public class ChooseShapeAction implements PlayerEventAction {
                                                       GameStateObserver gameStateObserver,
                                                       GameMediator gameMediator) {
         if(isWhotCard(board.getTopOfPlayPile()) && whotShape.isPresent()){
+            WhotShape chosenShape = whotShape.get();
             gameMediator.nextPlayerValidation(new OrValidator<>(asList(
-                    new PlayShapeEventValidator(whotShape.get()),
+                    new PlayShapeEventValidator(chosenShape),
+                    new PlayWhotEventValidator(),
                     new TakeCardEventValidator())));
+
+            gameStateObserver.onSpecialCardPlayed(currentPlayer,
+                    SpecialCardPlayedEvent.CHOSE_NEXT_SHAPE.witExtraDetail(chosenShape.name()));
 
             allPlayers.remove(currentPlayer);
             allPlayers.addLast(currentPlayer);

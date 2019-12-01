@@ -7,6 +7,7 @@ public enum SpecialCardPlayedEvent {
     PLAYED_SUSPENSION("The next Player will skip a turn"),
     PLAYED_PICK_THREE("The next player will pick 3"),
     PICKED_CARDS("Current player picks cards"),
+    CHOSE_NEXT_SHAPE("The next play will be of chosen shape"),
     BLOCKED_PICKING_CARDS("Current player will not pick cards");
 
     private final String description;
