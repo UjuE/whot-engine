@@ -5,27 +5,27 @@ import pink.digitally.games.whot.whotcore.card.WhotShape;
 
 import java.util.Optional;
 
-public class PlayCardPlayerEvent implements PlayerEvent {
-    private final WhotCardWithNumberAndShape cardToPlay;
+import static pink.digitally.games.whot.whotcore.events.PlayerEventType.CHOOSE_SHAPE;
 
-    public PlayCardPlayerEvent(WhotCardWithNumberAndShape cardToPlay) {
-        this.cardToPlay = cardToPlay;
+public class ChooseShapePlayerEvent implements PlayerEvent {
+    private final WhotShape whotShape;
+
+    public ChooseShapePlayerEvent(WhotShape whotShape) {
+        this.whotShape = whotShape;
     }
 
     @Override
     public PlayerEventType getPlayerEventType() {
-        return PlayerEventType.PLAY_CARD;
+        return CHOOSE_SHAPE;
     }
 
     @Override
     public Optional<WhotCardWithNumberAndShape> cardToPlay() {
-        return Optional.of(cardToPlay);
+        return Optional.empty();
     }
 
     @Override
     public Optional<WhotShape> chosenShape() {
-        return Optional.empty();
+        return Optional.of(whotShape);
     }
-
-
 }

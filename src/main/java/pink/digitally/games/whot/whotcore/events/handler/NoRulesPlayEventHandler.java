@@ -16,4 +16,9 @@ public class NoRulesPlayEventHandler implements PlayEventHandler {
     public PlayerEventAction getTakeCardAction() {
         return takeCardAction();
     }
+
+    @Override
+    public PlayerEventAction getChooseCardAction() {
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
 }

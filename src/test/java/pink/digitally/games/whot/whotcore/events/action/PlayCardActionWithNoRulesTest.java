@@ -48,7 +48,7 @@ class PlayCardActionWithNoRulesTest {
 
         when(board.getTopOfPlayPile()).thenReturn(WhotCard.whotCard(WhotNumber.EIGHT, WhotShape.CIRCLE));
         Either<ErrorMessage, Deque<Player>> actualPlayers = underTest.handle(Optional.of(playedCard),
-                playerOne,
+                Optional.empty(), playerOne,
                 allPlayers,
                 board, gameStateObserver, gameMediator);
 
@@ -69,7 +69,7 @@ class PlayCardActionWithNoRulesTest {
 
         when(board.getTopOfPlayPile()).thenReturn(WhotCard.whotCard(WhotNumber.FOUR, WhotShape.SQUARE));
         Either<ErrorMessage, Deque<Player>> actualPlayers = underTest.handle(Optional.of(playedCard),
-                playerOne,
+                Optional.empty(), playerOne,
                 allPlayers,
                 board, gameStateObserver, gameMediator);
 
@@ -90,7 +90,7 @@ class PlayCardActionWithNoRulesTest {
 
         when(board.getTopOfPlayPile()).thenReturn(WhotCard.whotCard(WhotNumber.FOUR, WhotShape.CIRCLE));
         Either<ErrorMessage, Deque<Player>> result = underTest.handle(Optional.of(playedCard),
-                playerOne,
+                Optional.empty(), playerOne,
                 allPlayers,
                 board, gameStateObserver, gameMediator);
 
@@ -113,7 +113,7 @@ class PlayCardActionWithNoRulesTest {
 
         when(board.getTopOfPlayPile()).thenReturn(WhotCard.whotCard(WhotNumber.FOUR, WhotShape.CIRCLE));
         Either<ErrorMessage, Deque<Player>> actualPlayers = underTest.handle(Optional.of(playedCard),
-                playerOne,
+                Optional.empty(), playerOne,
                 allPlayers,
                 board, gameStateObserver, gameMediator);
 
@@ -134,7 +134,7 @@ class PlayCardActionWithNoRulesTest {
 
         when(board.getTopOfPlayPile()).thenReturn(WhotCard.whotCard(WhotNumber.TWENTY, WhotShape.WHOT));
         Either<ErrorMessage, Deque<Player>> actualPlayers = underTest.handle(Optional.of(playedCard),
-                playerOne,
+                Optional.empty(), playerOne,
                 allPlayers,
                 board, gameStateObserver, gameMediator);
 

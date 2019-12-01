@@ -43,4 +43,5 @@ public class StubPlayer implements Player {
         return null;
     }
 
+
 }

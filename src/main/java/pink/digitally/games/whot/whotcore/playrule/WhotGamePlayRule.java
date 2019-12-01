@@ -7,7 +7,10 @@ import pink.digitally.games.whot.whotcore.Player;
 import pink.digitally.games.whot.whotcore.card.WhotCardWithNumberAndShape;
 import pink.digitally.games.whot.whotcore.card.WhotNumber;
 import pink.digitally.games.whot.whotcore.card.WhotShape;
+import pink.digitally.games.whot.whotcore.validation.ChooseShapeValidation;
+import pink.digitally.games.whot.whotcore.validation.OrValidator;
 
+import java.util.Collections;
 import java.util.Deque;
 
 import static java.lang.String.format;
@@ -43,6 +46,10 @@ public class WhotGamePlayRule implements GamePlayRule {
         }
         gameMediator.resetTakeCount();
         gameMediator.resetNextPlayEventValidation();
+
+        gameMediator.nextPlayerValidation(
+                new OrValidator<>(Collections.singleton(new ChooseShapeValidation())));
+        gameStateObserver.onPlayerChooseShape(currentPlayer);
         return allPlayers;
     }
 }

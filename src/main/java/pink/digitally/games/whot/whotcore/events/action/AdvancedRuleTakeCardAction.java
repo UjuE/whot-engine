@@ -6,6 +6,7 @@ import pink.digitally.games.whot.whotcore.GameMediator;
 import pink.digitally.games.whot.whotcore.GameStateObserver;
 import pink.digitally.games.whot.whotcore.Player;
 import pink.digitally.games.whot.whotcore.card.WhotCardWithNumberAndShape;
+import pink.digitally.games.whot.whotcore.card.WhotShape;
 import pink.digitally.games.whot.whotcore.error.ErrorMessage;
 import pink.digitally.games.whot.whotcore.playrule.SpecialCardPlayedEvent;
 
@@ -21,7 +22,7 @@ class AdvancedRuleTakeCardAction implements PlayerEventAction {
 
     @Override
     public Either<ErrorMessage, Deque<Player>> handle(Optional<WhotCardWithNumberAndShape> whotCard,
-                                                      Player currentPlayer,
+                                                      Optional<WhotShape> whotShape, Player currentPlayer,
                                                       Deque<Player> allPlayers,
                                                       Board board,
                                                       GameStateObserver gameStateObserver,

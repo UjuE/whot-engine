@@ -23,8 +23,10 @@ public class DefaultGamePlayRule implements GamePlayRule {
     public Deque<Player> play(WhotCardWithNumberAndShape whotCard, Player currentPlayer, Deque<Player> allPlayers,
                               Board board, GameStateObserver gameStateObserver, GameMediator gameMediator) {
         board.addToPlayPile(whotCard);
-
         currentPlayer.getCards().remove(whotCard);
+
+        gameMediator.resetNextPlayEventValidation();
+        gameMediator.resetTakeCount();
 
         allPlayers.remove(currentPlayer);
         allPlayers.addLast(currentPlayer);

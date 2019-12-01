@@ -13,7 +13,9 @@ import pink.digitally.games.whot.whotcore.card.WhotCardWithNumberAndShape;
 import pink.digitally.games.whot.whotcore.card.WhotNumber;
 import pink.digitally.games.whot.whotcore.card.WhotShape;
 import pink.digitally.games.whot.whotcore.error.ErrorMessage;
+import pink.digitally.games.whot.whotcore.events.ChooseShapePlayerEvent;
 import pink.digitally.games.whot.whotcore.events.PlayCardPlayerEvent;
+import pink.digitally.games.whot.whotcore.events.PlayerEvent;
 import pink.digitally.games.whot.whotcore.events.TakeCardPlayerEvent;
 
 import java.util.ArrayList;
@@ -27,8 +29,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static pink.digitally.games.whot.whotcore.card.WhotCard.whotCard;
+import static pink.digitally.games.whot.whotcore.card.WhotNumber.TWENTY;
+import static pink.digitally.games.whot.whotcore.card.WhotShape.WHOT;
 
 class AdvancedRulesPlayEventHandlerTest {
 
@@ -68,8 +74,8 @@ class AdvancedRulesPlayEventHandlerTest {
 
     @Test
     void standardPlay() {
-        WhotCard cardToPlay = WhotCard.whotCard(WhotNumber.TEN, WhotShape.CIRCLE);
-        WhotCard topOfPlayPile = WhotCard.whotCard(WhotNumber.ELEVEN, WhotShape.CIRCLE);
+        WhotCard cardToPlay = whotCard(WhotNumber.TEN, WhotShape.CIRCLE);
+        WhotCard topOfPlayPile = whotCard(WhotNumber.ELEVEN, WhotShape.CIRCLE);
         PlayCardPlayerEvent playerEvent = new PlayCardPlayerEvent(cardToPlay);
 
         Player thePlayer = mock(Player.class);
@@ -95,9 +101,9 @@ class AdvancedRulesPlayEventHandlerTest {
 
     @Test
     void continuousPickTwo() {
-        WhotCard cardToPlay = WhotCard.whotCard(WhotNumber.TWO, WhotShape.CIRCLE);
-        WhotCard anotherCard = WhotCard.whotCard(WhotNumber.EIGHT, WhotShape.CIRCLE);
-        WhotCard topOfPlayPile = WhotCard.whotCard(WhotNumber.ELEVEN, WhotShape.CIRCLE);
+        WhotCard cardToPlay = whotCard(WhotNumber.TWO, WhotShape.CIRCLE);
+        WhotCard anotherCard = whotCard(WhotNumber.EIGHT, WhotShape.CIRCLE);
+        WhotCard topOfPlayPile = whotCard(WhotNumber.ELEVEN, WhotShape.CIRCLE);
         PlayCardPlayerEvent playerEvent = new PlayCardPlayerEvent(cardToPlay);
 
         GameMediator gameMediator = mock(GameMediator.class);
@@ -119,6 +125,30 @@ class AdvancedRulesPlayEventHandlerTest {
                 () -> verify(board).addToPlayPile(cardToPlay),
                 () -> assertTrue(actualResult.isRight(), "Is successful Play"),
                 () -> verify(gameMediator).addTakeCardCount(2),
+                () -> verify(gameMediator).nextPlayerValidation(any()),
+                () -> assertEquals(secondPlayer, allPlayers.getFirst(), "The second player is next to play")
+        );
+    }
+
+    @Test
+    void chooseShape(){
+        WhotShape circleWhotShape = WhotShape.CIRCLE;
+        PlayerEvent playerEvent = new ChooseShapePlayerEvent(circleWhotShape);
+        GameMediator gameMediator = mock(GameMediator.class);
+        Player thePlayer = mock(Player.class);
+        Player secondPlayer = mock(Player.class);
+        LinkedList<Player> allPlayers = new LinkedList<>(asList(thePlayer, secondPlayer));
+        Board board = mock(Board.class);
+        GameStateObserver gameStateObserver = mock(GameStateObserver.class);
+
+        when(board.getTopOfPlayPile()).thenReturn(whotCard(TWENTY, WHOT));
+
+        Either<ErrorMessage, Deque<Player>> actualResult = underTest
+                .handle(playerEvent, thePlayer, allPlayers, board, gameStateObserver, gameMediator);
+
+        assertAll(
+                () -> verify(board, times(0)).addToPlayPile(any()),
+                () -> assertTrue(actualResult.isRight(), "Is successful Play"),
                 () -> verify(gameMediator).nextPlayerValidation(any()),
                 () -> assertEquals(secondPlayer, allPlayers.getFirst(), "The second player is next to play")
         );

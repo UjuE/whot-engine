@@ -1,6 +1,8 @@
 package pink.digitally.games.whot.whotcore;
 
 import pink.digitally.games.whot.whotcore.card.WhotCardWithNumberAndShape;
+import pink.digitally.games.whot.whotcore.card.WhotShape;
+import pink.digitally.games.whot.whotcore.events.ChooseShapePlayerEvent;
 import pink.digitally.games.whot.whotcore.events.PlayCardPlayerEvent;
 import pink.digitally.games.whot.whotcore.events.PlayerEvent;
 import pink.digitally.games.whot.whotcore.events.TakeCardPlayerEvent;
@@ -50,18 +52,31 @@ public class RobotPlayer implements Player {
         List<WhotCardWithNumberAndShape> whotCard = this.whotCardWithNumberAndShapes
                 .stream()
                 .filter(theCard -> AllRulesValidPlayCheck.isValidPlay(theCard, board.getTopOfPlayPile())
-                        && getMediator().getNextPlayEventValidator().isValid(new PlayCardPlayerEvent(theCard)))
+                        && getMediator()
+                        .getNextPlayEventValidator().isValid(new PlayCardPlayerEvent(theCard)))
                 .collect(Collectors.toList());
 
+        System.out.println("number of valid cards = " + whotCard.size());
         if (whotCard.isEmpty()) {
             return new TakeCardPlayerEvent();
         } else {
-            return new PlayCardPlayerEvent(whotCard.get(0));
+            WhotCardWithNumberAndShape cardToPlay = whotCard.get(0);
+            System.out.println("cardToPlay = " + cardToPlay);
+            return new PlayCardPlayerEvent(cardToPlay);
         }
     }
 
     @Override
     public boolean isHumanPlayer() {
         return false;
+    }
+
+    @Override
+    public void chooseShape() {
+       getCards()
+       .stream()
+       .filter(it -> !it.getShape().equals(WhotShape.WHOT))
+       .findAny()
+       .ifPresent(card -> play(new ChooseShapePlayerEvent(card.getShape())));
     }
 }

@@ -8,6 +8,8 @@ import pink.digitally.games.whot.whotcore.Player;
 import pink.digitally.games.whot.whotcore.RobotPlayer;
 import pink.digitally.games.whot.whotcore.WhotGamePlay;
 import pink.digitally.games.whot.whotcore.card.WhotCard;
+import pink.digitally.games.whot.whotcore.card.WhotShape;
+import pink.digitally.games.whot.whotcore.events.ChooseShapePlayerEvent;
 import pink.digitally.games.whot.whotcore.events.PlayCardPlayerEvent;
 import pink.digitally.games.whot.whotcore.events.TakeCardPlayerEvent;
 import pink.digitally.games.whot.whotcore.events.handler.PlayEventHandler;
@@ -51,6 +53,10 @@ abstract class AcceptanceTestBase {
 
     void whenPlayerPlays(Player player, WhotCard whotCard) {
         player.play(new PlayCardPlayerEvent(whotCard));
+    }
+
+    void whenPlayerChooses(Player player, WhotShape whotShape) {
+        player.play(new ChooseShapePlayerEvent(whotShape));
     }
 
     void andTheTopOfPlayPileIs(WhotCard whotCard) {

@@ -59,4 +59,5 @@ public interface Player {
         return true;
     }
 
+    default void chooseShape(){}
 }

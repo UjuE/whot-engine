@@ -56,7 +56,7 @@ class PlayCardActionRulesTest {
 
         when(board.getTopOfPlayPile()).thenReturn(WhotCard.whotCard(WhotNumber.EIGHT, WhotShape.CIRCLE));
         Either<ErrorMessage, Deque<Player>> actualPlayers = underTest.handle(Optional.of(playedCard),
-                playerOne,
+                Optional.empty(), playerOne,
                 allPlayers,
                 board, gameStateObserver, gameMediator);
 

@@ -16,6 +16,11 @@ public class AllRulesValidPlayCheck {
                 || isAnyWhotCard(playedCard, topOfPlayPile);
     }
 
+    public static boolean isWhotCard(WhotCardWithNumberAndShape whotCardWithNumberAndShape){
+        return WhotShape.WHOT.equals(whotCardWithNumberAndShape.getShape())
+                && WhotNumber.TWENTY.equals(whotCardWithNumberAndShape.getNumber());
+    }
+
     private static boolean isShapeEqual(WhotCardWithNumberAndShape playedCard, WhotCardWithNumberAndShape topOfPlayPile) {
         return playedCard.getShape().equals(topOfPlayPile.getShape());
     }

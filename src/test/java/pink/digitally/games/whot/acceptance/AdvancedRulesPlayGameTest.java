@@ -119,10 +119,10 @@ class AdvancedRulesPlayGameTest extends AcceptanceTestBase {
         whenPlayerPlays(ngozi, whotCard(WhotNumber.TWO, WhotShape.SQUARE));
         whenPlayerPlays(emeka, whotCard(WhotNumber.FIVE, WhotShape.SQUARE));
         whenPlayerPlays(ada, whotCard(WhotNumber.TWENTY, WhotShape.WHOT));
-        whenPlayerPlays(ada, whotCard(WhotNumber.TEN, WhotShape.CIRCLE));
+        whenPlayerChooses(ada, WhotShape.CIRCLE);
 
         assertAll(
-                () -> assertEquals(1, ada.getCards().size()),
+                () -> assertEquals(2, ada.getCards().size()),
                 () -> assertEquals(onyinye.getPlayerName(), whotGamePlay.nextPlayer().getPlayerName())
         );
     }

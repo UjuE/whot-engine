@@ -31,6 +31,12 @@ public class RoboGameObserverWrapper implements GameStateObserver {
     }
 
     @Override
+    public void onPlayerChooseShape(Player player) {
+        this.gameStateObserver.onPlayerChooseShape(player);
+        player.chooseShape();
+    }
+
+    @Override
     public GameState getCurrentGameState() {
         return gameStateObserver.getCurrentGameState();
     }

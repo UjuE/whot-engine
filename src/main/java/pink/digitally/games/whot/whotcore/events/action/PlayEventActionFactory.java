@@ -19,6 +19,10 @@ public class PlayEventActionFactory {
     private PlayEventActionFactory() {
     }
 
+    public static PlayerEventAction chooseShapeAction(){
+        return new ChooseShapeAction();
+    }
+
     public static PlayerEventAction takeCardAction() {
         return new TakeCardAction();
     }
