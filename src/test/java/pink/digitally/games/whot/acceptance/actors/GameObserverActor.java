@@ -27,19 +27,15 @@ public class GameObserverActor implements GameStateObserver {
     public void onGameEnded(Player winner, Collection<Player> players) {
         this.winner = winner;
         updateState(GameState.ENDED);
-        System.out.println("winner :" + winner.getPlayerName());
     }
 
     @Override
     public void onPlayerTurn(Player player, Board board) {
-        System.out.println("Player Turn : " + player.getPlayerName()
-                + ", Number of cards = " + player.getCards().size() + ", " +
-                "Number on drawPile = " + board.getDrawPile().size());
+
     }
 
     @Override
     public void onPlayerChooseShape(Player player) {
-        System.out.println("Player Choose shape :  " + player.getPlayerName());
     }
 
     @Override
@@ -49,13 +45,10 @@ public class GameObserverActor implements GameStateObserver {
 
     @Override
     public void onInvalidPlay(Player player, Board board, ErrorMessage errorMessage) {
-        System.out.println("player = " + player.getPlayerName() + ", board = " + board + ", errorMessage = " + errorMessage);
     }
 
     @Override
     public void onSpecialCardPlayed(Player player, SpecialCardPlayedEvent specialCardPlayedEvent) {
-        System.out.println("player = " + player.getPlayerName() +
-                ", specialCardPlayedEvent = " + specialCardPlayedEvent);
     }
 
     public Player getWinner() {

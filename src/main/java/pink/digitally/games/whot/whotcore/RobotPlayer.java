@@ -56,12 +56,10 @@ public class RobotPlayer implements Player {
                         .getNextPlayEventValidator().isValid(new PlayCardPlayerEvent(theCard)))
                 .collect(Collectors.toList());
 
-        System.out.println("number of valid cards = " + whotCard.size());
         if (whotCard.isEmpty()) {
             return new TakeCardPlayerEvent();
         } else {
             WhotCardWithNumberAndShape cardToPlay = whotCard.get(0);
-            System.out.println("cardToPlay = " + cardToPlay);
             return new PlayCardPlayerEvent(cardToPlay);
         }
     }
@@ -73,10 +71,10 @@ public class RobotPlayer implements Player {
 
     @Override
     public void chooseShape() {
-       getCards()
-       .stream()
-       .filter(it -> !it.getShape().equals(WhotShape.WHOT))
-       .findAny()
-       .ifPresent(card -> play(new ChooseShapePlayerEvent(card.getShape())));
+        getCards()
+                .stream()
+                .filter(it -> !it.getShape().equals(WhotShape.WHOT))
+                .findAny()
+                .ifPresent(card -> play(new ChooseShapePlayerEvent(card.getShape())));
     }
 }
